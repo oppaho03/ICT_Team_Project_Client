@@ -1,7 +1,7 @@
 
 # directoreis or files 
+.DS_Store
+
 node_modules/
 package-lock.json
 *.zip
-
-

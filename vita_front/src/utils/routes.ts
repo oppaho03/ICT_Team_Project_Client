@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import PageLayout from "../componenets/layout/PageLayout.tsx";
 import Home from '../pages/Home.tsx';
 
 /**
@@ -9,10 +10,15 @@ import Home from '../pages/Home.tsx';
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: React.createElement(Home),
+    element: React.createElement(PageLayout),
     loader: undefined,
     errorElement: undefined,
-    children: undefined
+    children: [
+      {
+        index: true,
+        element: React.createElement(Home),
+      },
+    ]
   },
 ]);
 

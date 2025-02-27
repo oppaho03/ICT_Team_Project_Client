@@ -6,7 +6,7 @@ import "./ts/app"
 
 import { RouterProvider } from 'react-router-dom' 
 
-import Loading from './componenets/Loading' 
+import Loading from './componenets/common/Loading' 
 import routes from './utils/routes' // ROUTER 설정
 
 

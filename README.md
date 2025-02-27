@@ -76,4 +76,3 @@
     users.sort(sortBy("age"));
     console.log(users);
     // [{ name: "Alice", age: 25 }, { name: "Bob", age: 28 }, { name: "Charlie", age: 30 }]
-    ```

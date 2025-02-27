@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   mode: "development", // development | production ( npm run build --mode __모드__ ) 
   resolve: {
-    extensions: [ '.js', '.ts' ],
+    extensions: [ '.js', '.ts', '.jsx', '.tsx' ],
   },
   build: {
     outDir: 'dist/js',

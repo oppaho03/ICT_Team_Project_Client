@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 import PageLayout from "../componenets/layout/PageLayout.tsx";
 import Home from '../pages/Home.tsx';

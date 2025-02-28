@@ -6,6 +6,7 @@
     - `$ npm install react-router-dom`
     - **React** 애플리케이션에서 라우팅을 관리하는 라이브러리
     
+    - **<BrowserRouter />** 엘리멘트를 사용한 라우팅 
     ```jsx 
     import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
@@ -32,6 +33,43 @@
     );
     }
     ```
+
+    - **createBrowserRouter()** 함수를 사용한 라우팅
+    ```typescript
+    import React from "react";
+    import { createBrowserRouter } from "react-router-dom";
+
+    const routes = createBrowserRouter([
+        {
+            path: "/",
+            element: React.createElement(Home), // <Home />
+        },
+        {
+            path: "/about",
+            element: React.createElement(About), // <About />,
+        },
+    ]);
+
+    export default routes;
+    ```
+    ```tsx
+    import { Suspense } from 'react'
+    import { RouterProvider } from 'react-router-dom' 
+
+    import routes from './routes' // ROUTER 설정
+
+    function App() {
+        return(
+            <>
+                <Suspense fallback={<Loading />}> 
+                    <RouterProvider router={routes} />
+                </Suspense>
+            </>            
+        )
+    }
+
+    ```
+
 2. **localforage**
     - `$ npm install localforage`
     - IndexedDB, WebSQL, LocalStorage를 자동으로 관리하는 브라우저 스토리지 라이브러리

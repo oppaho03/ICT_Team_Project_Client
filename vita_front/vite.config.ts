@@ -10,18 +10,19 @@ export default defineConfig({
     extensions: [ '.js', '.ts', '.jsx', '.tsx' ],
   },
   build: {
-    outDir: 'dist/js',
+    outDir: 'dist',
     rollupOptions: {
       input: {
         app: resolve( __dirname, 'src/ts/app.ts' ), // EP. R
       },
       output: {
-        entryFileNames: '[name].min.js',
-        assetFileNames: '[mame].[ext]', // OUTPUT file namming 
+        entryFileNames: 'js/[name].min.js',
+        assetFileNames: 'assets/[mame].[ext]', // OUTPUT file namming 
       }
     }
   },
   server: {
+    // host: '192.168.0.33',
     port: 9000,
     open: true,
     cors: true,

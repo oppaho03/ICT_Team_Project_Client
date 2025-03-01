@@ -1,3 +1,7 @@
+/**
+ * 컴포넌트 : 풋터 영역
+ */
+
 export default function Footer() {
   return (<>
     <div className="app-footer-wrap">

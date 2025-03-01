@@ -1,0 +1,64 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # Loader
+/// --------------------------------------------------------------
+
+svg.loader.type-1 {
+
+  $_s: 36px;
+
+  display: block;
+
+  width: $_s;
+  min-width: $_s;
+  max-width: calc( $_s * 2 );
+
+  height: $_s;
+  min-height: $_s;
+  max-height: calc( $_s * 2 );
+  
+
+  .loader {
+    &__ring, 
+    &__ball {
+    animation: loader-type-1-ring 2s ease-out infinite;
+    }
+    &__ball {
+    animation-name: loader-type-1-ball;
+    }
+  }
+
+} 
+
+.loaderbox {
+
+  $prefix: loaderbox;
+
+  &:is(.fluid) {
+    
+    @include position( absolute, l 0 t 0 z 1000000 );
+
+    width: 100%;
+    height: 100%;
+    
+    // 흐릿한 효과(Blur)
+    background-color: rgba( map-get( map-get($map: $color-palette, $key:'white' ), '' ), 0.8 );
+    @include set-prefix( backdrop-filter, blur(5px), 'webkit' '' );
+
+    
+    & { display: table; }
+    .#{$prefix}-in { display: table-cell; vertical-align: middle; text-align: center; }
+    // @include flex-c( flex row justify-center items-center ); // 중앙 정렬
+    
+    // 아이콘 SVG 사이징
+    svg.loader.type-1 {
+      margin: auto;
+      width: 12vw;
+      height: 12vw;
+    }
+
+  } // 꽉 찬 화면
+
+}
+

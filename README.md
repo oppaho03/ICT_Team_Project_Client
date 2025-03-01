@@ -6,7 +6,6 @@
     - `$ npm install react-router-dom`
     - **React** 애플리케이션에서 라우팅을 관리하는 라이브러리
     
-    - **<BrowserRouter />** 엘리멘트를 사용한 라우팅 
     ```jsx 
     import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
@@ -33,43 +32,6 @@
     );
     }
     ```
-
-    - **createBrowserRouter()** 함수를 사용한 라우팅
-    ```typescript
-    import React from "react";
-    import { createBrowserRouter } from "react-router-dom";
-
-    const routes = createBrowserRouter([
-        {
-            path: "/",
-            element: React.createElement(Home), // <Home />
-        },
-        {
-            path: "/about",
-            element: React.createElement(About), // <About />,
-        },
-    ]);
-
-    export default routes;
-    ```
-    ```tsx
-    import { Suspense } from 'react'
-    import { RouterProvider } from 'react-router-dom' 
-
-    import routes from './routes' // ROUTER 설정
-
-    function App() {
-        return(
-            <>
-                <Suspense fallback={<Loading />}> 
-                    <RouterProvider router={routes} />
-                </Suspense>
-            </>            
-        )
-    }
-
-    ```
-
 2. **localforage**
     - `$ npm install localforage`
     - IndexedDB, WebSQL, LocalStorage를 자동으로 관리하는 브라우저 스토리지 라이브러리
@@ -114,3 +76,29 @@
     users.sort(sortBy("age"));
     console.log(users);
     // [{ name: "Alice", age: 25 }, { name: "Bob", age: 28 }, { name: "Charlie", age: 30 }]
+    ```
+
+4. **shortid**
+    - `$ npm install shortid`
+    - `$ npm install @types/shortid`
+    - 짧은 ID를 생성하는 라이브러리 ( 반대개념 UUID )
+
+    ```js
+    import shortid from 'shortid';
+
+    const randomId = shortid.generate();
+    console.log(randomId); // 예: "S1d3f4g"
+    ```
+
+5. **axios**
+    - `$ npm install axios`
+    - `$ npm install @types/axios`
+
+
+
+---
+## 업데이트 로그 
+---
++ 2025.03.01
+    - 기본 템플릿 구성 완료
+    - vite.config.ts 완료 

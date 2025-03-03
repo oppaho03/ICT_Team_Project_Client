@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import Header from "../common/Header";
 import DrawableMenu from "../common/DrawableMenu";
 import Footer from "../common/Footer";
-import Loader from "../common/Loader";
 
 /**
  * 레이아웃 : 기본 페이지
@@ -17,7 +16,6 @@ export default function PageLayout () {
         { /* Main 영역 */ }
         <div className="app-content-wrap flex-grow-1 flex-shrink-1">
           <main className="app-content" id="content" role="main"><Outlet /></main>
-          <Loader/>
         </div>
         { /* Footer 영역 */ }
         <Footer />
@@ -27,7 +25,6 @@ export default function PageLayout () {
         { /* DrawableMenu 영역 */ }
         <DrawableMenu />
       </div> { /* lyt-grid-item */ }
-
 
     </div> {/* lyt-grid root */}
   </>);

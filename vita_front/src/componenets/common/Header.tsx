@@ -2,7 +2,6 @@
  * 컴포넌트 : 헤더 영역  
  */
 import DrawableMenuToggle from "../button/DrawableMenuToggle";
-import Branding from "../headline/Branding";
 
 export default function Header() {
   return (<>

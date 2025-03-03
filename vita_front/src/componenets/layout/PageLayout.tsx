@@ -19,6 +19,7 @@ export default function PageLayout () {
         </div>
         { /* Footer 영역 */ }
         <Footer />
+
       </div> { /* lyt-grid-item */ }
       
       <div className="lyt-grid-item" role="section">

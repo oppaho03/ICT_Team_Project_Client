@@ -1,0 +1,255 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # Chat*
+/// --------------------------------------------------------------
+
+/* ChatPrompter
+*/
+.chat-prompter {
+
+  margin: 0 auto;
+
+
+  // 채팅 프롬프트 브랜딩 
+  .app-branding {
+
+    svg {
+      display: block;
+      margin: 0 auto;
+      width: auto;
+      height: 125px;
+    } // svg
+
+  } // .app-branding
+
+  // 채팅 프롬프트 헬퍼 
+  &-help {
+
+    $h: 60px;
+
+    height: $h;
+    font-size: 1rem;
+
+    text-align: center;
+    overflow: hidden;
+
+    .help-message {
+      line-height: $h;
+      @extend %linear-gradient-def;
+      -webkit-background-clip: text; /* 텍스트에만 배경을 적용 */
+      background-clip: text;
+      color: transparent; /* 텍스트 색상을 투명하게 설정 */
+    }
+
+    h2 { font-size: 2.25em; }
+    p { font-size: 1.125em; }
+
+
+  } // &-help
+
+  /// 폼 영역
+  form { @include position( relative ); }
+
+  // 채팅 프롬프트 폼 필터
+  &-form-filter {
+
+    @include position( absolute, l 0 t 0 z -1 );
+    width: 100%;
+    @include set-prefix( transform, translate(-0%, calc( -100% - 0.5em ) ), 'webkit' '' );
+    
+  }
+
+  /// Input 영역
+  // &-input-wrap { }
+
+  &-input {
+
+    .input-wrap {
+
+      padding: 10px 1em;
+      height: 60px;
+      background-color: get-color( 'white' '' );
+      @include gap( 10 10 );
+      border-width: 1px;
+      border-color: get-color( 'br' '200' );
+      border-style: solid;
+
+    } // .input-wrap
+
+    .btn {
+      $s: 40px;
+      width: $s;
+      height: $s;
+      color: get-color( 'text' 'caption' );
+    }
+    input[name="s"] { height: 40px; }
+
+  } //  &-input
+
+ 
+
+
+}
+
+#main-chat-prompter {
+
+  @include position( absolute, z 100 );
+  
+  left: 50%; 
+  bottom: calc(50% - 40px); 
+  width: 90%;
+  max-width: 768px;
+
+
+  will-change: transform;
+  @include set-prefix( transform, translate(-50%, 0%), 'webkit' '' );
+
+  // 메인 페이지일 경우에만 transition 속성 적용
+  @at-root body:is(.home) & {
+    @include set-prefix( transition, all 1s ease('inout-expo'), 'webkit' '' );
+  }
+
+  .chat-prompter- {
+    &header {
+      & > div[class$="-inner"] { margin-bottom: 20px; }
+    }
+  }
+
+
+  // 채팅 프롬프트 브랜딩 
+  .app-branding {
+
+    svg > path {
+      stroke-dashoffset: 1000;
+      will-change: auto;
+      @include set-prefix( transition, all 1s ease('inout-quart'), 'webkit' '' );
+
+      &:nth-child(3) { transform-origin: center; }
+
+      @for $i from 1 through 5 {
+        $delay: ($i - 1) * 0.3;
+        &:nth-child(#{$i}) {  
+          @include set-prefix( transition-delay, #{$delay}s, 'webkit' '' ); 
+        }
+      }
+    } // svg > path
+
+  }
+
+  // 채팅 프롬프트 헬퍼 
+  .chat-prompter-help {
+
+    .help-message { 
+      @include set-prefix( transition,  ( background 1s ease, transform 1s ease('in-back'), opacity 1s ease ), 'webkit' '' );
+    } // .help-message
+
+  } // .chat-prompter-help {
+
+
+  // 채팅 프롬프트 필터
+  .form-filter .filter {
+ 
+    *[data-order] {
+      will-change: all;
+      @include set-prefix( transition, all 0.9s ease('inout-back'), 'webkit' '' ); 
+    }
+
+    @for $i from 1 through 10 {
+      $delay: ($i - 1) * 0.3;
+      *[data-order="#{$i}"] { @include set-prefix( transition-delay, #{$delay}s, 'webkit' '' ); }
+    }
+  } 
+
+
+  // 포커스 아웃 상태 
+  &:not(.is-focus) {
+    // 채팅 프롬프트 헬퍼
+    .chat-prompter-help {
+
+      // .help-message:not(:first-child) { display: none; }
+      .help-message { 
+        &:nth-child(1) { opacity: 1; }
+        &:nth-child(2) { opacity: 0; }
+      }
+
+    } // .chat-prompter-help
+  }
+
+  // 포커스 인 상태 
+  &.is-focus {
+
+    .app-branding {
+
+      svg {
+
+        path:not(:nth-child(3)) { stroke-width: 0; stroke-dashoffset: 0; }
+        path:nth-child(3) { @include set-prefix( transform, scale( 0 ), 'webkit' '' ); }
+      
+      }
+
+    } // .app-branding
+
+    // 채팅 프롬프트 헬퍼
+    .chat-prompter-help {
+
+
+      .help-message { 
+        @include set-prefix( transform, translateY(-100%), "webkit" "" ); 
+
+        &:nth-child(1) { opacity: 0; }
+        &:nth-child(2) { opacity: 1; }
+      }
+
+    } // .chat-prompter-help
+
+  }
+
+  // 비활성화 상태
+  &:not(.active) {
+
+    .form-filter {  overflow: hidden; max-height: 0; }
+    
+    .form-filter .filter {  
+     
+      *[data-order] {
+        @include set-prefix( transition-delay, 0s, 'webkit' '' );
+        @include set-prefix( transform, translateY( 2em ), 'webkit' '');
+      }
+
+    } // .filter
+
+  }
+
+ 
+  // 활성화 상태
+  &:is(.active) {
+    
+    bottom: 0; // 풋터 영역 
+    width: calc(90% - 2em);
+    @include set-prefix( transform, translate(-50%, 0%), 'webkit' '' );
+
+    // 채팅 프롬프트 브랜딩 
+    .app-branding { display: none; }
+
+    // 채팅 프롬프트 헬퍼
+    .chat-prompter-help {
+      .help-message { 
+        opacity: 0;
+        @include set-prefix( transform, translateY(-200%), "webkit" "" ); 
+      }
+    }
+
+  }
+
+  // @ 미디어 쿼리 
+  @include media( "<#{get-breakpoints('lg')}"  ){ // 모바일 
+    // 채팅 프롬프트 필터
+    .form-filter .filter  { 
+      *[data-order]:not(.form-switch) { display: none; }
+    }
+  }
+ 
+
+}
+

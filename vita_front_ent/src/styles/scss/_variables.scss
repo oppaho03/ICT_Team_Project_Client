@@ -1,0 +1,186 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # brakpoints
+/// --------------------------------------------------------------
+/// - Mobile : xs, sm, md 
+/// - Laptop : lg 
+/// - Desktop: xxl, xxl
+/// --------------------------------------------------------------
+$grid-breakpoints: (
+  xs: 0,    // 기본값 (모바일)
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+/// --------------------------------------------------------------
+/// # Default element 
+/// --------------------------------------------------------------
+/// 
+$color-palette: (
+
+  "text": (
+    "title": #080A0C,
+    "body": #26292B,
+    "bodysub": #4E565F,
+    "caption": #9DA5AE,
+  ),     
+  "bg": (
+    "100": #FAFAFA,
+    "200": #F4F5F5,
+    "300": #E3E6E8,
+  ),
+  "br": (
+    "100": #F4F5F5,
+    "200": #D2D6DA,
+    "300": #6D767E,
+  ),
+  "black": (
+    "": #17191C,
+    "100": #17191C,
+    "200": #26292B,
+    "300": #343A40,
+    "400": #4E565F,
+    "500": #6D767E,
+    "600": #9DA5AE,
+    "700": #D2D6DA,
+    "800": #E3E6E8,
+    "900": #F4F5F5,
+  ),
+  "white": (
+    "": #FAFAFA,
+    "100": #FAFAFA,
+    "200": #F4F5F5,
+    "300": #E3E6E8,
+    "400": #D2D6DA,
+    "500": #9DA5AE,
+    "600": #6D767E,
+    "700": #4E565F,
+    "800": #343A40,
+    "900": #26292B,    
+  ),
+  "primary": (
+    "": #2559F4, 
+    "normal" : #2559F4, 
+    "hover" : #5E82ED, 
+    "active" : #0D46F2,
+    "visited" : #9EBDFA,
+    "focus" :  #9EBDFA,
+    "disabled" : #CDD9FE, 
+    "checked" : #2D19FF, 
+  ),
+  "secondary": (
+    "": #6EC9F7, 
+    "normal" : #6EC9F7, 
+    "hover" : #D6EBF5, 
+    "active" : #66E6FF,
+    "visited" : #75C7F0,
+    "focus" :  #75C7F0,
+    "disabled" : #CFEDFC, 
+    "checked" : #33BBFF, 
+  ),
+  "tertiary": (
+    "": #FFAA33, 
+    "normal" : #FFAA33, 
+    "hover" : #F7DEBA, 
+    "active" : #FF8833,
+    "visited" : #F7BE6E,
+    "focus" :  #F7BE6E,
+    "disabled" : #FCE9CF, 
+    "checked" : #FF9933, 
+  ),
+  "success": (
+    "": #13D47A,
+    "normal" : #13D47A, 
+    "hover" : #3CEC99, 
+    "active" : #09B062, 
+    "disabled" : #89E9BC,
+  ),
+  "info": (
+    "": #325EFF,
+    "normal" : #325EFF, 
+    "hover" : #5B89FF, 
+    "active" : #1235FE, 
+    "disabled" : #98AEFF,
+  ),
+  "warn": (
+    "": #FF9910,
+    "normal" : #FF9910, 
+    "hover" : #FFB238, 
+    "active" : #F67D00, 
+    "disabled" : #FFCB87,
+  ),
+  "error": (
+    "": #FF3912,
+    "normal" : #FF3912, 
+    "hover" : #FF836A, 
+    "active" : #ED3915, 
+    "disabled" : #FFA18F,
+  ),
+
+) !default;
+
+
+
+
+
+/// --------------------------------------------------------------
+/// # Placeholder selectors 
+/// --------------------------------------------------------------
+
+%linear-gradient-def {
+  background: rgb(102,229,255);
+  background: -moz-linear-gradient(180deg, rgba(102,229,255,1) 0%, rgba(45,25,255,1) 100%);
+  background: -webkit-linear-gradient(180deg, rgba(102,229,255,1) 0%, rgba(45,25,255,1) 100%);
+  background: linear-gradient(180deg, rgba(102,229,255,1) 0%, rgba(45,25,255,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#66e5ff",endColorstr="#2d19ff",GradientType=1);
+}
+
+%linear-gradient-def-hor {
+  background: rgb(102,229,255);
+  background: -moz-linear-gradient(270deg, rgba(102,229,255,1) 0%, rgba(45,25,255,1) 100%);
+  background: -webkit-linear-gradient(270deg, rgba(102,229,255,1) 0%, rgba(45,25,255,1) 100%);
+  background: linear-gradient(270deg, rgba(102,229,255,1) 0%, rgba(45,25,255,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#66e5ff",endColorstr="#2d19ff",GradientType=1);
+}
+
+%linear-gradient-def-red {
+
+  $rgb: rgb(255,57,18);
+  $rgba1: rgba(255, 161, 143, 1);
+  $rgba2: rgba(255, 57, 18, 1);
+
+  background: $rgb;
+  background: -moz-linear-gradient(180deg, #{$rgba1} 0%, #{$rgba2} 100%);
+  background: -webkit-linear-gradient(180deg, #{$rgba1} 0%, #{$rgba2} 100%);
+  background: linear-gradient(180deg, #{$rgba1} 0%, #{$rgba2} 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#66e5ff",endColorstr="#2d19ff",GradientType=1);
+}
+
+
+
+
+%text-caption {
+  font-size: 0.75em;
+  color: var(--app-color-text-caption);
+}
+/// Placeholder selectors 
+// %font-color-primary {
+
+//   $colorset: map-get($color-palette, "primary" );
+
+//   & { 
+//     color: map-get( $colorset, "5" ); 
+//   } 
+//   &--hover { 
+//     color: map-get( $colorset, "5" ); 
+//     &:hover { color: map-get( $colorset, "7" ); ; } 
+//   }
+  
+// }
+
+
+

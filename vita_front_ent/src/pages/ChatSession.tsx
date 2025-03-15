@@ -7,7 +7,7 @@ import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import ChatMessage from "../componenets/chat/ChatMessage";
 import { useSelector } from "react-redux";
-import { fetchAsyncChatAnswersSearch } from "../utils/fetchs";
+import { fetchAsyncChatAnswersSearch, fetchAsyncExtKeywords } from "../utils/fetchs";
 import { IDataAnswer, IDataCategory } from "../interfaces";
 import { useDispatch } from "react-redux";
 import { setPending } from "../store/chatPromptSlice";
@@ -273,10 +273,7 @@ export default function ChatSession (  ) {
 
       // 채팅 메시지 추가 - 사용자
       const msg = prompt.latestMessage;
-      const chatQuestionMessage = addChatMessage( chatMessageTemplates, "user", {  
-        thumb_url: ui.profile_photo,
-        message: prompt.latestMessage  
-      } ); 
+      const chatQuestionMessage = addChatMessage( chatMessageTemplates, "user", { thumb_url: ui.profile_photo, message: msg } ); 
 
       if ( chatQuestionMessage != null ) chatContent.append( chatQuestionMessage );
 
@@ -292,6 +289,9 @@ export default function ChatSession (  ) {
         /* *** 임시 대기
         */ 
         setTimeout( () => { 
+
+
+        fetchAsyncExtKeywords( msg, null );
         
         // 불명열은 무슨 병일까요?
         const __keywords = [ "불명열", "병" ];

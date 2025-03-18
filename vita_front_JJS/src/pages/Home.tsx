@@ -5,6 +5,8 @@
 
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import LoginBox from "./LoginBox";
+import LoginTest from "./LoginTest";
 
 
 export default function Home () {
@@ -21,5 +23,21 @@ export default function Home () {
 
   return ( <>
     <h1>HOME</h1>
+    {/* <LoginTest/> */}
+    <LoginBox/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
   </> );
 };

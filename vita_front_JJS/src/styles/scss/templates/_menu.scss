@@ -1,0 +1,57 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # 메뉴
+/// --------------------------------------------------------------
+/// - .app-branding 브랜딩 
+/// - 서랍 메뉴 (Drawable Menu)
+/// --------------------------------------------------------------
+
+/* app-branding
+*/
+.app-branding {
+  
+  & &-headline {
+    
+    a.brand {  
+      text-decoration: none;
+      font-size: 2rem;
+    }
+
+    a.brand.has-logo-img {
+      @include flex-c ( flex row justify-start items-center );
+      .logo-img { display: block; }
+    }
+
+  }
+}
+
+/* 서랍 메뉴 (Drawable Menu)
+*/
+.app-drawable-menu {
+
+  &-wrap {
+    
+    position: relative;
+    height: 100%;
+    
+    &::after {
+      content:'';
+      @include position ( absolute, t 0 r 0 z 100 );
+      background-color: var(--app-color-br-300);
+      width: 1px; 
+      height: 100%;
+      // background-blend-mode: color-burn;
+    }
+  } // &-wrapper
+
+  &#drawable-menu {
+    // @include position(absolute, t 0 r 0 b 0 l 0 z 1000);
+    @include position( sticky, t 0 l 0 z 100 );
+
+    width: 100%;
+    height: 100%;
+    background-color: var(--app-color-bg-100);
+  } // &
+
+}

@@ -1,0 +1,79 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # 헤더 <header> 
+/// --------------------------------------------------------------
+/// - .app-header
+/// - #apphead
+/// --------------------------------------------------------------
+
+#apphead {
+
+  
+  @include position( fixed, t 0  l 0 z 1000 );
+  width: 100%;
+  
+  background-color: transparent;
+
+  $prefix: app-header;
+  // .#{$prefix}-drawable-menu-toggle {}
+  
+  .app-branding {
+    a.brand > .logo-img ~ * { visibility: hidden; }
+    // a.brand > .logo-img { height: 30px; }
+  } // .app-branding
+
+  #app-global-menu {
+    .user-profile {
+      $_prefix: user-profile;
+      // .#{$_prefix}__photo { }
+      .#{$_prefix}__photo-img { width: 48px; height: 48px; }
+      // &__contents {}
+    } // .user-profile
+  } // #app-global-menu
+
+  /// @ 미디어 쿼리 
+  $bg : $grid-breakpoints;
+  $_lg: map-get( $bg, 'lg' );
+  @include media( "<#{$_lg}" ) { // : 모바일 
+
+    $hh: 54px;
+
+    & { padding: 6px 0; height: $hh; }
+
+    .app-branding {
+      a.brand > .logo-img { height: 36px; }
+    } // .app-branding
+
+    #app-global-menu {
+      .user-profile {
+        $_prefix: user-profile;
+        .#{$_prefix}__photo-img { 
+          width: 36px; 
+          height: 36px; 
+        }
+        &__contents { display: none; }
+      } // .user-profile
+    } // #app-global-menu
+
+
+    @at-root {
+      #drawable-menu,
+      #content { padding-top: $hh; }
+    }
+
+  }
+  @include media( ">=#{$_lg}" ) { // : PC
+
+    $hh: 80px;
+
+    & { padding: 14px 0; height: $hh; }
+
+    @at-root {
+      #drawable-menu,
+      #content { padding-top: $hh; }
+    }
+
+  }
+
+}

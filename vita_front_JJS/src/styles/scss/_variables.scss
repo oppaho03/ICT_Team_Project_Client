@@ -1,0 +1,150 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # brakpoints
+/// --------------------------------------------------------------
+/// - Mobile : xs, sm, md 
+/// - Laptop : lg 
+/// - Desktop: xxl, xxl
+/// --------------------------------------------------------------
+$grid-breakpoints: (
+  xs: 0,    // 기본값 (모바일)
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+/// --------------------------------------------------------------
+/// # Default element 
+/// --------------------------------------------------------------
+/// 
+
+$color-palette: (
+
+  "text": (
+    "title": #080A0C,
+    "body": #26292B,
+    "bodysub": #4E565F,
+    "caption": #9DA5AE,
+  ),     
+  "bg": (
+    "100": #FAFAFA,
+    "200": #F4F5F5,
+    "300": #E3E6E8,
+  ),
+  "br": (
+    "100": #F4F5F5,
+    "200": #D2D6DA,
+    "300": #6D767E,
+  ),
+  "black": (
+    "": #17191C,
+    "100": #17191C,
+    "200": #26292B,
+    "300": #343A40,
+    "400": #4E565F,
+    "500": #6D767E,
+    "600": #9DA5AE,
+    "700": #D2D6DA,
+    "800": #E3E6E8,
+    "900": #F4F5F5,
+  ),
+  "white": (
+    "": #FAFAFA,
+    "100": #FAFAFA,
+    "200": #F4F5F5,
+    "300": #E3E6E8,
+    "400": #D2D6DA,
+    "500": #9DA5AE,
+    "600": #6D767E,
+    "700": #4E565F,
+    "800": #343A40,
+    "900": #26292B,    
+  ),
+  "primary": (
+    "": #573CF9,
+    "normal" : #573CF9, 
+    "hover" : #6055FF, 
+    "active" : #4326DC, 
+    "disabled" : #AB9DFB, 
+    "subtitle" : #C6CCFF, 
+    "strong" : #30248B,
+  ),
+  "secondary": (
+    "": #FFB901,
+    "normal" : #FFB901, 
+    "hover" : #FFD620, 
+    "active" : #DF8D00, 
+    "disabled" : #FFDB7F, 
+    "subtitle" : #FFF9C6, 
+    "strong" : #984C08,
+  ),
+  "tertiary": (
+    "": #BFC3FF,
+    "normal" : #BFC3FF, 
+    "hover" : #E0E3FF, 
+    "active" : #A3A7FE, 
+    "disabled" : #DFE1FF, 
+    "subtitle" : #EEF0FF, 
+    "strong" : #7260F4,
+  ),
+  "success": (
+    "": #13D47A,
+    "normal" : #13D47A, 
+    "hover" : #3CEC99, 
+    "active" : #09B062, 
+    "disabled" : #89E9BC,
+  ),
+  "info": (
+    "": #325EFF,
+    "normal" : #325EFF, 
+    "hover" : #5B89FF, 
+    "active" : #1235FE, 
+    "disabled" : #98AEFF,
+  ),
+  "warn": (
+    "": #FF9910,
+    "normal" : #FF9910, 
+    "hover" : #FFB238, 
+    "active" : #F67D00, 
+    "disabled" : #FFCB87,
+  ),
+  "error": (
+    "": #FF3912,
+    "normal" : #FF3912, 
+    "hover" : #FF836A, 
+    "active" : #ED3915, 
+    "disabled" : #FFA18F,
+  ),
+
+) !default;
+
+
+
+/// --------------------------------------------------------------
+/// # Placeholder selectors 
+/// --------------------------------------------------------------
+
+%text-caption {
+  font-size: 0.75em;
+  color: var(--app-color-text-caption);
+}
+/// Placeholder selectors 
+// %font-color-primary {
+
+//   $colorset: map-get($color-palette, "primary" );
+
+//   & { 
+//     color: map-get( $colorset, "5" ); 
+//   } 
+//   &--hover { 
+//     color: map-get( $colorset, "5" ); 
+//     &:hover { color: map-get( $colorset, "7" ); ; } 
+//   }
+  
+// }
+
+
+

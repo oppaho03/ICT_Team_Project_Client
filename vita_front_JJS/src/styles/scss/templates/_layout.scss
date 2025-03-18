@@ -1,0 +1,133 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # 레이아웃 (Layout) 
+/// --------------------------------------------------------------
+/// - .lyt
+/// --------------------------------------------------------------
+
+#wrapper {
+
+}
+
+
+/* 'root' 레이아웃
+*/
+.lyt-grid:is(.root) {
+
+  width: 100%; 
+  min-height: 100vh;
+
+  & > .lyt-grid-item {
+
+    & > .wrap { 
+      @include position( relative );
+      min-height: 100%; 
+    }
+  }
+  
+  /// @ 미디어 쿼리 
+  $bg : $grid-breakpoints;
+  $bg_lg: map-get( $bg, 'lg' );
+  @include media( "<#{$bg_lg}" ) { // : 모바일 
+    
+    & { // .lyt-grid:is(.root) 
+      // # grid-container( $rows:number, $cols:number, $gap:number, $align:list, $auto:list, $areas:list)
+      @include grid-c( 1, 1, 0, f row-dense, justify-items-start items-stretch self-stretch, "content" );
+      grid-template-columns: 1fr; 
+    } // & 
+
+    & > .lyt-grid-item {
+      // 레이아웃 아이템 : 컨텐츠 
+      &:nth-child(1) { 
+        @include grid-item( $area: content ); 
+        width: 100%; 
+
+        @include set-prefix ( transition, padding 0.6s ease(inout-circ), 'webkit' '' );
+      }
+
+      // 레이아웃 아이템 : 사이드 ( 서랍메뉴 )
+      // &:nth-child(2) { }
+    }
+
+    // 서랍 메뉴 활성화 처리 (.expanded-menu-drawable)
+    $size: ( 'min': 0px, 'max': 320px ); 
+    $min: map-get($map: $size, $key: "min");
+    $max: map-get($map: $size, $key: "max");
+    #drawable-menu {
+      @include position( fixed, t 0 l 0 z 999 );
+      width: 100%;
+      height: 100%;
+      max-width: $max;
+
+      @include set-prefix( transform, translateX( calc($max * -1) ), 'webkit' '' );
+
+      will-change: transform;
+      @include set-prefix ( transition, transform 0.6s ease(inout-circ), 'webkit' '' );
+
+    }
+
+    @at-root body:is( .expanded-menu-drawable ) {
+      .lyt-grid:is(.root) {
+
+        & > .lyt-grid-item:nth-child(1) { padding-left: $max; }
+
+        #drawable-menu{ @include set-prefix( transform, translateX( 0 ), 'webkit' '' ); }  
+      }
+    }
+
+  }
+  @include media( ">=#{$bg_lg}" ) { // : PC
+
+    & { // .lyt-grid:is(.root) 
+      // # grid-container( $rows:number, $cols:number, $gap:number, $align:list, $auto:list, $areas:list)
+      @include grid-c( 1, 2, 0, f row-dense, justify-items-start items-stretch self-stretch, "drawable content" );
+      grid-template-columns: auto 1fr; 
+      
+    } // & 
+
+    & > .lyt-grid-item {
+      
+      // 레이아웃 아이템 : 컨텐츠 
+      &:nth-child(1) { 
+        @include grid-item( $area: content ); 
+        width: 100%; 
+      }
+
+       // 레이아웃 아이템 : 사이드 ( 서랍메뉴 )
+      &:nth-child(2) { 
+        @include grid-item( $area: drawable ); 
+      }
+
+    } // .lyt-grid-item  
+
+    // 서랍 메뉴 활성화 처리 (.expanded-menu-drawable)
+    $size: ( 'min': 48px, 'max': 320px ); 
+    $min: map-get($map: $size, $key: "min");
+    $max: map-get($map: $size, $key: "max");
+
+    #drawable-menu,
+    #drawable-menu-toggle {
+      will-change: margin; 
+      @include set-prefix ( transition, margin 0.6s ease(inout-circ), 'webkit' '' );
+    }
+
+    #drawable-menu { 
+      margin-left: calc( ($max - $min) * -1 );
+      width: $max; 
+    } 
+
+    #drawable-menu-toggle { margin-right: 0; }
+
+
+    @at-root body:is( .expanded-menu-drawable ) {
+      .lyt-grid:is(.root) {
+        #drawable-menu{ margin-left: 0; }  
+        #apphead #drawable-menu-toggle { margin-right: calc( $max - $min ); }
+      }
+    }
+
+  }
+
+}
+

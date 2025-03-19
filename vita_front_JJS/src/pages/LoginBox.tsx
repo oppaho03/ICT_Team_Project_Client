@@ -3,6 +3,9 @@ import styles from './LoginBox.module.css';
 import axios from 'axios';
 import GoogleAuth from './GoogleLogin';
 
+//client ID
+//secret ID
+//
 
 
 

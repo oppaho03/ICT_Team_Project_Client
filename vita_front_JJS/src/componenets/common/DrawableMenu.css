@@ -1,0 +1,150 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100vh;
+    background-color: white;
+    color: #9DA5AE;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    transition: width 0.3s ease-in-out;
+}
+  
+.sidebar.expanded {
+    width: 240px;
+}
+
+/* 로고 컨테이너 */
+.logo-container {
+    /* width: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 10px 0; */
+}
+
+.search {
+	padding : 2px 26px 2px 26px;
+}
+.search-border {
+	position : absolute;
+}
+.sidebar.expanded .search-border {
+	width : 80%;
+	height : 42px;
+	padding : 0 24px 0 24px;
+	border : 2px solid #9DA5AE;
+	border-radius : 24px;
+}
+
+.menu-container {
+    width: 100%;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    /* width: 80%; */
+    margin : 26px 26px 0 26px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s;
+    border-radius: 8px;
+    overflow : hidden;
+}
+
+/* 클릭 시 네모 칸 강조 */
+.menu-item.active,
+.menu-item:hover {
+    background-color: #2559F4;
+    color: #DAE2F5;
+}
+
+/* 아이콘과 텍스트의 위치를 고정 */
+.icon {
+    /* width: 85px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: none;
+}
+
+.menu-label {
+    opacity: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s;
+    flex-grow: 1;
+}
+
+.sidebar.expanded .menu-label {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 화살표 애니메이션 */
+.arrow {
+    margin-right: 12px;
+    transition: transform 0.3s ease-in-out;
+    flex: none;
+}
+
+.arrow.rotated {
+    transform: rotate(90deg);
+}
+
+/* 세부 목록 애니메이션 */
+.submenu-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.submenu-wrapper.open {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.submenu {
+    padding-left: 60px;
+}
+
+.submenu-item {
+    padding: 8px 20px;
+    font-size: 14px;
+    color: #9DA5AE;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-left: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 8px;
+    overflow : hidden;
+}
+
+.sidebar.expanded .user {
+    width : 80%;
+}
+
+.user-name {
+    margin-left: 16px;
+    opacity: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    color: black;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s;
+    flex-grow: 1;
+}
+
+.sidebar.expanded .user-name {
+    opacity: 1;
+    visibility: visible;
+}

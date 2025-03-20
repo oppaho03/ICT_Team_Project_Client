@@ -1,0 +1,148 @@
+.vitaLogoMIcon {
+  width: 150px;
+  position: relative;
+  max-height: 100%;
+}
+.ai {
+  align-self: stretch;
+  position: relative;
+  line-height: 100%;
+  font-weight: 600;
+  background: linear-gradient(112.33deg, #66e5ff, #2d19ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  height: 17px;
+  flex-shrink: 0;
+}
+.div {
+  align-self: stretch;
+  position: relative;
+  line-height: 100%;
+  font-weight: 600;
+  background: linear-gradient(99.69deg, #66e5ff, #2d19ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  height: 17px;
+  flex-shrink: 0;
+}
+.aiParent {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 3px;
+}
+.logintitle {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+.div1 {
+  align-self: stretch;
+  position: relative;
+  font-size: 40px;
+  line-height: 100%;
+  font-weight: 800;
+  text-align: center;
+}
+.div2 {
+  align-self: stretch;
+  position: relative;
+  line-height: 100%;
+  font-weight: 600;
+}
+.div3 {
+  align-self: stretch;
+  position: relative;
+  font-size: 12px;
+  line-height: 100%;
+  color: #777;
+}
+.exPassword {
+  position: relative;
+  line-height: 100%;
+}
+.inbox {
+  align-self: stretch;
+  border-radius: 10px;
+  background-color: #f4f5f5;
+  border: 1px solid #bbb;
+  box-sizing: border-box;
+  height: 42px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px 25px;
+  font-size: 14px;
+  color: #bbb;
+}
+.inputbox {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 6px;
+  font-size: 20px;
+}
+.div4 {
+  position: relative;
+  letter-spacing: -0.02em;
+  line-height: 150%;
+  font-weight: 600;
+}
+.button {
+  align-self: stretch;
+  border-radius: 10px;
+  background-color: #2559f4;
+  height: 46px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 21px 25px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #eee;
+}
+.loginFind {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 30px;
+  color: #bbb;
+}
+.logintitleParent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 21px 36px;
+  gap: 12px;
+}
+.findid {
+  width: 420px;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  font-size: 16px;
+  color: #444;
+  font-family: Pretendard;
+}
+

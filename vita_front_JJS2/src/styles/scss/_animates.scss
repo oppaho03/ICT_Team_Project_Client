@@ -1,0 +1,115 @@
+@charset 'UTF-8';
+
+
+/// ------------------------------------------------------------
+/// 애니메이션 Keyframes 
+/// ------------------------------------------------------------
+/// - https://animista.net/
+/// ------------------------------------------------------------
+
+/// Loader : Type 1
+@-webkit-keyframes loader-type-1-ring {
+	from { stroke-dasharray: 0 257 0 0 1 0 0 258; }
+	25% { stroke-dasharray: 0 0 0 0 257 0 258 0; }
+	50%, to { stroke-dasharray: 0 0 0 0 0 515 0 0; }
+}
+@keyframes loader-type-1-ring {
+	from { stroke-dasharray: 0 257 0 0 1 0 0 258; }
+	25% { stroke-dasharray: 0 0 0 0 257 0 258 0; }
+	50%, to { stroke-dasharray: 0 0 0 0 0 515 0 0; }
+}
+@-webkit-keyframes loader-type-1-ball {
+	from, 50% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: 1; }
+	64% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -109; }
+	78% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -145; }
+	92% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -157; }
+	57%, 71%, 85%, 99%, to { @include set-prefix( animation-timing-function, ease-out, "webkit" "" ); stroke-dashoffset: -163; }
+}
+@keyframes loader-type-1-ball {
+	from, 50% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: 1; }
+	64% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -109; }
+	78% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -145; }
+	92% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -157; }
+	57%, 71%, 85%, 99%, to { @include set-prefix( animation-timing-function, ease-out, "webkit" "" ); stroke-dashoffset: -163; }
+}
+
+
+/// waves
+@-webkit-keyframes waves {
+  0% { 
+    @include set-prefix( transform, scale(1), "webkit" "" );
+    opacity: 1;  
+  }
+  100% { 
+    @include set-prefix( transform, scale(4), "webkit" "" );
+    opacity: 0;  
+  }
+}
+@keyframes waves {
+  0% { 
+    @include set-prefix( transform, scale(1), "webkit" "" );
+    opacity: 1;  
+  }
+  100% { 
+    @include set-prefix( transform, scale(4), "webkit" "" );
+    opacity: 0;  
+  }
+}
+
+
+
+/// ------------------------------------------------------------
+/// 애니메이션 Keyframes 
+/// ------------------------------------------------------------
+/// http://animista.net
+/// ------------------------------------------------------------
+
+//
+// scale-in-center
+//
+%scale-in-center{-webkit-animation:scale-in-center .5s cubic-bezier(.25,.46,.45,.94) both;animation:scale-in-center .5s cubic-bezier(.25,.46,.45,.94) both}
+
+@-webkit-keyframes scale-in-center{0%{-webkit-transform:scale(0);transform:scale(0);opacity:1}100%{-webkit-transform:scale(1);transform:scale(1);opacity:1}}@keyframes scale-in-center{0%{-webkit-transform:scale(0);transform:scale(0);opacity:1}100%{-webkit-transform:scale(1);transform:scale(1);opacity:1}}
+
+//
+// scale-in-ver-bottom
+//
+%scale-in-ver-bottom{-webkit-animation:scale-in-ver-bottom .5s cubic-bezier(.25,.46,.45,.94) both;animation:scale-in-ver-bottom .5s cubic-bezier(.25,.46,.45,.94) both}
+
+ @-webkit-keyframes scale-in-ver-bottom{0%{-webkit-transform:scaleY(0);transform:scaleY(0);-webkit-transform-origin:0 100%;transform-origin:0 100%;opacity:1}100%{-webkit-transform:scaleY(1);transform:scaleY(1);-webkit-transform-origin:0 100%;transform-origin:0 100%;opacity:1}}@keyframes scale-in-ver-bottom{0%{-webkit-transform:scaleY(0);transform:scaleY(0);-webkit-transform-origin:0 100%;transform-origin:0 100%;opacity:1}100%{-webkit-transform:scaleY(1);transform:scaleY(1);-webkit-transform-origin:0 100%;transform-origin:0 100%;opacity:1}}
+
+//
+// slide-in-fwd-center
+//
+%slide-in-fwd-center{-webkit-animation:slide-in-fwd-center .4s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-fwd-center .4s cubic-bezier(.25,.46,.45,.94) both}
+
+ @-webkit-keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}@keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}
+
+//
+// fade-in-fwd
+//
+%fade-in-fwd{-webkit-animation:fade-in-fwd .6s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in-fwd .6s cubic-bezier(.39,.575,.565,1.000) both}
+
+@-webkit-keyframes fade-in-fwd{0%{-webkit-transform:translateZ(-80px);transform:translateZ(-80px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}@keyframes fade-in-fwd{0%{-webkit-transform:translateZ(-80px);transform:translateZ(-80px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}
+
+//
+// jello-horizontal
+//
+%jello-horizontal{-webkit-animation:jello-horizontal .9s both;animation:jello-horizontal .9s both}
+
+@-webkit-keyframes jello-horizontal{0%{-webkit-transform:scale3d(1,1,1);transform:scale3d(1,1,1)}30%{-webkit-transform:scale3d(1.25,.75,1);transform:scale3d(1.25,.75,1)}40%{-webkit-transform:scale3d(.75,1.25,1);transform:scale3d(.75,1.25,1)}50%{-webkit-transform:scale3d(1.15,.85,1);transform:scale3d(1.15,.85,1)}65%{-webkit-transform:scale3d(.95,1.05,1);transform:scale3d(.95,1.05,1)}75%{-webkit-transform:scale3d(1.05,.95,1);transform:scale3d(1.05,.95,1)}100%{-webkit-transform:scale3d(1,1,1);transform:scale3d(1,1,1)}}@keyframes jello-horizontal{0%{-webkit-transform:scale3d(1,1,1);transform:scale3d(1,1,1)}30%{-webkit-transform:scale3d(1.25,.75,1);transform:scale3d(1.25,.75,1)}40%{-webkit-transform:scale3d(.75,1.25,1);transform:scale3d(.75,1.25,1)}50%{-webkit-transform:scale3d(1.15,.85,1);transform:scale3d(1.15,.85,1)}65%{-webkit-transform:scale3d(.95,1.05,1);transform:scale3d(.95,1.05,1)}75%{-webkit-transform:scale3d(1.05,.95,1);transform:scale3d(1.05,.95,1)}100%{-webkit-transform:scale3d(1,1,1);transform:scale3d(1,1,1)}}
+
+
+//
+// heartbeat
+//
+%heartbeat{-webkit-animation:heartbeat 1.5s ease-in-out infinite both;animation:heartbeat 1.5s ease-in-out infinite both}
+
+@-webkit-keyframes heartbeat{from{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:center center;transform-origin:center center;-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}10%{-webkit-transform:scale(.91);transform:scale(.91);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}17%{-webkit-transform:scale(.98);transform:scale(.98);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}33%{-webkit-transform:scale(.87);transform:scale(.87);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}45%{-webkit-transform:scale(1);transform:scale(1);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}}@keyframes heartbeat{from{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:center center;transform-origin:center center;-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}10%{-webkit-transform:scale(.91);transform:scale(.91);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}17%{-webkit-transform:scale(.98);transform:scale(.98);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}33%{-webkit-transform:scale(.87);transform:scale(.87);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}45%{-webkit-transform:scale(1);transform:scale(1);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}}
+
+//
+// pulsate-bck
+//
+%pulsate-bck{-webkit-animation:pulsate-bck .5s ease-in-out infinite both;animation:pulsate-bck .5s ease-in-out infinite both}
+
+@-webkit-keyframes pulsate-bck{0%{-webkit-transform:scale(1);transform:scale(1)}50%{-webkit-transform:scale(.9);transform:scale(.9)}100%{-webkit-transform:scale(1);transform:scale(1)}}@keyframes pulsate-bck{0%{-webkit-transform:scale(1);transform:scale(1)}50%{-webkit-transform:scale(.9);transform:scale(.9)}100%{-webkit-transform:scale(1);transform:scale(1)}}

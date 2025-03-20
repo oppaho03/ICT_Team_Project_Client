@@ -6,10 +6,10 @@ import largeLogo from "/src/assets/icons/VitaLogo2.png";
 import { NavLink } from "react-router-dom";
 
 const menuItems = [
-  { id: 1, icon: <img src="/src/assets/icons/MenuBox1.png" />, label: "Dashboard", subItems: ["대시보드", "활동"] },
-  { id: 2, icon: <img src="/src/assets/icons/MenuBox2.png" />, label: "History", subItems: ["여기", "저기"] },
-  { id: 3, icon: <img src="/src/assets/icons/MenuBox3.png" />, label: "Top5", subItems: ["정신병 걸릴 것 같아요", "다리가 아파요"] },
-  { id: 4, icon: <img src="/src/assets/icons/MenuBox4.png" />, label: "Hot Keyword", subItems: ["불안감", "머리통증"] },
+  { id: 1, icon: <img src="/src/assets/icons/MenuBox1.png" alt="i1"/>, label: "Dashboard", subItems: ["대시보드", "활동"] },
+  { id: 2, icon: <img src="/src/assets/icons/MenuBox2.png" alt="i2"/>, label: "History", subItems: ["여기", "저기"] },
+  { id: 3, icon: <img src="/src/assets/icons/MenuBox3.png" alt="i3"/>, label: "Top5", subItems: ["정신병 걸릴 것 같아요", "다리가 아파요"] },
+  { id: 4, icon: <img src="/src/assets/icons/MenuBox4.png" alt="i4"/>, label: "Hot Keyword", subItems: ["불안감", "머리통증"] },
 
 ];
 

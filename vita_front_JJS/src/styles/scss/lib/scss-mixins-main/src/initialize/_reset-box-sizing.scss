@@ -1,3 +1,0 @@
-@mixin reset-box-sizing($value: border-box) {
-  @include inherit-box-sizing(body, $value);
-}

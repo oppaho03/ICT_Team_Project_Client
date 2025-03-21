@@ -23,6 +23,7 @@ const LoginBox: React.FC = () => {
     token: string;
   }
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -50,8 +51,9 @@ const LoginBox: React.FC = () => {
       localStorage.setItem("token", response.data.token);
     } catch (error) {
       console.error("로그인 실패:", error);
+      
 
-      if (axios.isAxiosError(error) && error.response) {
+      /* if (axios.isAxiosError(error) && error.response) {
         alert(
           `로그인 실패! 서버 응답: ${
             error.response.data.message || "이메일과 비밀번호를 확인하세요."
@@ -59,10 +61,11 @@ const LoginBox: React.FC = () => {
         );
       } else {
         alert("로그인 실패! 네트워크 또는 서버 오류가 발생했습니다.");
-      }
+      } */
     }
   };
 
+  
   return (
     <div className={styles.loginbox}>
       <div className={styles.logintitleParent}>

@@ -1,3 +1,0 @@
-@mixin rwd-video($limit-origin-size: true, $ratio-prop: width) {
-  @include rwd-img($limit-origin-size, $ratio-prop);
-}

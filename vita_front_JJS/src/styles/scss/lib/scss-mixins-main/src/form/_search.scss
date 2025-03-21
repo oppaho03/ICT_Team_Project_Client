@@ -1,5 +1,0 @@
-@mixin search($padding: 0 rem(4)) {
-  @include appearance(none);
-  @include input;
-  padding: $padding;
-}

@@ -4,6 +4,7 @@
 
 import { useContext, useEffect } from "react";
 import { TermsContext } from "../../contexts";
+import axios from "axios";
 // import { useSelector } from "react-redux";
 
 // import * as Common from "../../../public/assets/js/commons";
@@ -38,6 +39,42 @@ export default function ChatPrompterFormFilter ( ) {
   //   console.log( ui.prompt )
     
   // }, [ ui.prompt ] );
+
+  const handleChange = (e: any) => {
+
+    axios.get('http://192.168.0.87:8080/wc', {})
+    .then(function (response) {
+      console.log(response);
+      if (response.status === 302) {
+        window.location.href = response.headers.location;
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+  //   try {
+  //     const url = "https://192.168.0.5:8080/wc";
+  //     const datas = {  }
+  //     const options = {
+  //       headers: {
+  //         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU5TVE9SIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJzdWIiOiIxIiwiaWF0IjoxNzQxMDUxMDQ0LCJleHAiOjE3NDEwNTE5NDR9.xTVxV2BHe6qHaM8WjApKvoOnyt_LySjTk0CNRi35rEY',
+  //         'Content-Type': 'application/json'
+  //       }
+  //     };
+  //     const response = await fetch( url, {
+  //       method: 'POST',
+  //       body: JSON.stringify( datas ),
+  //       headers: options.headers
+  //     } );`
+
+  //     console.log(response);
+  //   }
+  //   catch ( err: Error | any ) {
+  //     console.log( err );
+      
+  //   }
+  // };
 
 
   return (<>
@@ -82,7 +119,7 @@ export default function ChatPrompterFormFilter ( ) {
             <div className="form-check form-switch" data-order={++order}>
               {/* <p class="form-caption"><label>대화 공개</label> </p> */}
               {/* <label class="form-check-label" for="">폼 공개</label> */}
-              <input className="form-check-input" type="checkbox" role="switch" id="" name="status" value="1" />
+              <input className="form-check-input" type="checkbox" role="switch" id="" name="status" value="1" onChange={handleChange} />
             </div>
           </div> {/* col */}
 

@@ -41,8 +41,10 @@ export default function ChatPrompterFormFilter ( ) {
   // }, [ ui.prompt ] );
 
   const handleChange = (e: any) => {
+  
 
-    axios.get('http://192.168.0.87:8080/wc', {})
+
+    axios.post('http://192.168.0.87:8080/wc', {})
     .then(function (response) {
       console.log(response);
       if (response.status === 302) {

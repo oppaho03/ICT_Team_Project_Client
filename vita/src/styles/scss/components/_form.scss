@@ -1,0 +1,114 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # Form
+/// --------------------------------------------------------------
+
+.form-wrap {
+  padding: 10px;
+}
+
+form.form {
+
+  .form-header { 
+    margin-bottom: 20px;
+  }
+
+  fieldset { margin-bottom: 1.2em; }
+  fieldset > legend h2 { text-align: center; font-weight: bold; }
+
+  // 폼 타입 : 모달 
+  &.form-type-modal {
+    padding: 2em;
+    margin: auto;
+    background-color: get-color( 'white' '' );
+    font-size: 1rem; 
+    border-width: 1px;
+    border-color: get-color( 'br' '200' );
+    border-style: solid;
+    max-width: 500px; 
+
+    &.sm { max-width: 300px; }
+    &.lg { max-width: 800px; }
+    &.xl { max-width: 1140px; }
+  }
+
+  .form-control-field {
+
+    $c-label: get-color('black' '400');
+
+    &:not(:last-child) { margin-bottom: 1em; }
+
+    // &__name-container { } // &__name-container
+
+    &__label-container { margin-bottom: 0.5em; }
+    &__label {
+      color: $c-label;
+      font-size: 1.25em;
+      font-weight: 600;
+    } // &__name
+
+    &__input-container {
+
+    } // &__input-container
+
+  }
+
+} 
+
+
+
+/// --------------------------------------------------------------
+/// # Form : 폼 로그인
+/// --------------------------------------------------------------
+
+.form-login,
+.form-signin {
+
+  // @extend %slide-in-fwd-center;
+
+  hr {
+    background-color: get-color('br' '200');
+  }
+
+  .sns-login-list {
+    li { margin-bottom: 0.5em; }
+  }
+  
+  /* 네베게이션 : 옵션 
+  */
+  nav.option-navbar {
+
+    $c-link: get-color('black' '600');
+    $c-link-hover: get-color('black' '400');
+
+    ul li {
+      @include position( relative );
+
+      &:not(:last-child)::before {
+        content: '';
+        display: block;
+        @include position( absolute, r 0 t 50% );
+        @include set-prefix( transform, translateY(-50%), 'webkit' '' );
+        width: 1px; 
+        height: 1em;
+        background-color: $c-link; 
+      }
+
+    } // ul li
+   
+    a.link {  
+      @include padding( l 2em r 2em );
+      font-size: 0.875em;
+      color: $c-link;
+
+      &:hover {
+        color: $c-link-hover;
+        text-decoration: underline;
+        text-underline-offset: 0.5em;
+      }
+    } // a.link
+
+  } // 
+
+}

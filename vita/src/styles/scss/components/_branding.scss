@@ -1,0 +1,52 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # 브랜딩 (Branding)
+/// --------------------------------------------------------------
+
+.app-branding {
+  
+}
+
+.app-branding {
+  a.brand > .logo-img ~ * { 
+    @include position( absolute );
+    visibility: hidden; 
+  }
+
+  a.brand > .logo-img {
+    margin: 0 auto 0.5em;
+    height: 67px;
+
+    img, svg {
+      display: block;
+      width: inherit; 
+      height: inherit; 
+    }
+  }
+
+  &-contents {
+    font-weight: bold;
+    @extend %linear-gradient-def-hor;
+    -webkit-background-clip: text; /* 텍스트에만 배경을 적용 */
+    background-clip: text;
+    background-size: 500% 100%;
+    color: transparent; /* 텍스트 색상을 투명하게 설정 */
+  
+    text-align: center;
+
+    @include set-prefix( animation, bg-pan-left 8s infinite linear, 'webkit' '' );
+
+    p { margin-bottom: 0; line-height: 1.5; }
+    p:last-child { margin-bottom: 0; }
+
+  }
+
+} // .app-branding
+
+
+@keyframes app-branding-contents-move-background {
+  0% { background-position: 0 0; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0 0; }
+}

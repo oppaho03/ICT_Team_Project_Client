@@ -6,11 +6,32 @@
 
 .btn {
 
+  font-size: 0.875em;
+
   &.btn-primary {
     $c-def: get-color('primary' '');
     $c-hover: get-color('primary' 'hover');
     background-color: $c-def;
     &:hover { background-color: $c-hover; }
+  }
+  &.btn-secondary {
+    $c-def: get-color('secondary' '');
+    $c-hover: get-color('secondary' 'hover');
+    background-color: $c-def;
+    &:hover { background-color: $c-hover; }
+  }
+
+  &.btn-outline- {
+    &primary {  
+      $c-def: get-color('primary' '');
+      $c-hover: get-color('white' '');
+      border-color: $c-def;
+      color: $c-def;
+      &:hover {
+        color: $c-hover;
+      }
+
+    }
   }
 
   

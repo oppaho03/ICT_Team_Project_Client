@@ -123,16 +123,35 @@ form.form {
   // 
   .form-control-field.field-email {
 
-    .form-control-field__ {
-      &input-container {
-        .input-wrap {
+    .form-control-field__input-container {
+      .input-wrap {
+        & > *:not(:last-child) { margin-right: 10px; }
+        button.btn { width: 25%; min-width: 100px; max-width: 120px; }
+      }
+    } // .form-control-field__input-container
 
-          & > *:not(:last-child) { margin-right: 10px; }
-          button.btn { width: 25%; min-width: 100px; max-width: 120px; }
+  } // .field-email
+
+  .form-control-field.field-address {
+
+    .form-control-field__input-container {
+
+      .post-code-container {
+        margin-top: 0.5em;
+        @include position ( relative );
+        width: 100%; 
+        
+        & > * {
+          @include position( absolute, l 0 t 0 z 10 );
+          border-width: 1px;
+          border-color: get-color('br' '200');
+          border-style: solid;
+          box-sizing: content-box;
         }
       }
-    }
 
-  }
+    } // .form-control-field__input-container
 
-}
+  } // .field-address
+
+} // .field-address

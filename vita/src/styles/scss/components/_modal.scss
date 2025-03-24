@@ -1,0 +1,105 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # Modal
+/// --------------------------------------------------------------
+
+.modal {
+
+  .btn-close {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e");
+  }
+
+  .modal-content {
+
+    color: get-color( 'text' 'body' );
+
+    .modal-header__branding {
+      @include position( absolute, l 0 t 0 z 0 );
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      & > svg { 
+        @include position( absolute, l -0.5em t -0.5em ); 
+        width: auto; 
+        height: 120%; 
+      }
+
+    } // .modal-header__branding
+    
+    .modal-header {
+
+      @include position( relative );
+      @extend %linear-gradient-def-hor;
+      color: get-color('white' '');
+      
+      // 타이틀
+      .modal-title { z-index: 2; width : 100%; }
+
+      // 버튼: 닫기
+      .btn-close {
+        $s: 32px;
+        @include position( absolute, r 0 t calc($s * -1) );
+      }
+
+    } // .modal-header
+
+    .modal-footer {
+
+      .btn { min-width: 150px; }
+
+      .btn[data-bs-dismiss="modal"] {
+        $c-def: #CDD9FE;
+        $c-hover : rgba(#CDD9FE, 70%);
+        background-color: $c-def;
+
+        &:hover { background-color: $c-hover; }
+      }
+
+    } // .modal-footer
+
+    .modal-body {
+      p { margin-bottom: 0.5em; }
+    } // .modal-body
+
+
+  } // .modal-content
+  
+}
+
+
+
+/**
+ * modal: 인증
+ */
+.modal#modal-verification {
+  
+  .modal-content {
+
+    // .modal-header {}
+
+    .modal-body {
+
+      p > small { color: get-color( 'text' 'caption' ); }
+      
+      .input-digit-group {
+
+        padding: 2em;
+        background-color: get-color('bg' '300');
+        border-radius: 1em;
+
+        .input-digit {
+          width: 38px;
+        }
+
+      } // .input-digit-group
+
+    }
+
+    // .modal-footer {}
+
+  }
+
+}

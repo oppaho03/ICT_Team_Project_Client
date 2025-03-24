@@ -1,10 +1,6 @@
 /**
  * 페이지: 회원 가입
  */
-
-import { Link } from "react-router-dom";
-import LoginSNSGoogle from "../componenets/button/LoginSNSGoogle";
-import LoginSNSKaKao from "../componenets/button/LoginSNSKaKao";
 import FieldsetSignUp from "../componenets/fieldset/FSSignUp";
 import Branding from "../componenets/headline/BrandingForm";
 
@@ -27,6 +23,6 @@ export default function SignUp () {
         </form>
       </div> {/* form-wrap */}
     </section>
-  
+
   </> );
 };

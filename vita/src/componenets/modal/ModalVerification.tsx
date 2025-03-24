@@ -10,20 +10,18 @@ interface Props {
   length: number;
 }
 
+/* 인증 코드 입력 시간 -> <span> 테그 출력
+*/ 
 function setCountTime ( target: HTMLElement | null, total: number ): number {
-
   let sec = 0;
   let min = 0;
-
 
   if ( total > 0 ) {
     min = Math.floor( total / 60 );
     sec = total - ( min * 60 );
   }
 
-
-  if ( target ) 
-    target.innerHTML = `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`;
+  if ( target ) target.innerHTML = `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`;
 
   return total - 1;
 }
@@ -35,9 +33,7 @@ export default function ModalVerification ( { length = 6 }: Props ) {
 
   let timerCountTime: NodeJS.Timeout | null = null; 
 
-
   useEffect(() => {
-
 
     if (  modal ) {
 
@@ -45,17 +41,17 @@ export default function ModalVerification ( { length = 6 }: Props ) {
       */ 
       Commons.setEventListener( modal.current, 'show.bs.modal', () => { // modal.opened
 
-        // 
         const t = modal && modal.current ? modal.current : null;
         
-
         // 입력 시간 카운트 
         const output = outputCountTime && outputCountTime.current ? outputCountTime.current : null;
         
         if ( timerCountTime == null ) {
           let total_count = 300;
           total_count = setCountTime( output, total_count ); 
+         
           timerCountTime = setInterval( () => {
+            
             total_count = setCountTime( output, total_count ); 
 
             if ( total_count < 0  && t) {
@@ -71,8 +67,10 @@ export default function ModalVerification ( { length = 6 }: Props ) {
               timerCountTime = null;
             }
             else return;
+            
           }, 1200);
-        } 
+
+        } // 
         
       }, {} );
 
@@ -108,10 +106,10 @@ export default function ModalVerification ( { length = 6 }: Props ) {
     const t = e.target as HTMLInputElement
 
     let key = e.key ?? null;
-    if ( key ) key = key.replace( /[^0-9]/g, '' );
+    if ( key ) key = Commons.formatNumbers( key );
 
     if ( key && key.length ) t.value = key;
-    else t.value = t.value.replace( /[^0-9]/g, '' );  
+    else t.value = Commons.formatNumbers( t.value );
 
     // 포커스 이동
     if ( t.value.length && t.nextElementSibling ) {

@@ -95,6 +95,15 @@ function isPC () {
   
     return wrappedLines.join('<br>'); // <br>을 추가하여 원래 형식으로 반환
   }
+
+  /**
+   * 포맷터: 문자열에서 숫자만 추출
+   * @param {string} value 
+   * @return {string}
+   */
+  function formatNumbers( value ) {
+    return value && value.length ? value.replace( /[^0-9]/g, '' ) : "";
+  }
   
   
   
@@ -217,5 +226,7 @@ function isPC () {
     getOffset , 
     setEventListener,
     resetEventListener,
-    toSpannedLine
+    toSpannedLine,
+
+    formatNumbers
   };

@@ -1,7 +1,7 @@
 /**
  * 컴포넌트 : 필드셋 - 회원 가입
  */
-export default function FieldsetSignIn () {
+export default function FieldsetSignUp () {
   return ( <>
   <fieldset> 
     <legend>
@@ -16,6 +16,7 @@ export default function FieldsetSignIn () {
       </div>
       <div className="form-control-field__input-container">
         <input type="email" className="form-control" name="email" placeholder="VITA@gmail.com" data-is-validation='0' required />
+        <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
       </div>
     </div> 
 
@@ -24,7 +25,15 @@ export default function FieldsetSignIn () {
         <label className="form-control-field__label">비밀번호</label>
       </div>
       <div className="form-control-field__input-container">
-        <input type="password" className="form-control" name="password" placeholder="****" data-is-validation='0' required />
+        <input type="password" className="form-control" name="email" placeholder="****" data-is-validation='0' required />
+      </div>
+    </div>
+    <div className="form-control-field">
+      <div className="form-control-field__label-container">
+        <label className="form-control-field__label">비밀번호 확인</label>
+      </div>
+      <div className="form-control-field__input-container">
+        <input type="password" className="form-control" name="email" placeholder="****" data-is-validation='0' required />
       </div>
     </div>
 

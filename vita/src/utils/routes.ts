@@ -5,6 +5,7 @@ import PageLayout from "../componenets/layout/PageLayout.tsx";
 import Home from '../pages/Home.tsx';
 import ChatSession from "../pages/ChatSession.tsx";
 import SignIn from "../pages/SignIn.tsx";
+import SignUp from "../pages/SignUp.tsx";
 
 /**
  * createBrowserRouter() : JSON 형식으로 라우팅 설정
@@ -24,9 +25,13 @@ const routes = createBrowserRouter([
         path: '/c',
         element: React.createElement(ChatSession),
       },
-      { 
+      { // 페이지 : 로그인
         path: '/signin',
         element: React.createElement(SignIn),
+      },
+      { // 페이지 : 회원 가입
+        path: '/signup',
+        element: React.createElement(SignUp),
       }
     ]
   },

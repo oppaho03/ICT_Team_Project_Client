@@ -1,7 +1,6 @@
 /**
- * 페이지: 회원 가입
+ * 페이지: 로그인
  */
-// import React from "react";
 
 import { Link } from "react-router-dom";
 import LoginSNSGoogle from "../componenets/button/LoginSNSGoogle";

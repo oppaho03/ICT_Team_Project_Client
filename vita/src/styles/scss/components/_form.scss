@@ -112,3 +112,27 @@ form.form {
   } // 
 
 }
+
+
+
+/// --------------------------------------------------------------
+/// # Form : 폼 회원가입
+/// --------------------------------------------------------------
+.form-signup {
+  
+  // 
+  .form-control-field.field-email {
+
+    .form-control-field__ {
+      &input-container {
+        .input-wrap {
+
+          & > *:not(:last-child) { margin-right: 10px; }
+          button.btn { width: 25%; min-width: 100px; max-width: 120px; }
+        }
+      }
+    }
+
+  }
+
+}

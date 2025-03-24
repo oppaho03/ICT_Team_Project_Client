@@ -10,7 +10,7 @@ export default function FieldsetSignIn () {
       </div>
     </legend>
 
-    <div className="form-control-field">
+    <div className="form-control-field field-email">
       <div className="form-control-field__label-container">
         <label className="form-control-field__label">이메일</label>
       </div>
@@ -19,7 +19,7 @@ export default function FieldsetSignIn () {
       </div>
     </div> 
 
-    <div className="form-control-field">
+    <div className="form-control-field field-password">
       <div className="form-control-field__label-container">
         <label className="form-control-field__label">비밀번호</label>
       </div>

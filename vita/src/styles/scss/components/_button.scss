@@ -5,6 +5,14 @@
 /// --------------------------------------------------------------
 
 .btn {
+
+  &.btn-primary {
+    $c-def: get-color('primary' '');
+    $c-hover: get-color('primary' 'hover');
+    background-color: $c-def;
+    &:hover { background-color: $c-hover; }
+  }
+
   
   &.btn-has-icon { 
     @include flex-c( flex justify-center items-center ); 

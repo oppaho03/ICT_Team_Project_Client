@@ -13,7 +13,7 @@ export default function SignUp () {
   return ( <>
     <section className="section d-flex flex-column justify-content-center" id="signup">
       <div className="form-wrap">
-        <form className="form form-type-modal form-signin" role="form" tabIndex={-1} action="/signin" method="post"> 
+        <form className="form form-type-modal form-signup" role="form" tabIndex={-1} action="/signin" method="post"> 
 
           <div className="form-header">
             <Branding />

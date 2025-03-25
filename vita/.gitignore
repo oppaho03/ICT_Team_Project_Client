@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 .gitignore
-vita.config.ts
+vite.config.ts

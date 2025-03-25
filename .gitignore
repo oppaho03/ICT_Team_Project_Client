@@ -7,3 +7,5 @@ package-lock.json
 *.zip
 
 .gitignore
+vita/vite.config.ts
+vita/vite.config.ts

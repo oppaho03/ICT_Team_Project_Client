@@ -46,16 +46,6 @@ export default function FieldsetSignUp() {
         { email: email });
       console.log('인증번호를 발송 했습니다. 이메일을 확인해 주세요!', response);
       
-      // 테스트로 코드번호 바로 볼려고 아래 코드 작성함
-      const resData = response.data as {
-        response: {
-          data: {
-            authCode: string;
-            member: any;
-          };
-        };
-      };
-      console.log(resData.response.data.authCode);
       
     } catch (error: any) {
       console.error('인증번호 발송 실패...', error);
@@ -75,19 +65,20 @@ export default function FieldsetSignUp() {
         password,
         name,
         nickname,
-        birth,
+        birth:birth.replace(/[^0-9]/g, "").replace(/^(\d{4})(\d{2})(\d{2}).*/, "$1-$2-$3"),
         gender,
         address,
         isEmailAuth: 1,
       });
 
-      alert("회원가입 완료!");
+      // alert("회원가입 완료!");
       console.log("회원가입 응답:", response) // response.data ??
-      navigate("/home");
+      // 홈으로 보내기 테스트
+      navigate("/");
 
     } catch (error: any) {
       console.error("회원가입 실패...", error);
-      alert("회원가입 실패!");
+      // alert("회원가입 실패!");
     };
   };
 
@@ -106,7 +97,7 @@ export default function FieldsetSignUp() {
         accepted
       ){
           setIsFormValid(true);
-        }},[email,password,passwordCheck,name,nickname,birth,gender,address]);
+        }},[email,password,passwordCheck,name,nickname,birth,gender,address,accepted]);
       
 
 
@@ -128,7 +119,7 @@ export default function FieldsetSignUp() {
         <div className="form-control-field__input-container">
           <div className="input-wrap d-flex align-items-center">
             <input type="hidden" name="email_verification" value="0"></input>
-            <input type="email" className="form-control" name="email" placeholder="VITA@gmail.com" data-is-validation='0' required
+            <input type="email" className="form-control" name="email" placeholder="VITA@gmail.com" data-is-validation='0' data-required="1"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -147,8 +138,8 @@ export default function FieldsetSignUp() {
         </div>
         <div className="form-control-field__input-container">
           <div className="input-wrap">
-            <input type="password" className="form-control mb-2" name="password" placeholder="****" data-is-validation='0' value={password} onChange={e => { setPassword(e.target.value) }} required />
-            <input type="password" className="form-control" name="password_recheck" placeholder="비밀번호 확인" data-is-validation='0' value={passwordCheck} onChange={e => { setPasswordCheck(e.target.value) }} required /> {/* 비밀번호 (확인)) */}
+            <input type="password" className="form-control mb-2" name="password" placeholder="****" data-is-validation='0' value={password} onChange={e => { setPassword(e.target.value) }} data-required="1" />
+            <input type="password" className="form-control" name="password_recheck" placeholder="비밀번호 확인" data-is-validation='0' value={passwordCheck} onChange={e => { setPasswordCheck(e.target.value) }} data-required="1" /> {/* 비밀번호 (확인)) */}
           </div>
           <div id="emailHelp" className="form-text">
             <ul>
@@ -165,7 +156,7 @@ export default function FieldsetSignUp() {
           <label className="form-control-field__label" >이름</label>
         </div>
         <div className="form-control-field__input-container">
-          <input type="text" className="form-control" name="name" placeholder="" data-is-validation='0' value={name} onChange={e => { setName(e.target.value) }} required />
+          <input type="text" className="form-control" name="name" placeholder="" data-is-validation='0' value={name} onChange={e => { setName(e.target.value) }} data-required="1" />
         </div>
       </div>
 
@@ -185,7 +176,7 @@ export default function FieldsetSignUp() {
           <label className="form-control-field__label" >닉네임</label>
         </div>
         <div className="form-control-field__input-container">
-          <input type="text" className="form-control" name="nickname"  placeholder="" data-is-validation='0' value={nickname} onChange={e => { setNickname(e.target.value) }} required />
+          <input type="text" className="form-control" name="nickname"  placeholder="" data-is-validation='0' value={nickname} onChange={e => { setNickname(e.target.value) }} data-required="1" />
         </div>
       </div>
 
@@ -195,7 +186,7 @@ export default function FieldsetSignUp() {
           <label className="form-control-field__label">생년월일</label>
         </div>
         <div className="form-control-field__input-container">
-          <input type="text" className="form-control" name="birth" placeholder="1900-01-01" data-is-validation='0' value={birth} onChange={e => { setBirth(e.target.value) }} required onKeyUp={onFilterBirth} />
+          <input type="text" className="form-control" name="birth" placeholder="1900-01-01" data-is-validation='0' value={birth} onChange={e => { setBirth(e.target.value) }} data-required="1" onKeyUp={onFilterBirth} />
         </div>
       </div>
 

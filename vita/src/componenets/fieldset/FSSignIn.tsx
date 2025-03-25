@@ -1,7 +1,13 @@
 /**
  * 컴포넌트 : 필드셋 - 회원 가입
  */
-export default function FieldsetSignIn () {
+
+type Props = {
+  onLogin: () => Promise<void>;
+};
+
+
+export default function FieldsetSignIn ({onLogin}: Props) {
   return ( <>
   <fieldset> 
     <legend>
@@ -30,7 +36,7 @@ export default function FieldsetSignIn () {
 
     <div className="form-control-field">
       <div className="form-control-field__input-container">
-        <button type="submit" className="btn btn-primary w-100">로그인</button>
+        <button type="submit" className="btn btn-primary w-100" onClick={onLogin}>로그인</button>
       </div>
     </div>
 

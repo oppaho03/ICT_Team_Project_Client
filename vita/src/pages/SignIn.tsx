@@ -10,6 +10,19 @@ import Branding from "../componenets/headline/BrandingForm";
 
 export default function SignIn () {
 
+  const baseURL = "http://localhost:8080";
+  const form = e.target as HTMLFormElement;
+  const handleLogin = async () => {
+    const response = await axios.post(`${baseURL}/test/login`,{
+      email : form.email.value, 
+      password : form.password.value});
+
+  };
+
+
+
+
+
   return ( <>
     <section className="section d-flex flex-column justify-content-center align-items-center" id="signin">
       <div className="form-wrap">
@@ -21,7 +34,7 @@ export default function SignIn () {
 
           <div className="form-body">
             {/* 필드셋 : 로그인 */}
-            <FieldsetSignIn />
+            <FieldsetSignIn onLogin={handleLogin}/>
 
             <hr />
 

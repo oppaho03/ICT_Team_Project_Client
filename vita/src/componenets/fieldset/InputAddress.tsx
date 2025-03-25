@@ -4,7 +4,13 @@
 import { KeyboardEvent, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 
-export default function InputAddress () {
+interface InputAddressProps {
+  onChange?: (addr: string) => void;
+}
+
+
+
+export default function InputAddress ({onChange}: InputAddressProps) {
 
   const [isOpen, setOpen] = useState(false);
   const [ value, setValue ] = useState( '' );

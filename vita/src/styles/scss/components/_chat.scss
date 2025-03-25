@@ -104,6 +104,7 @@
 
   will-change: transform;
   @include set-prefix( transform, translate(-50%, 0%), 'webkit' '' );
+  @include set-prefix( transition, all 1s ease, 'webkit' '' );
 
   // 메인 페이지일 경우에만 transition 속성 적용
   @at-root body:is(.home) & {

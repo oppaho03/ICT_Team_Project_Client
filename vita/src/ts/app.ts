@@ -32,7 +32,7 @@ declare var ScrollToPlugin: any | null;
   */
   Common.setEventListener( window, 'load', ( e:Event ) => {
     
-
+    console.log("navigator.mediaDevices 123:", navigator.mediaDevices);
 
   }, { once: true } );
 

@@ -17,6 +17,7 @@ export default function DrawableMenu() {
 
           <div className=""></div>
           
+          {/* 메뉴: 지난 대화 세션 */}
           <nav className="app-menu" id="chat-session-menu">
             <ul className="menu menu-list list-unstyled">
               <li className="menu-item menu-item-type-icon">

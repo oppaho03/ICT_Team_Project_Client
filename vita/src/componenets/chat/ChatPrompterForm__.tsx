@@ -2,15 +2,22 @@
  * 컴포넌트 : 채팅 프롬프트 폼
  */
 // import shortid from 'shortid';
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setFocus, setActive, setMessage } from "../../store/chatPromptSlice"
+
+import { IDataCategory } from "../../utils/interfaces";
+import { fetchAsyncTermsAllCategory } from "../../utils/fetchs";
+import { TermsContext } from "../../utils/contexts";
 
 import ChatPrompterFormFilter from "./ChatPrompterFormFilter";
 import { useNavigate } from "react-router-dom";
 import RecordToggle from "../button/RecordToggle";
 
 export default function ChatPrompterForm ( ) {
+
+  const [ dataDept , setDataDept] = useState<Array<IDataCategory>>([]);
+  const [ dataDiseases , setDataDiseases] = useState<Array<IDataCategory>>([]);
 
   const navigate = useNavigate();
 
@@ -19,6 +26,11 @@ export default function ChatPrompterForm ( ) {
 
  
   useEffect(() => {
+    /* 데이터 초기화 - 진료과 / 질병
+    */ 
+    fetchAsyncTermsAllCategory( "department", ( dataset: Array<IDataCategory> | null ) => setDataDept( ! dataset ? [] : dataset ) );
+    fetchAsyncTermsAllCategory( "disease", ( dataset: Array<IDataCategory> | null ) => setDataDiseases( ! dataset ? [] : dataset ) );
+
     if ( ! prompt.active ) inputPromptRef.current?.blur(); // 포커스 아웃 
 
   }, [ prompt.active ] );
@@ -63,8 +75,8 @@ export default function ChatPrompterForm ( ) {
       navigate("/c"); // /c 이동
     }
 
-    if ( prompt.latestMessage != input.value ) dispatch( setMessage( input.value ) );
-
+    if ( prompt.latestMessage != input.value )
+      dispatch( setMessage( input.value ) );
     input.value = "";
   };
 
@@ -76,8 +88,10 @@ export default function ChatPrompterForm ( ) {
     <form id="" className="form" action="" onSubmit={formSubmit}>
       {/* Filter 영역 */}
       <div className="chat-prompter-form-filter form-filter">
-        {/* 컴포넌트 : 채팅 프롬프트 폼 필터  */}
-        <ChatPrompterFormFilter /> 
+        <TermsContext.Provider value={ { ...useContext(TermsContext), ...{ departments: dataDept, diseases: dataDiseases } } }>
+          {/* 컴포넌트 : 채팅 프롬프트 폼 필터  */}
+          <ChatPrompterFormFilter /> 
+        </TermsContext.Provider>
       </div>
       
       {/* Input 영역 */}

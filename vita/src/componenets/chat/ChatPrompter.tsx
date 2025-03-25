@@ -3,11 +3,45 @@
  */
 // import shortid from 'shortid';
 
+import * as Commons from "../../../public/assets/js/commons";
+
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ChatPrompterForm from "./ChatPrompterForm";
 import ChatPrompterHeader from "./ChatPrompterHeader";
 
+import { IDataCategory } from "../../utils/interfaces";
+
+import { TermsContext } from "../../utils/contexts";
+import * as FecthTerms from "../../utils/fetchs/fetchTerms";
+
+import sortBy from "sort-by"; // 정렬
+
+
 export default function ChatPrompter ( ) {
+
+  const [ dataDepartments, setDataDepartments ] = useState< Array<IDataCategory> >([]);
+  const [ dataDiseases, setDataDiseases ] = useState< Array<IDataCategory> >([]);
+
+  useEffect( () => {
+
+    // 용어 및 카테고리 불러오기 - "진료과"
+    FecthTerms.findAll( "department", ( data: Array<IDataCategory> | null ) => setDataDepartments( data ? data.sort( sortBy( "name" ) ) : [] ) );
+
+    // 용어 및 카테고리 불러오기 - "질병"
+    FecthTerms.findAll( "disease", ( data: Array<IDataCategory> | null ) => setDataDiseases( data ? data.sort( sortBy( "name" ) ) : [] ) );
+
+    
+    ////////////
+    // Commons.setSessionStorage("token", "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwic3ViIjoiMiIsImlhdCI6MTc0Mjc4NDIzOSwiZXhwIjoxNzQyNzg1MTM5fQ.neYTm70_YGG11j5kuHkA_HKBWeY-Bird9u4JhT3xMl0");
+
+    const token = Commons.getSessionStorage("token");
+    console.log(token);
+
+  
+
+
+  }, []);
 
   const prompt = useSelector( (state: any) => state.prompt );
 
@@ -23,7 +57,12 @@ export default function ChatPrompter ( ) {
         }
         
         <div className="chat-prompter-inner">
-          <ChatPrompterForm /> {/* 컴포넌트 : 채팅 프롬프트 폼 */}
+          <TermsContext.Provider value={ { 
+            ...useContext(TermsContext), 
+            ... { departments: dataDepartments, diseases: dataDiseases } 
+            } }>
+            <ChatPrompterForm /> {/* 컴포넌트 : 채팅 프롬프트 폼 */}
+          </TermsContext.Provider>
         </div>
 
         <div className="chat-prompter-inner">

@@ -2,8 +2,6 @@
  * 컴포넌트 : 채팅 프롬프트 헤더
  */
 
-import { useSelector } from "react-redux";
-
 import { useEffect, useRef } from "react";
 import * as Common from "../../../public/assets/js/commons";
 import BrandingNoHeadline from "../headline/BrandingNoHeadline";
@@ -11,9 +9,6 @@ import BrandingNoHeadline from "../headline/BrandingNoHeadline";
 declare var gsap: any | undefined; // GSAP 코어 객체
 
 export default function ChatPrompterHeader ( ) {
-
-  // const ui = useSelector( (state: any) => state.ui );
-  const prompt = useSelector( (state: any) => state.prompt );
 
   const helpMessage1Ref = useRef<HTMLHeadingElement>( null );
   const helpMessage2Ref = useRef<HTMLParagraphElement>( null );

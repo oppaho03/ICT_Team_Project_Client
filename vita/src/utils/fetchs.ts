@@ -2,31 +2,31 @@
  * fetch
  */
 import axios from "axios";
-import { IResponseEntity } from "../interfaces";
+import { IResponseEntity } from "./interfaces";
 const SERVER_URL = (import.meta.env.VITE_SERVER_SSL == "0" ? "http://" : "https://" ) + import.meta.env.VITE_SERVER_HOST + ":" + import.meta.env.VITE_SERVER_PORT;
-/* 용어 및 카테고리
-*/
-export async function fetchAsyncTermsAllCategory ( 
-  taxonomy: string, 
-  callback: null | ( (datas:any|null )=> any ) ) {
-  try {
-    const url = SERVER_URL + "/api/terms/category/" + taxonomy;
-    const options = {};
-    const result = await axios.get<IResponseEntity>( url, options );
-    if ( ! result || result.status != 200 || ! result.data ) throw new Error();
-    // 데이터 파싱
-    if ( result.data.success == 1 ) {
-      const response = result.data.response;
-      if ( response && response.data ) {
-        if ( callback ) callback( response.data );
-      } // response && response.data
-    }
-  }
-  catch ( err: Error | any ) {
-    console.log( err );
-    if ( callback ) callback( null );
-  }
-}
+// /* 용어 및 카테고리
+// */
+// export async function fetchAsyncTermsAllCategory ( 
+//   taxonomy: string, 
+//   callback: null | ( (datas:any|null )=> any ) ) {
+//   try {
+//     const url = SERVER_URL + "/api/terms/category/" + taxonomy;
+//     const options = {};
+//     const result = await axios.get<IResponseEntity>( url, options );
+//     if ( ! result || result.status != 200 || ! result.data ) throw new Error();
+//     // 데이터 파싱
+//     if ( result.data.success == 1 ) {
+//       const response = result.data.response;
+//       if ( response && response.data ) {
+//         if ( callback ) callback( response.data );
+//       } // response && response.data
+//     }
+//   }
+//   catch ( err: Error | any ) {
+//     console.log( err );
+//     if ( callback ) callback( null );
+//   }
+// }
 /* 채팅 프롬프트 : 질문 - 답변
 */
 // export async function fetchAsyncChatquestions ( content: string, keywords: string[], callback: null | ( (datas:any|null )=> any ) ) {

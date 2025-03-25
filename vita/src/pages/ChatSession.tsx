@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 import ChatMessage from "../componenets/chat/ChatMessage";
 import { useSelector } from "react-redux";
 import { fetchAsyncChatAnswersSearch, fetchAsyncExtKeywords } from "../utils/fetchs";
-import { IDataAnswer, IDataCategory } from "../interfaces";
+import { IDataAnswer, IDataCategory } from "../utils/interfaces";
 import { useDispatch } from "react-redux";
 import { setPending } from "../store/chatPromptSlice";
 import { getSVGElement } from "../componenets/common/Loader";

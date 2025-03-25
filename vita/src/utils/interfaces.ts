@@ -9,10 +9,8 @@ export interface ITermsContext {
 
 /* 인터페이스 : 응답 데이터
  */
-export interface IResponseEntity {
-  success: number,
-  response: any
-}
+export interface IResponseEntity { success: number, response: any }
+
 
 /* 인터페이스 : 데이터 세트 - 용어 및 카테고리
  */

@@ -62,6 +62,7 @@
     ```
 4. **sort-by**
     - `$ npm install sort-by`
+    - `$ npm install @types/sort-by`
     - 객체 배열을 특정 키 값으로 정렬하는 유틸리티 라이브러리
 
     ```js

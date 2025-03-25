@@ -2,6 +2,7 @@
  * Global commons valiables or functions scripts
  */
 
+
 /**
  * PC / 모바일 식별하기 
  * @return {boolean}
@@ -233,7 +234,6 @@ function resetEventListener (elem, name, handler) {
     : elem.removeEventListener(typeof name == "string" ? name : name[1], handler);
 }
 
-
 /**
  * STT 음성 인식 객체 반환 (표준)
  * https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
@@ -256,7 +256,7 @@ function setSpeechRecognition() {
       srec.continuous = false;
       srec.interimResults = true;
       srec.maxAlternatives = 1;
-      
+
 
     }
     catch ( err ) {
@@ -266,6 +266,53 @@ function setSpeechRecognition() {
   }
 
   return srec;
+}
+
+
+/*--------------------------------------------------------------
+  * 'sessionStorage'
+--------------------------------------------------------------*/
+/**
+ * 'sessionStorage' 불러오기
+ * @param {string} key 
+ * @return {any}
+ */
+function getSessionStorage( key ) {
+  if ( ! ("sessionStorage" in window) ) return null;
+  return sessionStorage.getItem( key );
+}
+
+/**
+ * 'sessionStorage' 등록 및 수정
+ * @param {string} key 
+ * @param {string|null} value 
+ * @return {boolean}
+ */
+function setSessionStorage( key, value ) {
+  if ( ! ("sessionStorage" in window) ) return false;
+
+  sessionStorage.setItem(key, value);
+  if ( sessionStorage.getItem( key ) != value ) return false;
+
+  return true;
+}
+
+/**
+ * 'sessionStorage' 삭제
+ * @param {string} key 
+ * @return {void}
+ */
+function removeSessionStorage( key ) {
+  if ( ("sessionStorage" in window) ) sessionStorage.removeItem( key );
+}
+
+/**
+ * 'sessionStorage' 모두 삭제
+ * @param {string} key 
+ * @return {void}
+ */
+function clearSessionStorage( key ) {
+  if ( ("sessionStorage" in window) ) sessionStorage.clear();
 }
 
 
@@ -291,5 +338,10 @@ export {
 
   formatDateTime,
   formatNumbers,
+
+  getSessionStorage,
+  setSessionStorage,
+  removeSessionStorage,
+  clearSessionStorage
   
 };

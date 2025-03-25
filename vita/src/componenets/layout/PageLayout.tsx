@@ -10,6 +10,7 @@ import InputReboot from "../../utils/inputReboot";
  * 레이아웃 : 기본 페이지
  */
 export default function PageLayout () {
+
   return (<>
     <BodyClass />
     <InputReboot />

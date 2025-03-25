@@ -95,9 +95,6 @@ export default function ModalVerification ( { length = 6 }: Props ) {
 
     } // modal
     
-
-    // 
-    
   }, []);
 
   /* 바인드 : 키 들림

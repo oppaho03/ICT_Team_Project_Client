@@ -1,6 +1,100 @@
 import { useSelector, useDispatch } from "react-redux";
 import { toggleRecording } from "../../store/chatPromptSlice";
 
+import * as Commons from "../../../public/assets/js/commons";
+
+import shortid from "shortid";
+import { useEffect, useState } from "react";
+
+
+
+// 인터페이스: 음성 녹음 데이터 
+interface IAudioRecordData {
+  stream: any | null,
+  recorder: any | null, 
+  chunks: any | null,
+}
+// 데이터: 음성 녹음 데이터
+const AudioRecordData: IAudioRecordData = {
+  stream: null,
+  recorder: null, 
+  chunks: [] as any,
+}
+
+/**
+ * 녹음 : 시작 
+ * - 보안 
+ * - chrome://flags/#unsafely-treat-insecure-origin-as-secure
+ * @return 
+ */
+async function onRecording() {
+
+  const t = this ? this as HTMLButtonElement : null;
+
+  try {
+
+    await navigator.mediaDevices.getUserMedia({ audio: true })
+    .then( (stream) => {
+      AudioRecordData.stream = stream;
+      AudioRecordData.recorder = new MediaRecorder(stream);
+      
+      // 바인드 : 녹음 시작
+      AudioRecordData.recorder.ondataavailable = (e: any) => { 
+        AudioRecordData.chunks.push(e.data); 
+      };
+
+      // 바인드 : 녹음 종료
+      AudioRecordData.recorder.onstop = () => {
+        const blob = new Blob( AudioRecordData.chunks, { 'type' : 'audio/ogg; codecs=opus' } ); // 오리지널 데이터
+
+        AudioRecordData.chunks = [];
+        const objectURL = URL.createObjectURL(blob);
+     
+        /* 녹음 파일 다운로드 
+        */
+        const fileName = `${Commons.formatDateTime('yyyyMMddHHmmss')}_${shortid.generate()}`;
+        
+        const a = document.createElement("a");
+        if ( a ) {
+          a.href = objectURL;
+          a.download = fileName + ".ogg"; 
+          a.style.visibility = "hidden";
+
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+
+        /* 파일 전송 
+         * blob -> formdata 형식으로 전송
+        */ 
+      };
+      
+      AudioRecordData.recorder.start(); // 녹음 시작
+    } )
+    .catch( (err) => {
+      if ( t ) t.click();
+      console.log('Error accessing the microphone: ' + err);
+    } );
+  }
+  catch ( err ) {
+    if ( t ) t.click();
+    console.log(err);
+    
+  }
+}
+
+/**
+ * 녹음 : 종료 
+ * @return {void}
+ */
+function stopRecording(): void {
+  if ( AudioRecordData.recorder ) AudioRecordData.recorder.stop();
+  if ( AudioRecordData.stream ) 
+    AudioRecordData.stream.getTracks().forEach( (track: { stop: () => any; }) => track.stop() );
+}
+
+
 /**
  * UI - 버튼 : 녹음
  */
@@ -8,17 +102,69 @@ export default function RecordToggle() {
   
   const dispatch = useDispatch();
   const prompt = useSelector( (state: any) => state.prompt ); 
-  
+
+  const [ speechRec, setSpeechRec ] = useState<any >(null);
+
+  /* useEffect 
+  */
+  useEffect( () => {
+    // SpeechRecognition 객체 생성
+    setSpeechRec( ( srec: any  ) => { 
+
+      srec = Commons.setSpeechRecognition(); 
+      if ( srec != null ) {
+        
+        // SpeechRecognition.onspeechstart
+        // - 음성 인식 객체 음성 감지 시작
+        srec.onspeechstart = () => {};
+
+        // SpeechRecognition.onspeechend
+        // - 음성 인식 객체 음성 감지 종료
+        srec.onspeechend = () => { srec.stop(); };
+
+        // SpeechRecognition.onresult
+        // - 음성 인식 객체 음성 반환 
+        srec.onresult = (e: any) => {  
+          console.log( e.results );
+
+          const messages = Array.from( e.results ).map( (results: any) => results[0].transcript ).join('');
+
+          console.log(messages); // *
+        };
+
+         // SpeechRecognition.onerror
+        // - 음성 인식 객체 음성 반환 
+        srec.onerror = (e: any) => { console.log( e.error ); };
+
+      }
+
+      return srec;
+    } );
+      
+  }, []);
+
+
   /* 바인드 : 클릭, 서랍 메뉴 토글
   */
   const handleToggler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const t = e.target as HTMLButtonElement ;
+    const tagName = t && t.tagName ? t.tagName.toLowerCase() : null;
+    if ( tagName == "button" ) {
+      const toggled = t.classList.toggle( 'toggled' );
+      dispatch( toggleRecording() ); // toggled expanded drawable
 
-    console.log(t);
+      if ( toggled ) onRecording.call(t);
+      else stopRecording();
 
-    t.classList.toggle( 'toggled' );
-    dispatch( toggleRecording() ); // toggled expanded drawable
-
+      if ( speechRec ) {
+        if ( toggled ) speechRec.start();
+        else speechRec.stop();
+      }
+    }
+    else {
+      const btn = t.closest( "button" );
+      if ( btn ) btn.click();
+    }
   };
 
   return (<>

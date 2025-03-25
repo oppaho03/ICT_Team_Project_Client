@@ -22,8 +22,9 @@ export default function FieldsetSignUp() {
   const [name, setName] = useState('');
   const [nickname, setNickname] = useState('');
   const [birth, setBirth] = useState('');
-  const [gender, setGender] = useState('');
   const [address, setAddress] = useState('');
+  const [gender, setGender] = useState('');
+  const [accepted, setAccepted] = useState(false);
 
   /* 필터: 생년월일 */
   const onFilterBirth = (e: KeyboardEvent) => {
@@ -44,7 +45,18 @@ export default function FieldsetSignUp() {
       const response = await axios.post(`${baseURL}/test/authcode`,
         { email: email });
       console.log('인증번호를 발송 했습니다. 이메일을 확인해 주세요!', response);
-      console.log((response.data as any).data.authCode);
+      
+      // 테스트로 코드번호 바로 볼려고 아래 코드 작성함
+      const resData = response.data as {
+        response: {
+          data: {
+            authCode: string;
+            member: any;
+          };
+        };
+      };
+      console.log(resData.response.data.authCode);
+      
     } catch (error: any) {
       console.error('인증번호 발송 실패...', error);
     }
@@ -80,21 +92,20 @@ export default function FieldsetSignUp() {
   };
 
   /* 가입하기 버튼 유효성 확인 */
- 
-
-      
-   
-
-
-    const [isFormValid, setIsFormValid] = useState(true);
+    const [isFormValid, setIsFormValid] = useState(false);
     useEffect(() => {
+      
         if( email.trim() !== "" &&
         password.trim().length >= 8 &&
         passwordCheck === password &&
         name.trim() !== "" &&
         nickname.trim() !== "" &&
-        birth.trim().length === 8){
-          setIsFormValid(false);
+        birth.trim().length === 8 &&
+        gender.trim() !== "" &&
+        address.trim() !== "" &&
+        accepted
+      ){
+          setIsFormValid(true);
         }},[email,password,passwordCheck,name,nickname,birth,gender,address]);
       
 
@@ -151,10 +162,10 @@ export default function FieldsetSignUp() {
       {/* 이름 */}
       <div className="form-control-field field-name">
         <div className="form-control-field__label-container">
-          <label className="form-control-field__label" htmlFor="name">이름</label>
+          <label className="form-control-field__label" >이름</label>
         </div>
         <div className="form-control-field__input-container">
-          <input type="text" className="form-control" name="name" id="name" placeholder="" data-is-validation='0' value={name} onChange={e => { setName(e.target.value) }} required />
+          <input type="text" className="form-control" name="name" placeholder="" data-is-validation='0' value={name} onChange={e => { setName(e.target.value) }} required />
         </div>
       </div>
 
@@ -171,10 +182,10 @@ export default function FieldsetSignUp() {
       {/* 닉네임 */}
       <div className="form-control-field field-nickname">
         <div className="form-control-field__label-container">
-          <label className="form-control-field__label" htmlFor="nickname">닉네임</label>
+          <label className="form-control-field__label" >닉네임</label>
         </div>
         <div className="form-control-field__input-container">
-          <input type="text" className="form-control" name="nickname" id="nickname" placeholder="" data-is-validation='0' value={nickname} onChange={e => { setNickname(e.target.value) }} required />
+          <input type="text" className="form-control" name="nickname"  placeholder="" data-is-validation='0' value={nickname} onChange={e => { setNickname(e.target.value) }} required />
         </div>
       </div>
 
@@ -213,7 +224,7 @@ export default function FieldsetSignUp() {
         <div className="form-control-field__input-container">
           <div className="d-flex aglin-items-center">
             <div className="form-check form-check-inline">
-              <input className="form-check-input" type="checkbox" id="checkbox-accpet" value="1" name="accpet" />
+              <input className="form-check-input" type="checkbox" id="checkbox-accpet" value="1" name="accpet" checked={accepted} onChange={e=> setAccepted(e.target.checked)} />
               <label className="form-check-label" htmlFor="checkbox-accpet">이용약관, 개인정보 수집 안내를 확인하고 동의합니다.</label>
             </div>
           </div>
@@ -224,7 +235,7 @@ export default function FieldsetSignUp() {
       {/* 가입하기 버튼 */}
       <div className="form-control-field">
         <div className="form-control-field__input-container">
-          <button type="submit" className="btn btn-primary w-100" onClick={onSignUp} disabled={isFormValid}>가입하기</button>
+          <button type="submit" className="btn btn-primary w-100" onClick={onSignUp} {...(isFormValid ? { disabled: true } : null)}>가입하기</button>
         </div>
       </div>
 

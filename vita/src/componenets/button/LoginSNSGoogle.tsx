@@ -2,9 +2,56 @@
 /**
  * UI - 버튼 : SNS 로그인 - 구글
  */
+
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import axios from 'axios';
+
 export default function LoginSNSGoogle() {
+  const [params] = useSearchParams();
+
+  // const GOOGLE_CLIENT_ID = '768424863727-grm75230upjmldp7ckhvhk37ue6ef5ce.apps.googleusercontent.com';
+  const GOOGLE_CLIENT_ID = '638252763835-9t99mcq5ng249pqssb217ekd3hs2gpli.apps.googleusercontent.com';
+
+  const GOOGLE_SCOPE = encodeURIComponent('openid email profile');
+
+  // const GOOGLE_REDIRECT_URI = 'https://indirectly-crack-macaque.ngrok-free.app/auth/social/login/google/';
+  const GOOGLE_REDIRECT_URI = 'https://mammal-many-parakeet.ngrok-free.app/login/';
+
+  const REDIRECT_URI = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&response_type=code&scope=${GOOGLE_SCOPE}&access_type=offline`;
+  
+  
+  const handleLogin = () => {
+    window.location.href = REDIRECT_URI;
+  };
+  
+  // 콘솔 확인용
+  /* useEffect(() => {
+    console.log("🧪 REDIRECT_URI:", REDIRECT_URI);
+  }, []); */
+
+  useEffect(() => {
+    const code = params.get('code');
+    if (code) {
+      // 이미 받은 code가 있으면 서버에 전달
+      axios.post('https://indirectly-crack-macaque.ngrok-free.app/auth/social/login/google/', 
+        {code: code},
+        { 
+          headers: { 'Content-Type': 'application/json' 
+
+          }})
+        
+          .then(res => {
+        console.log('로그인 성공!', res.data);
+        // 로그인 성공 시 상태 저장, 이동 등
+      }).catch(err => {
+        console.error('서버 에러:', err);
+      });
+    }
+  }, []);
+
   return (<>
-    <button className="btn btn-has-icon btn-login sns-login sns-login-google" value="google">
+    <button onClick={handleLogin} className="btn btn-has-icon btn-login sns-login sns-login-google" value="google">
       <div className="ic ic-logo">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlnsXlink="http://www.w3.org/1999/xlink" style={{ 'display' : 'block' }}>
           <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>

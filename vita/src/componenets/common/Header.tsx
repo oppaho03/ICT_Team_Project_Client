@@ -2,6 +2,7 @@
  * 컴포넌트 : 헤더 영역  
  */
 import DrawableMenuToggle from "../button/DrawableMenuToggle";
+import MenuHeaderPrimary from "../menu/MenuHeaderPrimary";
 
 export default function Header() {
   return (<>
@@ -25,6 +26,9 @@ export default function Header() {
                 
                 {/* UI - 타이틀 : 브랜딩 <h1> */}
                 {/* <Branding /> */}
+
+                {/* 메뉴 - 헤더 (기본)) */}
+                <MenuHeaderPrimary />
 
               </div>
             </div>

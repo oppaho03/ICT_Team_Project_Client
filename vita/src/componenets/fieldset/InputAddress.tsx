@@ -36,7 +36,7 @@ export default function InputAddress ({onChange}: InputAddressProps) {
 
   return ( <>
     {/* 주소 */}
-    <input type="text" className="form-control" name="address" placeholder="" data-is-validation='0'onFocus={() => setOpen(true)} value={value} onChange={e => setValue(e.target.value)} onKeyUp={onKeyUp} /> 
+    <input type="text" className="form-control" name="address" placeholder="" data-is-validation='0'onFocus={() => setOpen(true)} value={value} onChange={e => setValue(e.target.value); if(onChange) onChange(e.target.value);}} onKeyUp={onKeyUp} /> 
     <div className="post-code-container">
       { isOpen ? (
       <DaumPostcode className="" style={{height: '320px'}} defaultQuery="" onComplete={onCompleated}/>

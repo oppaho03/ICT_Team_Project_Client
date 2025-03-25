@@ -2,7 +2,7 @@
  * 컴포넌트 : 채팅 프롬프트 폼 필터
  */
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { TermsContext } from "../../utils/contexts";
 // import { useSelector } from "react-redux";
 
@@ -16,29 +16,6 @@ export default function ChatPrompterFormFilter ( ) {
   const DataTerms = useContext(TermsContext);
 
   let order = 1;
-
-  // const ui = useSelector( (state: any) => state.ui );
-
-  // useEffect( () => {
-
-  //   /* 채팅 프롬프트 포커스 인
-  //   */ 
-  //   if ( gsap ) {
-  //     if ( ui.prompt ) {
-        
-  //     }
-  //     else {
-        
-  //     }
-  //   } 
-  //   else {
-      
-  //   }
-
-  //   console.log( ui.prompt )
-    
-  // }, [ ui.prompt ] );
-
 
   return (<>
     <div className="filter-wrap"> 
@@ -55,7 +32,7 @@ export default function ChatPrompterFormFilter ( ) {
                 { /* 진료과목 그리기 */
                   DataTerms.departments 
                   && DataTerms.departments.map( (term, i) => {
-                    return  <option key={i} value={term.id}>{ term.name }</option>;
+                    return  <option key={i} value={ term.id ?? "" }>{ term.name }</option>;
                   } ) 
                 }
               </select>
@@ -69,7 +46,7 @@ export default function ChatPrompterFormFilter ( ) {
                 { /* 진료과목 그리기 */
                   DataTerms.diseases 
                   && DataTerms.diseases.map( (term, i) => {
-                    return  <option key={i} value={term.id}>{ term.name }</option>;
+                    return  <option key={i} value={ term.id ?? "" }>{ term.name }</option>;
                   } ) 
                 }
               </select>

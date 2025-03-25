@@ -63,7 +63,11 @@ export default function ChatPrompterForm ( ) {
       navigate("/c"); // /c 이동
     }
 
-    if ( prompt.latestMessage != input.value ) dispatch( setMessage( input.value ) );
+    let value = input.value;
+
+    // 채팅 프롬프트 - 메시지 업데이트 
+    if ( prompt.latestMessage != value ) dispatch( setMessage(value) );
+
 
     input.value = "";
   };

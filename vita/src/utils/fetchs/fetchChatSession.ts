@@ -1,5 +1,5 @@
 /**
- * 데이터 통신 (Fetch:Axios) : 용어 및 카테고린ㄴ
+ * 데이터 통신 (Fetch:Axios) : 채팅 세션 
  */
 import axios from "axios";
 import { SERVER_URL, SERVER_FEST_API_URL, IFetchResponseDefault }from  "./all";
@@ -7,17 +7,17 @@ import { IResponseEntity } from "../interfaces";
 
 
 /**  
- * 용어(및 카테고리) 불러오기 
- * @param { string } taxonomy - 카테고리 슬러그 
+ * 문장 -> 키워드 추출 
+ * @param { string } contents 
  * @param { function } callback
  * @return
  */
-export async function findAll ( taxonomy: string, callback: null | ( (datas:any|null )=> any ) ) {
+export async function extrKeywords ( contents: string, callback: null | ( (datas:any|null )=> any ) ) {
 
   let respData;
 
   try {
-    const uri = `${SERVER_URL}/api/terms/category/${taxonomy}`;
+    const uri = `${SERVER_URL}/keyword_parser`;
     const result = await axios.get<IFetchResponseDefault>( uri, {}); 
 
     // 서버 응답 데이터 : IResponseEntity

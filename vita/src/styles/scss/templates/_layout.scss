@@ -126,13 +126,13 @@
       width: $max; 
     } 
 
-    #drawable-menu-toggle { margin-right: 0; }
+    #drawable-menu-toggle { margin-right: calc( $max - $min ); }
 
 
     @at-root body:is( .expanded-menu-drawable ) {
       .lyt-grid:is(.root) {
         #drawable-menu{ margin-left: 0; }  
-        #apphead #drawable-menu-toggle { margin-right: calc( $max - $min ); }
+        #drawable-menu-toggle { margin-right: 0; }
 
         #drawable-menu { width: $min; } // +
       }

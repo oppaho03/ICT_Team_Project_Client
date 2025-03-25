@@ -27,73 +27,6 @@
 }
 
 
-
-/* 앱 메뉴 (app-menu)
-*/
-.app-menu {
-
-  &#chat-session-menu {
-
-    // 메뉴 리스트
-    .menu {
-      width: 100%;
-      // .menu-item {
-
-      // } // .menu-item
-
-      a.link {  
-        width: 100%;
-        font-size: 0.875em;
-        color: get-color('text' 'caption');
-        @include set-prefix( transition, ( color 0.6s ease('out-circ') ), 'webkit' '' );
-        
-
-        i[class*="icon-"] {  
-          $s: 1em;
-          width: $s;
-          height: $s;
-          line-height: $s;
-          font-size: $s;
-        }
-
-        &::before {
-          content: '';
-          @include position( absolute, l 0 t 0 z -1 );
-          width: 0;
-          height: 100%;
-          background-color: get-color("primary" "");
-          opacity: 0;
-          border-radius: 0.25em;
-
-          will-change: width;
-          @include set-prefix( transition, ( width 0.6s ease('out-circ'), opacity 0.6s ease('out-circ') ), 'webkit' '' );
-        }
-
-        &:hover {
-          color: get-color("white" "");
-          &::before { width: 100%; opacity: 1; }
-        }
-
-        // - 공개 채팅 세션
-        &.publish i[class*="icon-"] { color: get-color( 'secondary' '' ); }
-        &.publish:hover i[class*="icon-"] { color: get-color( 'secondary' 'hover' ); }
-        
-      } // a.link 
-
-      
-
-      
-
-  
-
-    } // .menu 
-
-  } // #at-session-menu
-
-}
-
-
-
 /* 서랍 메뉴 (Drawable Menu)
 */
 .app-drawable-menu {
@@ -192,3 +125,160 @@
 
 }
 
+
+
+/* 메뉴 : 헤더 메뉴
+*/
+.menu.menu-header {
+
+  &#menu-header-primary {
+
+    .menu-item.menu-item-home {
+
+      $c-def: get-color( 'primary' '' );
+      $c-hover: get-color( 'primary' 'hover' );
+
+      a { 
+        padding: 0; 
+        display: block;
+        border-radius: 100%;
+
+        @extend %jello-horizontal;
+        // color: get-color('white' '');
+      }
+
+      a > i {
+        display: block;
+        width: inherit;
+        height: inherit;
+        line-height: inherit;
+        text-align: center;
+        color: inherit;
+      }
+
+    } // .menu-item.menu-item-home 
+
+    // @media 
+    $lg: get-breakpoints( 'lg' );
+    @include media ( "<#{$lg}" ) { // @media: 모바일
+
+      a {
+
+        $s: 36px; 
+
+        width: $s; 
+        height: $s;
+        line-height: $s;
+
+        font-size: calc( $s / 2 );
+        color: get-color('primary' '');
+
+
+        & > i { 
+          text-align: right;
+          @include set-prefix( transform, rotate(180deg), 'webkit' '' ); 
+        }
+      }
+       
+    } // @media: 모바일
+    @include media ( ">=#{$lg}" ) { // @media: PC
+
+      a {
+        $c-def: get-color( 'primary' '' );
+        $c-hover: get-color( 'primary' 'hover' );
+
+        $s: 36px; 
+
+        width: $s; 
+        height: $s;
+        line-height: $s;
+
+        font-size: calc( $s / 2 );
+        color: get-color('white' '');
+        background-color: rgba( $c-def, 20% );
+
+        &:not(:hover) {
+          @include set-prefix( transform, scale(0.8), 'webkit' '' );
+        }
+
+        &:hover { background-color: rgba( $c-hover, 100% ); }
+      } // a
+ 
+    } // @media: PC
+
+    // @at-root
+    @at-root body:not(.c) & {
+      .menu-item.menu-item-home { display: none; }
+    }
+    
+  } // 메뉴 : 헤더 기본 메뉴
+
+}
+
+
+
+////////
+////////
+/* 앱 메뉴 (app-menu)
+*/
+.app-menu {
+
+  &#chat-session-menu {
+
+    // 메뉴 리스트
+    .menu {
+      width: 100%;
+      // .menu-item {
+
+      // } // .menu-item
+
+      a.link {  
+        width: 100%;
+        font-size: 0.875em;
+        color: get-color('text' 'caption');
+        @include set-prefix( transition, ( color 0.6s ease('out-circ') ), 'webkit' '' );
+        
+
+        i[class*="icon-"] {  
+          $s: 1em;
+          width: $s;
+          height: $s;
+          line-height: $s;
+          font-size: $s;
+        }
+
+        &::before {
+          content: '';
+          @include position( absolute, l 0 t 0 z -1 );
+          width: 0;
+          height: 100%;
+          background-color: get-color("primary" "");
+          opacity: 0;
+          border-radius: 0.25em;
+
+          will-change: width;
+          @include set-prefix( transition, ( width 0.6s ease('out-circ'), opacity 0.6s ease('out-circ') ), 'webkit' '' );
+        }
+
+        &:hover {
+          color: get-color("white" "");
+          &::before { width: 100%; opacity: 1; }
+        }
+
+        // - 공개 채팅 세션
+        &.publish i[class*="icon-"] { color: get-color( 'secondary' '' ); }
+        &.publish:hover i[class*="icon-"] { color: get-color( 'secondary' 'hover' ); }
+        
+      } // a.link 
+
+      
+
+      
+
+  
+
+    } // .menu 
+
+  } // #at-session-menu
+
+}

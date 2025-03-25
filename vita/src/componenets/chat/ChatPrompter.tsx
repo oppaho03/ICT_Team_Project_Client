@@ -38,9 +38,6 @@ export default function ChatPrompter ( ) {
     const token = Commons.getSessionStorage("token");
     console.log(token);
 
-  
-
-
   }, []);
 
   const prompt = useSelector( (state: any) => state.prompt );

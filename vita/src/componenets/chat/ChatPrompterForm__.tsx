@@ -8,7 +8,7 @@ import { setFocus, setActive, setMessage } from "../../store/chatPromptSlice"
 
 import { IDataCategory } from "../../utils/interfaces";
 import { fetchAsyncTermsAllCategory } from "../../utils/fetchs";
-import { TermsContext } from "../../utils/contexts";
+import { TermsContext } from "../../utils/contexts/contexts";
 
 import ChatPrompterFormFilter from "./ChatPrompterFormFilter";
 import { useNavigate } from "react-router-dom";

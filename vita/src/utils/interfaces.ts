@@ -1,12 +1,3 @@
-/* 인터페이스 : Context - 카테고리 
- */
-export interface ITermsContext {
-  departments: Array<IDataCategory> | null,
-  diseases: Array<IDataCategory> | null,
-  intentions: Array<IDataCategory> | null,
-  categories: Array<IDataCategory> | null, 
-}
-
 /* 인터페이스 : 응답 데이터
  */
 export interface IResponseEntity { success: number, response: any }
@@ -24,13 +15,19 @@ export interface IDataCategory {
   parent: number | null
 };
 
-/* 인터페이스 : 데이터 세트 - 
+/* 인터페이스 : 데이터 세트 - 채팅 . 답변
  */
-export interface IDataAnswer {
-  id: number | null,
-  file_name: string | null, 
-  intro: string | null,
-  body: string | null,
-  conclusion: string | null,
-  categories: IDataCategory[] | null
+export interface IDataChatAnswer {
+  
 }
+
+// /* 인터페이스 : 데이터 세트 - 
+//  */
+// export interface IDataAnswer {
+//   id: number | null,
+//   file_name: string | null, 
+//   intro: string | null,
+//   body: string | null,
+//   conclusion: string | null,
+//   categories: IDataCategory[] | null
+// }

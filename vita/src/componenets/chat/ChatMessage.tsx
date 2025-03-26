@@ -10,6 +10,7 @@ import Loader from "../common/Loader";
 /* 컴포넌트 속성 인터페이스
 */
 interface IProp {
+  ref?: any, // - useRef
   type?: string,
   status?: string, 
   message?: string | null,
@@ -18,6 +19,7 @@ interface IProp {
 /* 컴포넌트 속성 초기화
 */ 
 const PropDefault = {
+  ref: null,
   type: "bot",
   status: "pending", // pending | fulfilled | rejected"
   message: null,
@@ -28,8 +30,7 @@ export default function ChatMessage ( props: IProp ) {
   props = { ...PropDefault, ...props }; // 컴포넌트 속성 초기화
   
   return (<>
-
-    <div className="chat-content-item chat-message-wrap" data-type={ props.type }> 
+    <div { ...( props.ref ? { ref: props.ref } : {}) } className="chat-content-item chat-message-wrap" data-type={ props.type }> 
       <div className="chat-message">
 
         <article className="chat-message d-flex flex-column" itemScope itemProp="message" itemType="https://schema.org/Message" data-status={ props.status }>  
@@ -37,7 +38,7 @@ export default function ChatMessage ( props: IProp ) {
 
         { ( props.type == "bot" ) && <React.Fragment>
 
-          {/* 채팅 메시지 : 메타 */}
+          {/* 채팅 메시지 : 메타 (Top) */}
           <div className="chat-message-row chat-message-row-meta meta-top"></div>
 
           {/* 채팅 메시지 : 헤드 */}
@@ -69,11 +70,11 @@ export default function ChatMessage ( props: IProp ) {
 
         </React.Fragment> }
         { ( props.type == "user" ) && <React.Fragment>
-          {/* 채팅 메시지 : 메타 */}
+          {/* 채팅 메시지 : 메타 (Top) */}
           <div className="chat-message-row chat-message-row-meta meta-top">
             <div className="chat-term term-type-category">
-               <span className="chat-term-item" data-id="0">질문</span>
-            </div>
+               {/* <span className="chat-term-item" data-id="0">질문</span> */}
+            </div> 
           </div>
 
           {/* 채팅 메시지 : 헤드 */}

@@ -2,9 +2,10 @@
  * 컴포넌트 : 채팅 프롬프트 폼 필터
  */
 
-import { useContext } from "react";
-import { TermsContext } from "../../utils/contexts";
-// import { useSelector } from "react-redux";
+import { ChangeEvent, useContext } from "react";
+import { ChatPromptFilterContext } from "../../utils/contexts/contextChatPrompt";
+import { useSelector, useDispatch } from "react-redux";
+import { setFilters } from "../../store/chatPromptSlice";
 
 // import * as Common from "../../../public/assets/js/commons";
 
@@ -13,9 +14,26 @@ import { TermsContext } from "../../utils/contexts";
 
 export default function ChatPrompterFormFilter ( ) {
 
-  const DataTerms = useContext(TermsContext);
+  const DataFilter = useContext(ChatPromptFilterContext);
+  
+  const dispatch = useDispatch();
+  const prompt = useSelector ( (state: any) => state.prompt );
 
   let order = 1;
+
+  // <select> 진료과목 / 질병종류 
+  const onChanged = (e: ChangeEvent) => {
+    const t = e.target as HTMLSelectElement;
+    const name = t.name;
+    
+    let value = t.value; // <option> 값
+    let text = t.options[t.selectedIndex].text; // <option> 라벨
+
+    
+    if ( ["department", "disease" ].includes(name)  ) 
+      dispatch(setFilters( { key: name, value: { id: value == "" ? 0 : parseInt(value), name: text }  } ));
+
+  };
 
   return (<>
     <div className="filter-wrap"> 
@@ -27,25 +45,25 @@ export default function ChatPrompterFormFilter ( ) {
             {/* 진료과목 */}
             <div className="form-control form-select" data-order={order} >
               <p className="form-caption underline"><label>진료과목</label> </p>
-              <select name="department">
+              <select name="department" onChange={onChanged}>
                 <option value="">전체</option>
                 { /* 진료과목 그리기 */
-                  DataTerms.departments 
-                  && DataTerms.departments.map( (term, i) => {
+                  DataFilter.departments 
+                  && DataFilter.departments.map( (term, i) => {
                     return  <option key={i} value={ term.id ?? "" }>{ term.name }</option>;
                   } ) 
                 }
               </select>
             </div> 
 
-            {/* 진료과목 */}
+            {/* 질병종류 */}
             <div className="form-control form-select" data-order={++order} >
-            <p className="form-caption underline"><label>진료과목</label> </p>
-              <select name="disease">
+            <p className="form-caption underline"><label>질병종류</label> </p>
+              <select name="disease" onChange={onChanged}>
                 <option value="">전체</option>
                 { /* 진료과목 그리기 */
-                  DataTerms.diseases 
-                  && DataTerms.diseases.map( (term, i) => {
+                  DataFilter.diseases 
+                  && DataFilter.diseases.map( (term, i) => {
                     return  <option key={i} value={ term.id ?? "" }>{ term.name }</option>;
                   } ) 
                 }

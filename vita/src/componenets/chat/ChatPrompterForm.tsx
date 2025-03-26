@@ -74,10 +74,8 @@ export default function ChatPrompterForm ( ) {
 
   /* 바인드: 토글 (STT 녹음)
   */ 
-  
-  
   return (<>
-    <form id="" className="form" action="" onSubmit={formSubmit}>
+    <form className="form" action="" onSubmit={formSubmit}>
       {/* Filter 영역 */}
       <div className="chat-prompter-form-filter form-filter">
         {/* 컴포넌트 : 채팅 프롬프트 폼 필터  */}
@@ -97,7 +95,7 @@ export default function ChatPrompterForm ( ) {
               <i className="im icon-search"></i>
             </button>
 
-            <input ref={inputPromptRef} type="text" className="form-control form-control-unstyled" name="s" placeholder="..." onFocus={inputFocus} onBlur={inputBlur} onKeyDown={inputKeyDown}/>
+            <input ref={inputPromptRef} type="text" className="form-control form-control-unstyled" name="s" placeholder="..." onFocus={inputFocus} onBlur={inputBlur} onKeyDown={inputKeyDown} />
 
           </div>
 

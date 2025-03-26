@@ -10,6 +10,7 @@ interface IChatPromptState {
   pending: boolean,
   recording: boolean,
   latestMessage: string | null,
+  filters: { [key: string]: any },
 }
 
 const initialState: IChatPromptState = {
@@ -17,7 +18,8 @@ const initialState: IChatPromptState = {
   active: false,
   pending: false,
   recording: false,
-  latestMessage: null
+  latestMessage: null,
+  filters: {}, // department | disease
 }
 
 const chatPromptSlice = createSlice({
@@ -29,9 +31,13 @@ const chatPromptSlice = createSlice({
     setPending( state, action: PayloadAction<boolean> ) { state.pending = action.payload; },
     setRecording( state, action: PayloadAction<boolean> ) { state.recording = action.payload; },
     setMessage ( state, action: PayloadAction<string | null> ) { state.latestMessage = action.payload; },
+    setFilters ( state, action: PayloadAction<{ key: string; value: any }> ) { 
+      const { key, value } = action.payload;
+      state.filters[key] = value;
+    },
     toggleRecording( state ) { state.recording = !state.recording;},
   }
 });
 
-export const { setFocus, setActive, setPending, setRecording, setMessage, toggleRecording } = chatPromptSlice.actions;
+export const { setFocus, setActive, setPending, setRecording, setMessage, toggleRecording, setFilters } = chatPromptSlice.actions;
 export default chatPromptSlice.reducer;

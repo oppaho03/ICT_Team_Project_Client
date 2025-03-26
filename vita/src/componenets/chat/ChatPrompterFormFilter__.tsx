@@ -3,7 +3,7 @@
  */
 
 import { useContext, useEffect } from "react";
-import { TermsContext } from "../../utils/contexts";
+import { TermsContext } from "../../utils/contexts/contexts";
 // import { useSelector } from "react-redux";
 
 // import * as Common from "../../../public/assets/js/commons";

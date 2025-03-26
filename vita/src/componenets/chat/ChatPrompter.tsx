@@ -12,7 +12,7 @@ import ChatPrompterHeader from "./ChatPrompterHeader";
 
 import { IDataCategory } from "../../utils/interfaces";
 
-import { TermsContext } from "../../utils/contexts";
+import { ChatPromptFilterContext } from "../../utils/contexts/contextChatPrompt";
 import * as FecthTerms from "../../utils/fetchs/fetchTerms";
 
 import sortBy from "sort-by"; // 정렬
@@ -31,7 +31,8 @@ export default function ChatPrompter ( ) {
     // 용어 및 카테고리 불러오기 - "질병"
     FecthTerms.findAll( "disease", ( data: Array<IDataCategory> | null ) => setDataDiseases( data ? data.sort( sortBy( "name" ) ) : [] ) );
 
-    
+    ////////////
+    ////////////
     ////////////
     // Commons.setSessionStorage("token", "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwic3ViIjoiMiIsImlhdCI6MTc0Mjc4NDIzOSwiZXhwIjoxNzQyNzg1MTM5fQ.neYTm70_YGG11j5kuHkA_HKBWeY-Bird9u4JhT3xMl0");
 
@@ -54,12 +55,12 @@ export default function ChatPrompter ( ) {
         }
         
         <div className="chat-prompter-inner">
-          <TermsContext.Provider value={ { 
-            ...useContext(TermsContext), 
+          <ChatPromptFilterContext.Provider value={ { 
+            ...useContext(ChatPromptFilterContext), 
             ... { departments: dataDepartments, diseases: dataDiseases } 
             } }>
             <ChatPrompterForm /> {/* 컴포넌트 : 채팅 프롬프트 폼 */}
-          </TermsContext.Provider>
+          </ChatPromptFilterContext.Provider>
         </div>
 
         <div className="chat-prompter-inner">

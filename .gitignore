@@ -6,6 +6,5 @@ node_modules/
 package-lock.json
 *.zip
 
-.gitignore
-vita/vite.config.ts
+vita/.env
 vita/vite.config.ts

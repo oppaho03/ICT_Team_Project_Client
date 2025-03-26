@@ -211,6 +211,10 @@ body:is(.home, .c) .app-content {
 
   } // [data-type="user"]
 
+  &:not([data-pending="1"]) .chat-content-item[data-type="bot"]:last-child {
+    display: none;
+  }
+
   // @ 미디어 쿼리 
   @include media( "<#{get-breakpoints('lg')}"  ){ // 모바일 
     $thumb-size : 36px;
@@ -269,9 +273,12 @@ body:is(.home, .c) .app-content {
     }
   }
 
+
   // *** 임시 여백 
   padding-bottom: 120px; // *** 임시
   @include media( "<#{get-breakpoints('lg')}"  ){ padding-bottom: 100px; }
+
+
 
 }
 

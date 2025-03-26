@@ -3,11 +3,11 @@
  */
 
 type Props = {
-  onLogin: () => Promise<void>;
+  onLogin: (e:any) => Promise<void>;
 };
 
 
-export default function FieldsetSignIn ({onLogin}: Props) {
+export default function FieldsetSignIn ({onLogin}:Props) {
   return ( <>
   <fieldset> 
     <legend>

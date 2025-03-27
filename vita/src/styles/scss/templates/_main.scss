@@ -158,7 +158,7 @@ body:is(.home, .c) .app-content {
         &-mbox.type-bubble { 
           background-color:  get-color('bg' '300'); 
 
-          font-weight: 600;
+          font-weight: 500;
           
         }
 
@@ -180,6 +180,27 @@ body:is(.home, .c) .app-content {
     .chat-message-row-body {
 
       .chat-message__content { margin-left: calc($thumb-size + 20px); }
+
+      .chat-message__content-mbox {
+        font-size: 1em;
+        color: get-color( "text" "bodysub" );
+        p { margin-bottom: 0.5em; }
+        
+      }
+
+      .chat-message__content-mbox .messages { 
+
+        *[itemprop="headline"] {
+          
+          color: get-color('black' '600');
+          font-size: 0.875em; 
+          font-weight: bold; 
+
+          i[class^="fa-"] { margin-right: 0.5em; }
+
+        }
+
+      }
 
     } // .chat-message-row-body
 

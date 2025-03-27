@@ -206,9 +206,6 @@ export default function ChatSession (  ) {
       updateMetaTop( cm, "category", values ); // - 메타 업데이트
     }
     
-    
-
-
     /* 채팅 메시지 : 메타 (BOTTOM)
     */ 
     const metaBtm = cm.querySelector('.meta-bottom');

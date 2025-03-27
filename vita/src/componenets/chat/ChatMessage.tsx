@@ -39,7 +39,9 @@ export default function ChatMessage ( props: IProp ) {
         { ( props.type == "bot" ) && <React.Fragment>
 
           {/* 채팅 메시지 : 메타 (Top) */}
-          <div className="chat-message-row chat-message-row-meta meta-top"></div>
+          <div className="chat-message-row chat-message-row-meta meta-top">
+            <div className="chat-term term-type-category"></div>
+          </div>
 
           {/* 채팅 메시지 : 헤드 */}
           <div className="chat-message-row chat-message-row-head d-flex align-items-start">
@@ -61,7 +63,18 @@ export default function ChatMessage ( props: IProp ) {
           {/* 채팅 메시지 : 바디 */}
           <div className="chat-message-row chat-message-row-body d-flex align-items-start">
             <div className="chat-message__content "> 
-              <div className="chat-message__content-mbox"></div>
+              <div className="chat-message__content-mbox px-0">
+                <div className="messages body-messages">
+                  <p aria-label="message">텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트</p>
+                  <p aria-label="message">텍스트 메시지 2</p>
+                </div>
+                <div className="messages conclusion-messages">
+                  <h3 aria-label="" itemProp="headline"><i className="fa-solid fa-comment"></i>다음으로 이런 것을 권장합니다.</h3>
+                  <div className="inner">
+                    <p aria-label="message">결론 메시지 입니다.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

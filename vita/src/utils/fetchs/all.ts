@@ -39,7 +39,7 @@ export function getHeaders( header: any = {} ): any {
   };
   
   const token = Commons.getSessionStorage("token");
-  if ( token ) headerDefaultValue['Authorization'] = `Bearer ${token}123`;
+  if ( token ) headerDefaultValue['Authorization'] = `Bearer ${token}`;
 
   return { ...headerDefaultValue, ...header };
 }

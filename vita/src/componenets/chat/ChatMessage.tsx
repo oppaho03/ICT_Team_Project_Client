@@ -64,7 +64,7 @@ export default function ChatMessage ( props: IProp ) {
           <div className="chat-message-row chat-message-row-body d-flex align-items-start">
             <div className="chat-message__content "> 
               <div className="chat-message__content-mbox px-0">
-                <div className="messages body-messages">
+                {/* <div className="messages body-messages">
                   <p aria-label="message">텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트</p>
                   <p aria-label="message">텍스트 메시지 2</p>
                 </div>
@@ -73,7 +73,7 @@ export default function ChatMessage ( props: IProp ) {
                   <div className="inner">
                     <p aria-label="message">결론 메시지 입니다.</p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

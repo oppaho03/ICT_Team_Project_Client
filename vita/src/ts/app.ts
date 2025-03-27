@@ -4,7 +4,7 @@ declare var gsap: any | null; // GSAP 코어 객체
 declare var ScrollTrigger: any | null;
 declare var ScrollToPlugin: any | null;
 
-
+declare var kakao: any | null;
 
 ( function() {
   
@@ -31,8 +31,6 @@ declare var ScrollToPlugin: any | null;
   /* 윈도우 이벤트: window 
   */
   Common.setEventListener( window, 'load', ( e:Event ) => {
-    
-    console.log("navigator.mediaDevices 123:", navigator.mediaDevices);
 
   }, { once: true } );
 

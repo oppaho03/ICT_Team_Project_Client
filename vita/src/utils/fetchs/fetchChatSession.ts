@@ -56,13 +56,14 @@ export async function extrKeywords ( contents: string, callback: null | ( (datas
 /**  
  * 답변 검색 
  * - 질문과 세션 생성
+ * @param { number } sid
  * @param { string } contents
  * @param { string[] } keywords 
  * @param { function } callback
  * @return
  */
 
-export async function findAnswer ( contents: string, keywords: string[], callback: null | ( (datas:any|null )=> any ) ) {
+export async function findAnswer ( sid: number | null, contents: string, keywords: string[], callback: null | ( (datas:any|null )=> any ) ) {
 
   let respData;
 
@@ -71,15 +72,18 @@ export async function findAnswer ( contents: string, keywords: string[], callbac
     const uri = `${SERVER_URL}/api/chatquestions`;
 
     const headers = getHeaders();
-    const reqData = { contents, keywords };
+    const reqData = { sid, contents, keywords };
+    if ( ! sid  ) reqData.sid = null;
 
     const result = await axios.post<IFetchResponseDefault>( uri, reqData, { headers }); 
+
 
     // 서버 응답 데이터 : IResponseEntity
     const resultData = result.data ? result.data as unknown as IResponseEntity : null;
     
     // 서버 응답 데이터 - 오류 처리
-    if ( ! result || result.status != 200 || ! resultData || ( resultData.success && resultData.success != 1 ) ) {
+    // if ( ! result || result.status != 200 || ! resultData || ( resultData.success && resultData.success != 1 ) ) {
+    if ( ! result || ! resultData || ( resultData.success && resultData.success != 1 ) ) {
       let messages = resultData && resultData.response ? ( resultData.response.messages ? resultData.response.messages : resultData.response.data ) : null;
 
       if ( ! messages ) console.log(result); // 디버그용 콘솔
@@ -102,3 +106,6 @@ export async function findAnswer ( contents: string, keywords: string[], callbac
   }
 
 }
+
+
+

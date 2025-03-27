@@ -8,14 +8,15 @@ interface IUIState {
   expanded: boolean, // - 서랍메뉴 확장 토글
   modal: boolean, // - 모달 토글
   loading: boolean, // - 메인 로딩 토글 
-  profile_photo: string | null, // 사용자 - 프로필 사진
+  update_menu_chat_sessions : string | null, // - 메뉴: 채팅 세션 갱신
 }
 
 const initialState: IUIState = {
-  expanded: false,
+  expanded: true,
   modal: false,
   loading: false,
-  profile_photo: null,
+  
+  update_menu_chat_sessions: null,
 }
 
 const uiSlice = createSlice({
@@ -24,13 +25,19 @@ const uiSlice = createSlice({
   reducers: {
     setExpanded( state, action: PayloadAction<boolean> ) { state.expanded = action.payload; },
     setModal( state, action: PayloadAction<boolean> ) { state.modal = action.payload; },
-    setLoading( state, action: PayloadAction<boolean> ) { state.loading = action.payload; },
-    setProfilePhoto( state, action: PayloadAction<string> ) { state.profile_photo = action.payload; },
-    toggleExpanded( state ) { state.expanded = !state.expanded; },
+    setLoading( state, action: PayloadAction<boolean> ) { 
+      state.loading = action.payload; 
+    },
+    setUpdateMenuChatSessions( state, action: PayloadAction<string> ) { 
+      state.update_menu_chat_sessions = action.payload; 
+    },
+    toggleExpanded( state ) { 
+      state.expanded = !state.expanded; 
+    },
     toggleModal( state ) { state.modal = !state.modal; },
     toggleLoading( state ) { state.loading = !state.loading;},
   }
 });
 
-export const { setExpanded, setModal, setLoading, setProfilePhoto, toggleExpanded, toggleModal, toggleLoading } = uiSlice.actions;
+export const { setExpanded, setModal, setLoading, setUpdateMenuChatSessions, toggleExpanded, toggleModal, toggleLoading } = uiSlice.actions;
 export default uiSlice.reducer;

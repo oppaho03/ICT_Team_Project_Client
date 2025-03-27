@@ -99,10 +99,10 @@ function toSpannedLine ( value ) {
 
 /**
  * 포맷터: 일자 및 시간 정보 
- * @param {string} value 
+ * @param {string} format 
  * @return {string}
  */
-function formatDateTime( value ) {
+function formatDateTime( format ) {
   const curDate = new Date();
 
   const dateTime = {
@@ -114,7 +114,28 @@ function formatDateTime( value ) {
     ss: String(curDate.getSeconds()).padStart(2, "0"),
   };
   
-  return value.replace( /yyyy|MM|dd|HH|mm|ss/g, (match) => dateTime[match] );
+  return format.replace( /yyyy|MM|dd|HH|mm|ss/g, (match) => dateTime[match] );
+}
+
+/**
+ * 포맷터: 일자 및 시간 정보 
+ * @param {string} value 
+ * @param {string} format 
+ * @return {string}
+ */
+function formatDateTimeByISO8601( value, format ) {
+  const curDate = new Date( value );
+
+  const dateTime = {
+    yyyy: curDate.getFullYear(),
+    MM: String(curDate.getMonth() + 1).padStart(2, "0"),
+    dd: String(curDate.getDate()).padStart(2, "0"),
+    HH: String(curDate.getHours()).padStart(2, "0"),
+    mm: String(curDate.getMinutes()).padStart(2, "0"),
+    ss: String(curDate.getSeconds()).padStart(2, "0"),
+  };
+  
+  return format.replace( /yyyy|MM|dd|HH|mm|ss/g, (match) => dateTime[match] );
 }
 
 
@@ -337,6 +358,7 @@ export {
   toSpannedLine,
 
   formatDateTime,
+  formatDateTimeByISO8601,
   formatNumbers,
 
   getSessionStorage,

@@ -367,6 +367,47 @@ export default function ChatSession (  ) {
 
     if ( latestMessage ) updateUserChatMessage( latestMessage ); // 채팅 메시지 업데이트
 
+    // async function searchYouTube() {
+
+
+    //   try {
+    //     const response = await axios.get(`https://www.googleapis.com/youtube/v3/search`, {
+    //       params: {
+    //         key: 'AIzaSyCzunur7nl9IZxnNAYuyjTyvSs0BkzTUPM',
+    //         q: "질병 관리",
+    //         part: "snippet",
+    //         maxResults: 5,
+    //         type: "video"
+    //       }
+    //     });
+
+    //     console.log(response);
+    
+    //     console.log(response.data.items); // 결과 출력
+    //   } catch (error) {
+    //     console.error("YouTube API 요청 오류:", error);
+    //   }
+    // }
+
+    // searchYouTube();
+
+    // async function getVideoDetails(videoId) {
+    //   try {
+    //     const response = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, {
+    //       params: {
+    //         key: 'AIzaSyCzunur7nl9IZxnNAYuyjTyvSs0BkzTUPM',
+    //         id: videoId,
+    //         part: "snippet,statistics"
+    //       }
+    //     });
+    
+    //     console.log(response.data.items[0]); // 동영상 상세 정보 출력
+    //   } catch (error) {
+    //     console.error("YouTube API 요청 오류:", error);
+    //   }
+    // }
+
+    // getVideoDetails('qkVSueqFyuc');
     console.log("okkk");
     
     

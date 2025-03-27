@@ -24,6 +24,7 @@ export default defineConfig({
   },
   server: {
     // host: '192.168.80.1',
+    host: '192.168.0.33',
     port: 9000,
     open: true,
     cors: true,

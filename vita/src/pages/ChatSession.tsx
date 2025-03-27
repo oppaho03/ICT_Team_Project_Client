@@ -64,9 +64,6 @@ function createMessage ( message: string | null ): HTMLParagraphElement | null {
   return el;
 }
 
-
-
-
 export default function ChatSession (  ) {
 
   /* URL 쿼리 조건 
@@ -90,9 +87,44 @@ export default function ChatSession (  ) {
   const messageTempUserRef = useRef<HTMLTemplateElement> ( null );
   const messageTempBotRef = useRef<HTMLTemplateElement> ( null );
 
+  /**
+   * 채팅 : 메타 업데이트 (TOP)
+   * @param {HTMLElement} msgElem 
+   * @param {string} type 
+   * @param {any} values 
+   * @returns
+   */
+  const updateMetaTop = ( msgElem: HTMLElement, type: string, values: any ): void => {
 
-  /* 채팅 : 업데이트 
-  */ 
+    const wrap = msgElem.querySelector('.meta-top');
+    if ( ! wrap ) return; 
+
+    let target: HTMLElement | null = null; // - 메타 영역
+    let items : HTMLElement | DocumentFragment | null = null; // - 메타 아이템
+    
+
+    if ( values ) {
+      
+      if ( type == "category" ) {
+        target = wrap.querySelector( ".chat-term.term-type-" + type );
+        items = createMetaDataCategory( values );
+      }
+      
+    }
+
+    if ( ! target ) return;
+
+    if ( items ) {
+      target.appendChild( items );
+    }
+
+  }
+
+ /**
+  * 채팅 : 메시지 업데이트 
+  * @param msgElem 
+  * @returns 
+  */
   const updateChatMessage = ( msgElem: HTMLElement ): void => {
     // console.log(cnt);
     const parent = contentRef?.current;
@@ -103,7 +135,7 @@ export default function ChatSession (  ) {
     else parent.appendChild(msgElem);
   }
 
-  // 채팅 : 업데이트 - 사용자
+  // 채팅 : 메시지 업데이트 - 사용자
   const updateUserChatMessage = ( message: string ): void => {
 
     // 컨텍츠 컨테이너 
@@ -156,33 +188,26 @@ export default function ChatSession (  ) {
 
     /* 채팅 메시지 : 메타 (TOP)
     */ 
-    const metaTop = cm.querySelector('.meta-top');
-    if ( metaTop ) {
+    if ( true ) {
+      const values = [];
+      const filters = prompt.filters; // 필터
+      if ( filters && Object.keys(prompt.filters).length ) {
 
-      let meta_container: HTMLElement | null = null;
-      let meta_values = [];
-
-      // 메타 - 용어 및 카테고리 표시 
-      meta_container = metaTop.querySelector( ".chat-term.term-type-category" );
-      if ( meta_container ) {
-        const filters = prompt.filters; // 필터
-        
-        if ( filters && Object.keys(prompt.filters).length ) {
-          for( const key of [ "department", "disease" ] ) {
-            if ( ! filters[key] ) continue;
-            else meta_values.push( filters[key] ); // - 값 추가
-          }
-          if ( meta_values.length ) meta_values.sort( sortBy("name") ).reverse(); // 이름순으로 정렬
+        for( const key of [ "department", "disease" ] ) {
+          if ( ! filters[key] ) continue;
+          else values.push( filters[key] ); // - 값 추가
         }
-        
-        // meta_values.unshift( { id: 0, name: "질문" } );
-        meta_values.push( { id: 0, name: "질문" } );
 
-        const elems = createMetaDataCategory( meta_values );
-        if ( elems ) meta_container.appendChild( elems );
+        if ( values.length ) values.sort( sortBy("name") ).reverse(); // 이름순으로 정렬(내림차순)
       }
 
+      values.push( { id: 0, name: "질문" } );
+
+      updateMetaTop( cm, "category", values ); // - 메타 업데이트
     }
+    
+    
+
 
     /* 채팅 메시지 : 메타 (BOTTOM)
     */ 

@@ -1,5 +1,7 @@
 @charset 'UTF-8';
 
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
 /// --------------------------------------------------------------
 /// # 공통 속성 및 요소 
 /// --------------------------------------------------------------
@@ -28,8 +30,10 @@ html, body {
   
   color: var(--app-color-text-body);
   font-size: 16px;
-  font-family: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', 'Nanum Gothic', sans-serif;
+  
   line-height: 1.5;
+
+  
 }
 
 body {
@@ -38,6 +42,10 @@ body {
   background-size: cover;
   overflow-x: hidden;
   width: 100%;
+  // font-family: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', 'Nanum Gothic', sans-serif;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
+  text-size-adjust: auto;
+  -webkit-text-size-adjust: auto;
 }
 
 // clearfix

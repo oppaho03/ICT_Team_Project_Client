@@ -155,7 +155,12 @@ body:is(.home, .c) .app-content {
 
         // &-mbox {}
         &-mbox > *:last-child { margin-bottom: 0; }
-        &-mbox.type-bubble { background-color:  get-color('bg' '300'); }
+        &-mbox.type-bubble { 
+          background-color:  get-color('bg' '300'); 
+
+          font-weight: 600;
+          
+        }
 
         .loaderbox { 
           @include position( static );

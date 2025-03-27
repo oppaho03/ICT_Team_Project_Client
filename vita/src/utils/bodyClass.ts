@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setActive  } from "../store/chatPromptSlice";
 
 /**
@@ -11,14 +11,16 @@ const BodyClass = () => {
 
   const location = useLocation();
 
+  const ui = useSelector( ( state: any ) => state.ui );
   const dispatch = useDispatch();
 
   useEffect( () => {
 
     const classes = [ 'page', 'page-template' ];
 
-    try {
+    if ( ui.expanded ) classes.push( 'expanded-menu-drawable' );
 
+    try {
       
       let paths: string[] = location.pathname.split("/").filter( ( val: string ) => val.trim() != "" );
       let name: string | undefined;

@@ -123,18 +123,19 @@
     #drawable-menu { 
       // margin-left: calc( ($max - $min) * -1 ); // +
       // width: $max;
-      width: $max; 
+      width: $min; 
     } 
 
-    #drawable-menu-toggle { margin-right: calc( $max - $min ); }
+    #drawable-menu-toggle { margin-right: 0; }
 
 
     @at-root body:is( .expanded-menu-drawable ) {
       .lyt-grid:is(.root) {
         #drawable-menu{ margin-left: 0; }  
-        #drawable-menu-toggle { margin-right: 0; }
+        #drawable-menu-toggle { margin-right: calc( $max - $min ); }
 
-        #drawable-menu { width: $min; } // +
+        // #drawable-menu { width: $min; } // +
+        #drawable-menu { width: $max; }
       }
 
     }

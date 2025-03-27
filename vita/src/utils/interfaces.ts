@@ -15,6 +15,25 @@ export interface IDataCategory {
   parent: number | null
 };
 
+
+
+///
+/// 데이터 세트 : 채팅 
+/// 
+
+/* 인터페이스 : 데이터 세트 - 채팅 세션
+ */
+export interface IDataChatSession {
+  id: number,
+  member: number, 
+  lastQuestion?: string,
+  count: number, 
+  status: number, // 0 - open, 1 - closed
+  created_at: string | null, 
+  updated_at: string | null
+}
+
+
 /* 인터페이스 : 데이터 세트 - 채팅 . 답변
  */
 export interface IDataChatAnswer {
@@ -31,5 +50,14 @@ export interface IDataChatAnswer {
  */
 export interface IDataChatAnswerBindSession {
   sid: number, 
-  answers: IDataChatAnswer[] | null
+  answers: IDataChatAnswer[] | null,
+  question?: string | null,
+}
+
+/* 인터페이스 : 데이터 세트 - 채팅 . 질문
+ */
+export interface IDataChatQuestion {
+  id: number,
+  content: string, 
+  created_at: string | null, 
 }

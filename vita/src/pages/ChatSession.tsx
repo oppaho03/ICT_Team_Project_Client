@@ -96,7 +96,7 @@ export default function ChatSession (  ) {
   // const ui = useSelector( (state: any) => state.ui );
   const prompt = useSelector( (state: any) => state.prompt );
 
-  // const dispatch = useDispatch();
+  // const dispatch = useDispatch(); 
   
   const contentRef = useRef<HTMLDivElement> ( null );
   const endPointRef = useRef<HTMLDivElement> ( null );
@@ -202,7 +202,7 @@ export default function ChatSession (  ) {
     // dispatch(setPending( false ));
 
     
-     /* 채팅 메시지 전처리 및 답변 전달
+    /* 채팅 메시지 전처리 및 답변 전달
     */ 
      if ( message ) {
 
@@ -354,10 +354,10 @@ export default function ChatSession (  ) {
 
   useEffect( () => {
 
-    // if ( cursid ) {
-    //   // cursid -> 이전 채팅 세션 재구성 (이어하기)
-    //   console.log( cursid );
-    // }
+    if ( cursid ) {
+      // cursid -> 이전 채팅 세션 재구성 (이어하기)
+      FecthChatSession.findSessionQnA( cursid, ( resp ) => { console.log(resp) } );
+    }
     
     const latestMessage = prompt.latestMessage; // 최신 메시지
     
@@ -435,8 +435,6 @@ export default function ChatSession (  ) {
           { ! cursid  && 
             <ChatMessage type="bot" message="무엇을 도와드릴까요?" />
           }
-
-          <div id="map" style={{width: '500px', height: '400px'}}> </div>
 
           <ChatMessage type="bot" ref={endPointRef} />
         

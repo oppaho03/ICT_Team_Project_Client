@@ -205,6 +205,19 @@ function getOffset( elem ) {
   return { top: top, left: left };
 }
 
+/**
+ * 스크롤 하단 - 고정
+ * @param {HTMLElement | null} elem 
+ * @return
+ */
+function scrollToBottom ( elem ) {
+  if ( ! elem ) elem = window; 
+  
+  elem.scrollTo({
+    top: elem.scrollHeight,
+    behavior: 'smooth'
+  });
+} 
 
 /**
  * 엘리멘트 이벤트 바인드 설정
@@ -349,6 +362,7 @@ export {
   getDocumentHeight,
   getDocumentScrollTop,
   getOffset , 
+  scrollToBottom,
 
   setEventListener,
   resetEventListener,

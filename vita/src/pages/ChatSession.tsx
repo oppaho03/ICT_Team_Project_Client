@@ -6,7 +6,7 @@
 import shortid from 'shortid';
 
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setMessage, setPending } from "../store/chatPromptSlice";
@@ -18,8 +18,8 @@ import sortBy from "sort-by";
 import * as FecthChatSession  from "../utils/fetchs/fetchChatSession";
 import { IDataChatAnswer, IDataChatAnswerBindSession } from "../utils/interfaces";
 
-import axios from 'axios';
-// import * as Common from "../../public/assets/js/commons";
+import * as Commons from '../../public/assets/js/commons';
+import { setUpdateMenuChatSessions } from '../store/uiSlice';
 
 declare var gsap: any | null; // GSAP 코어 객체
 
@@ -88,9 +88,12 @@ export default function ChatSession (  ) {
   const location = useLocation();
   const urlQuerys = new URLSearchParams(location.search);
 
+  const navigate = useNavigate(); 
+
   const cursid : number = urlQuerys.size && urlQuerys.has('sid') != null && urlQuerys.get('sid')?.trim() != "" ? parseInt( urlQuerys.get('sid')?.toString() ?? "0" ) : 0;
 
   const [ sessionId, setSessionId ] = useState<number>( cursid );
+  
 
   const dispatch = useDispatch();
   // const ui = useSelector( (state: any) => state.ui );
@@ -151,6 +154,8 @@ export default function ChatSession (  ) {
     if ( ! parent ) return;
     if ( endPoint ) parent.insertBefore(msgElem, endPoint);
     else parent.appendChild(msgElem);
+
+    Commons.scrollToBottom(document.getElementById("wrapper"));
   }
 
   // 채팅 : 메시지 업데이트 - 사용자
@@ -199,63 +204,59 @@ export default function ChatSession (  ) {
  
 
     updateChatMessage( cm ); // <ChatMessage /> 채팅 메시지 아이템 추가
-    // dispatch(setPending( false ));
+  };
 
-    
-    /* 채팅 메시지 전처리 및 답변 전달
-    */ 
-     if ( message ) {
-
-      // 전처리 : 문장 -> 키워드 추출  
-      FecthChatSession.extrKeywords( message, ( keywords => {
+  // 채팅 : 메시지 업데이트 - 사용자 - 메시지 처리 (답변검색)
+  const updateUserChatMessageProcess = ( message: string ): void => {
+    // 전처리 : 문장 -> 키워드 추출  
+    FecthChatSession.extrKeywords( message, ( keywords => {
         
-        if ( ! keywords || ! keywords.length ) {
-          // 추출 결과 : 키워드 없음
-          updateBotChatMessage( [ { ...MetaDataBotChatMessage, ...{ intro: "유효한 키워드가 존재하지 않습니다. 질문을 바꿔서 다시 시도해주세요." } } ] );
-        }
-        else {
-          // 추출 결과: 키워드 있음
-          FecthChatSession.findAnswer( sessionId, message, keywords, ( data: IDataChatAnswerBindSession | string | null ) => { 
+      if ( ! keywords || ! keywords.length ) {
+        // 추출 결과 : 키워드 없음
+        updateBotChatMessage( [ { ...MetaDataBotChatMessage, ...{ intro: "유효한 키워드가 존재하지 않습니다. 질문을 바꿔서 다시 시도해주세요." } } ] );
+      }
+      else {
+        // 추출 결과: 키워드 있음
+        
+        FecthChatSession.findAnswer( sessionId, message, keywords, ( data: IDataChatAnswerBindSession | string | null ) => { 
 
-            if ( 
-              ! data
-              || typeof data == "string" 
-              || ! (data as IDataChatAnswerBindSession ).answers  
-              || ! (data as IDataChatAnswerBindSession ).answers?.length 
-            ) {
-              // 검색 결과 : 답변 없음
-              updateBotChatMessage( [ { ...MetaDataBotChatMessage, ...{ intro: "적절한 답변을 찾을 수 없습니다." } } ] );
-            }
-            else {
-              // 검색 결과 : 답변 있음
-              setSessionId( data.sid ); // - 채팅 세션 아이디 업데이트
-              
-              const answes = ( data as IDataChatAnswerBindSession ).answers;
-              updateBotChatMessage( answes == null ? [] : answes.map( answer => { return { ...answer, ...{ keywords } } } ) );
-            }
+          const answerDef = { ...MetaDataBotChatMessage, ...{ intro: "적절한 답변을 찾을 수 없습니다." } };
+
+          if ( 
+            ! data
+            || typeof data == "string" 
+            // || ! (data as IDataChatAnswerBindSession ).answers  
+            // || ! (data as IDataChatAnswerBindSession ).answers?.length 
+          ) {
+            // 검색 결과 : 답변 없음
+            updateBotChatMessage( [ answerDef ] );
+          }
+          else {
+            // 검색 결과 : 답변 있음
+            setSessionId( data.sid ); // - 채팅 세션 아이디 업데이트
             
-          } );
-        }
-
-        // if ( ! resp || ! resp.length ) {
-        //   // 추출한 키워드 값이 없음 
-        //   console.log("error");
-        // }
-        // else {
-        //   // 추출한 키워드 답변 검색
-        //   FecthChatSession.findAnswer( message, resp, data => { console.log(data); } );
-        // }
-        
-      } ) );
-
-    } // 채팅 메시지 전처리 및 답변 전달
-    
+            const answes = ( data as IDataChatAnswerBindSession ).answers;
+            if ( answes ) {
+              updateBotChatMessage( answes == null ? [] : answes.map( answer => { return { ...answer, ...{ keywords } } } ) );
+            } 
+            else {
+              // 검색 결과 : 답변 없음
+              updateBotChatMessage( [ answerDef ] );
+            }
+           
+            navigate( `/c?sid=${data.sid}`, { replace: true } ); // URL 쿼리 변경
+            dispatch( setUpdateMenuChatSessions(Commons.formatDateTime('yyyy-MM-dd HH:mm:ss')) );
+          }
+          
+        } );
+      }
+    } ) );
   };
   
   // 채팅 : 메시지 업데이트 - 봇 
   const updateBotChatMessage = ( datas: Array<IDataChatAnswer> ): void => {
 
-    dispatch(setPending( false )); // *
+    dispatch(setPending( false )); // 대기상태 해제
 
     // 컨텍츠 컨테이너 
     const cmTempl = messageTempBotRef?.current; 
@@ -349,23 +350,55 @@ export default function ChatSession (  ) {
     updateChatMessage( cm ); // <ChatMessage /> 채팅 메시지 아이템 추가
 
   }
- 
 
-
+  /**
+   * useEffect : 초기화 함수
+   */
   useEffect( () => {
 
     if ( cursid ) {
-      // cursid -> 이전 채팅 세션 재구성 (이어하기)
-      FecthChatSession.findSessionQnA( cursid, ( resp ) => { console.log(resp) } );
-    }
-    
-    const latestMessage = prompt.latestMessage; // 최신 메시지
-    
-    if ( cursid == 0 ) {
-      // 새로운 채팅 세션
-    }
 
-    if ( latestMessage ) updateUserChatMessage( latestMessage ); // 채팅 메시지 업데이트
+      // 초기화
+      const contents = contentRef?.current;
+      if ( contents ) {
+        for( const item of Array.from(contents.children).slice(0, -1) ) {
+          item.remove();
+        }
+      }
+
+      // cursid -> 이전 채팅 세션 재구성 (이어하기)
+      FecthChatSession.findSessionQnA( cursid, ( datas ) => { 
+        
+        if ( ! datas || ( datas && ! datas.length )  ) {
+          // 검색 결과 : 채팅 세션 없음
+          // setChatSessions( null );
+        }
+        else {
+          // 검색 결과 : QnA(질문 + 답변) 세션 추가
+
+          datas.slice(-100).forEach( data => {
+
+            const answer = data.answer;
+            const question = data.question;
+
+            updateUserChatMessage( question.content );
+            updateBotChatMessage( [answer] );
+
+          } );
+        }
+
+      } );
+    }
+  }, [cursid] );
+
+  useEffect( () => {
+
+    const latestMessage = prompt.latestMessage; // 최신 메시지
+  
+    if ( latestMessage ) {
+      updateUserChatMessage( latestMessage ); // 채팅 메시지 업데이트
+      updateUserChatMessageProcess( latestMessage ); // 채팅 메시지 업데이트
+    }
 
     // async function searchYouTube() {
 
@@ -408,12 +441,7 @@ export default function ChatSession (  ) {
     // }
 
     // getVideoDetails('qkVSueqFyuc');
-    console.log("okkk");
-    
-    
-    
-    
-
+ 
 
     return () => {
       // 이 부분은 컴포넌트가 언마운트되거나, 의존성이 변경될 때 실행됨

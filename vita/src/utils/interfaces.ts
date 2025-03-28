@@ -61,3 +61,14 @@ export interface IDataChatQuestion {
   content: string, 
   created_at: string | null, 
 }
+
+/* 인터페이스 : 데이터 세트 - 채팅 . 답변 + 질문
+ */
+export interface IDataChatQnA {
+  id: number,
+  is_matched: number,
+  session?: IDataChatSession, 
+  question: IDataChatQuestion,
+  answer: IDataChatAnswer
+
+}

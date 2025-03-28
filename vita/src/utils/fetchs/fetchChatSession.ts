@@ -4,7 +4,7 @@
 import axios from "axios";
 import { SERVER_URL, SERVER_FEST_API_URL, IFetchResponseDefault }from  "./all";
 import { getHeaders }from  "./all";
-import { IResponseEntity, IDataChatSession } from "../interfaces";
+import { IResponseEntity, IDataChatSession, IDataChatQnA } from "../interfaces";
 
 
 /**  
@@ -100,7 +100,7 @@ export async function findSessions ( p: number, ol: number, callback: null | ( (
 }
 
 
-export async function findSessionQnA ( sid: number, callback: null | ( (datas:Array<IDataChatSession>|null )=> any ) ) {
+export async function findSessionQnA ( sid: number, callback: null | ( (datas:Array<IDataChatQnA>|null )=> any ) ) {
   let respData;
 
   try {

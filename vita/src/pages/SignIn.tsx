@@ -10,14 +10,20 @@ import Branding from "../componenets/headline/BrandingForm";
 import axios from "axios";
 import { useEffect } from "react";
 import * as Commons from "../../public/assets/js/commons";
-const LoginURI = import.meta.env.VITE_GOOGLE_CLIENT_SECRET;
-const GOOGLE_CLIENT_SECRET = import.meta.env.VITE_LOGIN_URI;
+const LoginURI = import.meta.env.VITE_LOGIN_URI;
+const GOOGLE_CLIENT_SECRET = import.meta.env.VITE_GOOGLE_CLIENT_SECRET;
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
 export default function SignIn() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  console.log("GOOGLE_CLIENT_ID: ", GOOGLE_CLIENT_ID);
+console.log("GOOGLE_CLIENT_SECRET: ", GOOGLE_CLIENT_SECRET);
+console.log("REDIRECT_URI: ", REDIRECT_URI);
+
+
 
   // 다이랙트 로그인
   const onLogin = async (e: any) => {

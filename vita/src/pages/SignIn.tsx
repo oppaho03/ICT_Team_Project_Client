@@ -97,13 +97,13 @@ console.log("REDIRECT_URI: ", REDIRECT_URI);
 
 
         const SERVER_REDIRECT_URI = "https://indirectly-crack-macaque.ngrok-free.app/auth/social/login/google/"
-      
+        // id_token : idToken,
+        // access_token : accessToken,
         console.log("보내기 직전의 code 값:", code);
         axios
         .post(SERVER_REDIRECT_URI,
           { code: code,
-            id_token : idToken,
-            access_token : accessToken,
+            
             
           },
           { headers: {'Content-Type': 'application/json'} })

@@ -21,6 +21,14 @@ export interface IDataCategory {
 /// 데이터 세트 : 채팅 
 /// 
 
+/* 인터페이스 : 데이터 세트 - 키워드 추출 결과 
+*/
+export interface IDataExtraKeywords {
+  original_text: string, 
+  processed_text: string, 
+  keywords: string[] | null
+}
+
 /* 인터페이스 : 데이터 세트 - 채팅 세션
  */
 export interface IDataChatSession {
@@ -71,4 +79,41 @@ export interface IDataChatQnA {
   question: IDataChatQuestion,
   answer: IDataChatAnswer
 
+}
+
+/* 인터페이스 : 데이터 세트 - 비디오
+ */
+export interface IDataYoutubeSearchResult {
+  kind: string,
+  etag: string,
+  id: {
+    kind: string,
+    videoId: string
+  },
+  snippet: {
+    publishedAt: string,
+    channelId: string,
+    title: string,
+    description: string,
+    thumbnails?: {
+      default?: {
+        url: string,
+        width: number,
+        height: number
+      },
+      medium?: {
+        url: string,
+        width: number,
+        height: number
+      },
+      high?: {
+        url: string,
+        width: number,
+        height: number
+      }
+    },
+    channelTitle: string,
+    liveBroadcastContent: string,
+    publishTime: string
+  }
 }

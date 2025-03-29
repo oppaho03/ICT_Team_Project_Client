@@ -7,7 +7,7 @@ import * as Commons from "../../../public/assets/js/commons";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { findSessions } from "../../utils/fetchs/fetchChatSession";
+import * as FetchChatSession from "../../utils/fetchs/fetchChatSession";
 import { setUpdateMenuChatSessions } from "../../store/uiSlice";
 
 import { IDataChatSession } from "../../utils/interfaces";
@@ -50,56 +50,60 @@ export default function DrawableMenu() {
     const curDateTime = Commons.formatDateTime('yyyy-MM-dd HH:mm:ss');
     const updatedChatSessions = ui.update_menu_chat_sessions;
 
-    /* 채팅 세션 메뉴 초기화
-    */ 
-    if ( ! updatedChatSessions ) {
-      dispatch( setUpdateMenuChatSessions( curDateTime ) );
-    }
-    else {
-      findSessions( 1, 10, datas => {
+    if ( window.isLoggedIn() ) { // 로그인 된 경우 메뉴
+      /* 채팅 세션 메뉴 초기화
+      */ 
+      if ( ! updatedChatSessions ) {
+        dispatch( setUpdateMenuChatSessions( curDateTime ) );
+      }
+      else {
+        FetchChatSession.findSessions( 1, 10, datas => {
 
-        if ( ! datas || ( datas && ! datas.length )  ) {
-          // 검색 결과 : 채팅 세션 없음
-          setChatSessions( null );
-        }
-        else {
-          // 검색 결과 : 채팅 세션 있음
-          const nowDate = new Date( curDateTime );
-          const groupBy = {
-            'today': { 'text' : '오늘', 'datas' : [] },
-            'yesterday': { 'text' : '어제', 'datas' : [] },
-            '7days': { 'text' : '지난 7일', 'datas' : [] },
-            'other': { 'text' : '그외', 'datas' : [] }
-          } as IChatSessionGroup
+          if ( ! datas || ( datas && ! datas.length )  ) {
+            // 검색 결과 : 채팅 세션 없음
+            setChatSessions( null );
+          }
+          else {
+            // 검색 결과 : 채팅 세션 있음
+            const nowDate = new Date( curDateTime );
+            const groupBy = {
+              'today': { 'text' : '오늘', 'datas' : [] },
+              'yesterday': { 'text' : '어제', 'datas' : [] },
+              '7days': { 'text' : '지난 7일', 'datas' : [] },
+              'other': { 'text' : '그외', 'datas' : [] }
+            } as IChatSessionGroup
 
-          datas.sort( sortBy('updated_at') ).reverse(); // 정렬
+            datas.sort( sortBy('updated_at') ).reverse(); // 정렬
 
-          // 시간 포맷( ISO8601 ) -> yyyy-MM-dd HH:mm:ss 형태로 변경
-          datas.map( data => { 
-            return { 
-              ...data, 
-              ...{ updated_at: data['updated_at'] ? Commons.formatDateTimeByISO8601( data['updated_at'], 'yyyy-MM-dd HH:mm:ss') : null, created_at: data['created_at'] ? Commons.formatDateTimeByISO8601( data['created_at'], 'yyyy-MM-dd HH:mm:ss') : null } 
-            } 
-          } )
-          .forEach( data => {
-            if ( ! data.updated_at ) return;
+            // 시간 포맷( ISO8601 ) -> yyyy-MM-dd HH:mm:ss 형태로 변경
+            datas.map( data => { 
+              return { 
+                ...data, 
+                ...{ updated_at: data['updated_at'] ? Commons.formatDateTimeByISO8601( data['updated_at'], 'yyyy-MM-dd HH:mm:ss') : null, created_at: data['created_at'] ? Commons.formatDateTimeByISO8601( data['created_at'], 'yyyy-MM-dd HH:mm:ss') : null } 
+              } 
+            } )
+            .forEach( data => {
+              if ( ! data.updated_at ) return;
 
-            const date = new Date( data.updated_at ); 
+              const date = new Date( data.updated_at ); 
 
-            if ( nowDate.toDateString() === date.toDateString() ) groupBy['today'].datas.push( data );
-            else if ( date.toDateString() == new Date(nowDate.getTime() - 86400000).toDateString() ) groupBy['yesterday'].datas.push( data );
-            else if ( date > new Date(nowDate.getTime() - 604800000) && date <= nowDate ) groupBy['7days'].datas.push( data );
-            else groupBy['other'].datas.push( data );
+              if ( nowDate.toDateString() === date.toDateString() ) groupBy['today'].datas.push( data );
+              else if ( date.toDateString() == new Date(nowDate.getTime() - 86400000).toDateString() ) groupBy['yesterday'].datas.push( data );
+              else if ( date > new Date(nowDate.getTime() - 604800000) && date <= nowDate ) groupBy['7days'].datas.push( data );
+              else groupBy['other'].datas.push( data );
 
-          } );
+            } );
 
-          setChatSessions( groupBy ); // - 채팅 세션 데이터 업데이트
-        }
+            setChatSessions( groupBy ); // - 채팅 세션 데이터 업데이트
+          }
 
-        
-        
-      } );
-    }
+          
+          
+        } );
+      }
+    } // end if
+
+    
   
 
   }, [ ui.update_menu_chat_sessions ]);

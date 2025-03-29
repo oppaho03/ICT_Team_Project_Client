@@ -32,6 +32,45 @@
 }
 
 
+/// ------------------------------------------------------------
+/// Global @MIXIN :: Text
+/// ------------------------------------------------------------
+
+/// @access public
+/// @param {} None
+/// - 텍스트 줄임(단행)
+@mixin __line-clamp { 
+  overflow:hidden;  
+  white-space:nowrap; 
+  @include prefix( text-overflow, ellipsis, "o" "ms" "" );
+}
+
+/// @access public
+/// @param { Value } $font-size : font-size
+/// @param { Value } $line-height : line-height
+/// @param { Value } $line-clamp : output lines
+/// @param { Value } $fixed : none | 1
+/// - 텍스트 줄임(단행)
+@mixin line-clamp ( $font-size, $line-height : none, $line-clamp : 1, $fixed : none ) {    
+  display : -webkit-box;
+  @include set-prefix( box-orient, vertical, "moz" "webkit" "" );
+
+  @if ( $line-height == none ) { $line-height : #{$font-size}; } // set default line-height    
+  @if not ( $fixed == none ) { height : calc($line-height * $line-clamp); } // set height 
+
+  max-height : calc($line-height * $line-clamp);
+  line-height : $line-height;
+  font-size : $font-size;
+  word-wrap:normal; 
+  // word-wrap: break-word;
+  overflow : hidden;
+  // -webkit-line-clamp : $line-clamp;
+  // line-clamp: $line-clamp;
+  @include set-prefix( line-clamp, #{$line-clamp}, "webkit" "" );    
+  @include set-prefix( text-overflow, ellipsis, "o" "ms" "" );
+}
+
+
 
 /// ------------------------------------------------------------
 /// @MIXIN :: Media Querys

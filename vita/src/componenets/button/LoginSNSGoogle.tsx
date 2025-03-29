@@ -4,11 +4,11 @@
  */
 
 type Props = {
-  onClick: (e:any) => void;
+  onClick: ((e:any) => void);
 };
 
 
-export default function LoginSNSGoogle({onClick}:Props) {
+export default function LoginSNSGoogle({ onClick }:Props) {
   //: 아래 코드를 JJS가 넣긴 했는데 아래 이 코드가 필요할까??
  /*  const [params] = useSearchParams();
   

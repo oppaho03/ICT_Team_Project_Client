@@ -4,51 +4,49 @@
 import axios from "axios";
 import { SERVER_URL, SERVER_FEST_API_URL, IFetchResponseDefault }from  "./all";
 import { getHeaders }from  "./all";
-import { IResponseEntity, IDataChatSession, IDataChatQnA } from "../interfaces";
+import { IResponseEntity, IDataExtraKeywords,  IDataChatSession, IDataChatQnA } from "../interfaces";
 
 
 /**  
  * 문장 -> 키워드 추출 
- * @param { string } contents 
+ * @param { string } text 
  * @param { function } callback
  * @return
  */
-export async function extrKeywords ( contents: string, callback: null | ( (datas:any|null )=> any ) ) {
+export async function extrKeywords ( text: string, callback: null | ( (datas:any|null )=> any ) ) {
 
   let respData;
 
-  // try {
-  //   const uri = `${SERVER_FEST_API_URL}/keyword_parser`;
-  //   const result = await axios.get<IFetchResponseDefault>( uri, {}); 
+  try {
+    
+    const uri = `${SERVER_FEST_API_URL}/keyword_parser`;
 
-  //   // 서버 응답 데이터 : IResponseEntity
-  //   const resultData = result.data ? result.data as unknown as IResponseEntity : null;
+    const headers = getHeaders();
+    const reqData = { text };
 
-  //   // 서버 응답 데이터 - 오류 처리
-  //   if ( ! result || result.status != 200 || ! resultData || ( resultData.success && resultData.success != 1 ) ) {
-  //     let messages = resultData && resultData.response ? ( resultData.response.messages ? resultData.response.messages : resultData.response.data ) : null;
+    const result = await axios.post<any>( uri, reqData, { headers }); 
 
-  //     if ( ! messages ) console.log(result); // 디버그용 콘솔
-  //     throw new Error( messages ? messages : result.statusText );
-  //   }
+    // 서버 응답 데이터 : IDataExtraKeywords
+    const resultData = result.data ? result.data as unknown as IDataExtraKeywords : null;
 
-  //   // 서버 응답 데이터 
-  //   const resp = resultData.response ? resultData.response : null;
-  //   respData = resp?.data ? resp.data : null;    
-  // }
-  // catch ( err: any ) {
-  //   respData = null;
-  //   if ( err.message ) console.log(err.message);
-  //   else console.log(err);
-  // }
-  // finally {
-  //   if ( callback ) callback( respData );  
-  // }
+    // 서버 응답 데이터 - 오류 처리
+    if ( ! result || ! resultData ) {
+      throw new Error( result.statusText );
+    }
+    
+    // 서버 응답 데이터 
+    respData = resultData;  
+  }
+  catch ( err: any ) {
+    console.log(err);
 
-  respData = contents.split(/\s+/)
-    .filter( word => word.length > 1 );
-
-  if ( callback ) callback( respData );  
+    respData = text.split(/\s+/).filter( word => word.length > 1 );
+    if ( err.message ) console.log(err.message);
+    // else console.log(err);
+  }
+  finally {
+    if ( callback ) callback( respData );  
+  }
 }
 
 
@@ -169,7 +167,6 @@ export async function findAnswer ( sid: number | null, contents: string, keyword
     const resultData = result.data ? result.data as unknown as IResponseEntity : null;
     
     // 서버 응답 데이터 - 오류 처리
-    // if ( ! result || result.status != 200 || ! resultData || ( resultData.success && resultData.success != 1 ) ) {
     if ( ! result || ! resultData || ( resultData.success && resultData.success != 1 ) ) {
       let messages = resultData && resultData.response ? ( resultData.response.messages ? resultData.response.messages : resultData.response.data ) : null;
 

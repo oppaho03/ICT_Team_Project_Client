@@ -61,6 +61,9 @@ body:is(.home, .c) .app-content {
         padding-left: $thumb-size;
         font-size: 0.75rem;
 
+        /// 
+        /// 용어 및 카테고리 
+        /// 
         .chat-term {
 
           .chat-term-item {  
@@ -80,6 +83,7 @@ body:is(.home, .c) .app-content {
 
         } // .chat-term
 
+        // 용어 및 카테고리 : 카테고리
         .chat-term.term-type-category {
           .chat-term-item {  
             background-color: rgba( #289EFF, 50% );
@@ -87,6 +91,7 @@ body:is(.home, .c) .app-content {
           }
         }
 
+        // 용어 및 카테고리 : 키워드
         .chat-term.term-type-keywords {
           .chat-term-item {  
 
@@ -99,6 +104,100 @@ body:is(.home, .c) .app-content {
           }
         } 
 
+        /// 
+        /// 정보 : *
+        ///
+        .chat-info {
+
+          &__title {
+            $c-br: get-color("br" "200");
+            $c-font: get-color('black' '600');
+
+            padding: 0.5em 0;
+            
+            color: $c-font;
+            font-size: 0.875rem; 
+            font-weight: bold; 
+
+            border-top: 1px solid #{$c-br};
+            border-bottom: 1px solid #{$c-br};
+
+            i[class^="fa-"] { margin-right: 0.5em; }
+          }
+
+        }
+
+        // 정보 : 유튜브 영상
+        .chat-info.info-type-video {
+          background-color: get-color('white' '');
+          padding: 1em;
+
+          
+          // 카드 : 비디오 
+          .entry-card.type-video {
+
+            width: 100%;
+            @include flex-container-append( column );
+
+            .entry-card- {
+              
+              &thumb { width: 100%; max-width: none; }
+              &thumb { margin-bottom: 1em; }
+              
+              &content p:last-child{ margin-bottom: 0; }
+
+              // 카드: 타이틀 
+              &title { 
+                @include line-clamp( 1.25em, $line-height: 1.5, $line-clamp: 1 );
+              }
+
+              &info {  
+                font-size: 0.875em;
+                color: get-color( 'text' 'bodysub' );
+              }
+
+              // 카드 : 설명
+              &description { display: none; }
+
+              // &title { 
+              //   $fs: 1.5em;
+          
+              //   font-size: $fs;
+              //   @include line-clamp( #{$fs}, $line-height: 1.5, $line-clamp: 2 );
+          
+              // }
+          
+              // // 카드: 설명
+              // &description {
+              //   $fs: 1em;
+          
+              //   font-size: $fs;
+              //   @include line-clamp( #{$fs}, $line-height: 1.5, $line-clamp: 4 );
+              // }
+
+              // &info { color: #ff0; }
+            }
+
+          } // .entry-card
+
+
+          & > ul {
+            margin: 0;
+            @include grid-c( 1, 3, 20, f row-dense, justify-items-start items-stretch self-stretch, "content" );
+
+            // @ 애니메이션 지정
+            & > li.chat-info-item { @extend %scale-in-center;  }
+
+            @for $i from 1 through 6 {
+              $delay: ($i - 1) * 0.1;
+              & > .chat-info-item:nth-child(#{$i}) {  @include set-prefix(  animation-delay, #{$delay}s, 'webkit' '' ); }
+            }
+          }
+          
+          
+        } // .info-type-video
+
+        // 메타: 하단(Bottom)
         &.meta-bottom {
           .chat-term .chat-term-item { margin : 0.5em 0.5em 0 0; }
         }
@@ -244,61 +343,94 @@ body:is(.home, .c) .app-content {
   // @ 미디어 쿼리 
   @include media( "<#{get-breakpoints('lg')}"  ){ // 모바일 
     $thumb-size : 36px;
-    
 
-    // 채팅 메시지 : 일반 및 봇 
-    .chat-message {
-      max-width: 100%;
+    div {
 
+      // 채팅 메시지 : 일반 및 봇 
       .chat-message {
+        max-width: 100%;
 
-        &-row-meta { padding-left: $thumb-size;  }
+        .chat-message {
 
-        // 채팅 메시지 : 썸네일
-        &__thumb {
-          $s : $thumb-size;
-          width: $s;
-          height: $s;
+          &-row-meta { padding-left: $thumb-size;  } // &-row-meta
 
-          &-img:is(img) {
-            min-width: $s;
-            min-height: $s;  
+          // 정보 : 유튜브 영상
+          &-row-meta .chat-info.info-type-video {
+            
+            & > ul {
+              @include grid-c( 1, 1, 20, f row-dense, justify-items-start items-stretch self-stretch, "content" );
+            }
+
+            .entry-card.type-video {
+              @include flex-container-append( row );
+
+              .entry-card-{
+                &thumb { width: 25%; margin-bottom: 0; }
+                // &description { display: block; }
+              }
+            }
+
           }
 
-          &-img:is(.im) { 
-            $s: $s - 16px;
+          // 채팅 메시지 : 썸네일
+          &__thumb {
+            $s : $thumb-size;
             width: $s;
             height: $s;
-            font-size: $s;
+
+            &-img:is(img) {
+              min-width: $s;
+              min-height: $s;  
+            }
+
+            &-img:is(.im) { 
+              $s: $s - 16px;
+              width: $s;
+              height: $s;
+              font-size: $s;
+            }
           }
+
+          &-row-meta, &__content { margin-left: 10px; }
         }
 
-        &-row-meta, &__content { margin-left: 10px; }
+        .chat-message-row-body {
+
+          .chat-message__content { margin-left: calc($thumb-size + 10px); }
+    
+        } // .chat-message-row-body
+
+        
+      } // .chat-message
+
+      // 채팅 메시지: "봇"
+      &[data-type="bot"] .chat-message {
+        
+        .chat-message-row-meta { 
+          margin-left: 0; 
+          padding-left: 0;  
+        }
+
+        .chat-message-row-body {
+          .chat-message__content { margin-left: 0;  }
+        }
+        
       }
 
-      .chat-message-row-body {
+      // 채팅 메시지: "사용자"
+      &[data-type="user"] .chat-message {
 
-        .chat-message__content { margin-left: calc($thumb-size + 10px); }
-  
-      } // .chat-message-row-body
+        .chat-message-row-meta { 
+          margin-right: 0;
+          padding-right: 0;  
+        }
 
-      
-    } // .chat-message
-
-    // 채팅 메시지 : 사용자 
-    div[data-type="user"] .chat-message {
-      .chat-message {
-
-        &-row-meta { padding-right: $thumb-size;  }
-
-        &-row-meta, &__content { margin-right: 10px; }
+        .chat-message__content { margin-right: 10px; }
+        
       }
+    } 
 
-     
-      
-    }
   }
-
 
   // *** 임시 여백 
   padding-bottom: 120px; // *** 임시

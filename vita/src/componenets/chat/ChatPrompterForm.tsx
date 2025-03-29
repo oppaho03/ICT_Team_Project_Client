@@ -9,6 +9,9 @@ import { setFocus, setActive, setMessage } from "../../store/chatPromptSlice"
 import ChatPrompterFormFilter from "./ChatPrompterFormFilter";
 import { useNavigate } from "react-router-dom";
 import RecordToggle from "../button/RecordToggle";
+import ModalAlter from "../modal/ModalAlter";
+
+
 
 export default function ChatPrompterForm ( ) {
 
@@ -51,10 +54,23 @@ export default function ChatPrompterForm ( ) {
   };
 
   /* 바인드: 키 다운 (채팅 프롬프트 폼)
-  */
+  */ 
+ 
+    
   const formSubmit = ( e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault(); // 전송 
 
+    /* 토큰 유효성 검사
+    */
+    if ( ! window.isLoggedIn() ) {
+      const modal = window.modalAlter( "로그인이 필요한 서비스 입니다." );
+      if ( modal ) {
+        window.modalBindClosed( modal, () => { navigate("/signin"); });
+        return;
+      }
+      else return navigate("/signin");
+    }
+      
     const input = inputPromptRef ? inputPromptRef.current : null;
     if ( ! input || input.value.trim() == "" ) return;
 

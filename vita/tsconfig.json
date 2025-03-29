@@ -3,6 +3,9 @@
     "esModuleInterop": true,   
     "allowJs": true, 
     "checkJs" : false,
+    "typeRoots": [
+      "./global.d.ts"
+    ],
   },
   "files": [],
   "references": [

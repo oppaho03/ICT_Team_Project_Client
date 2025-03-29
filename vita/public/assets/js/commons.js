@@ -349,7 +349,6 @@ function clearSessionStorage( key ) {
   if ( ("sessionStorage" in window) ) sessionStorage.clear();
 }
 
-
 /* export
 */
 export { 

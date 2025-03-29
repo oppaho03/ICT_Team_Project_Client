@@ -1,0 +1,56 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # 카드 (Card, Entry Card)
+/// --------------------------------------------------------------
+
+.entry-card {
+
+  &-wrap { 
+    text-decoration: none; 
+    color: get-color('text' 'body');
+    
+  }
+  &-wrap:hover {  
+    .entry-card-title { text-decoration: underline; text-underline-offset: 0.25em; }
+  }
+
+  @include flex-c( flex nowrap );
+  width: 100%;
+
+  .entry-card- {
+
+    // 카드: 썸네일
+    &thumb { 
+      @include flex-item( s 0 g 0 auto );
+      margin: 0 1em 0 0;
+      width: 16.66vw; 
+      max-width: 320px; 
+    }
+    &thumb-image { width: 100%; height: auto; }
+
+    &.content { 
+      @include flex-item( s 1 g 1 auto );
+      font-size: 1rem; 
+    }
+
+    // 카드: 타이틀
+    &title { 
+      $fs: 1.5em;
+
+      font-size: $fs;
+      @include line-clamp( #{$fs}, $line-height: 1.5, $line-clamp: 2 );
+
+    }
+
+    // 카드: 설명
+    &description {
+      $fs: 1em;
+
+      font-size: $fs;
+      @include line-clamp( #{$fs}, $line-height: 1.5, $line-clamp: 4 );
+    }
+
+  } 
+  
+}

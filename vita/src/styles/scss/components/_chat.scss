@@ -255,6 +255,7 @@
 
 body:not(.home, .c) {
   #main-chat-prompter { 
+    opacity: 0;
     @include position( fixed );
     @include set-prefix( transform, translate(-50%, 100vh), 'webkit' '' );
   }

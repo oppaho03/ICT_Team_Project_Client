@@ -4,8 +4,8 @@
 // import shortid from 'shortid';
 
 import React from "react";
-import { useSelector } from "react-redux";
 import Loader from "../common/Loader";
+
 
 /* 컴포넌트 속성 인터페이스
 */
@@ -63,23 +63,21 @@ export default function ChatMessage ( props: IProp ) {
           {/* 채팅 메시지 : 바디 */}
           <div className="chat-message-row chat-message-row-body d-flex align-items-start">
             <div className="chat-message__content "> 
-              <div className="chat-message__content-mbox px-0">
-                {/* <div className="messages body-messages">
-                  <p aria-label="message">텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트텍스트 테스트</p>
-                  <p aria-label="message">텍스트 메시지 2</p>
-                </div>
-                <div className="messages conclusion-messages">
-                  <h3 aria-label="" itemProp="headline"><i className="fa-solid fa-comment"></i>다음으로 이런 것을 권장합니다.</h3>
-                  <div className="inner">
-                    <p aria-label="message">결론 메시지 입니다.</p>
-                  </div>
-                </div> */}
-              </div>
+              <div className="chat-message__content-mbox px-0"></div>
             </div>
           </div>
 
           {/* 채팅 메시지 : 메타 (Bottom) */}
-          <div className="chat-message-row chat-message-row-meta meta-bottom"></div>
+          <div className="chat-message-row chat-message-row-meta meta-bottom">
+            {/* <div className="chat-info-wrap"> */}
+              {/* <div className="chat-info info-type-video">
+                <h3 className="chat-info__title" itemProp="headline">
+                  <i className="fa-brands fa-youtube"></i>유튜브 영상
+                </h3>
+              </div> */}
+            {/* </div> */}
+            
+          </div>
 
         </React.Fragment> }
         { ( props.type == "user" ) && <React.Fragment>

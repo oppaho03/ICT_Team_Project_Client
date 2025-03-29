@@ -4,6 +4,8 @@
 import * as Commons from "../../../public/assets/js/commons";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import SVGLogoWhite from "../svgLogoWhite";
+import { setModal } from "../../store/uiSlice";
+import { useDispatch } from "react-redux";
 
 
 interface Props {
@@ -27,6 +29,8 @@ function setCountTime ( target: HTMLElement | null, total: number ): number {
 }
 
 export default function ModalVerification ( { length = 6 }: Props ) {
+
+  const dispatch = useDispatch();
 
   const modal = useRef<HTMLDivElement | null>(null);
   const outputCountTime = useRef<HTMLElement | null>(null);
@@ -71,6 +75,8 @@ export default function ModalVerification ( { length = 6 }: Props ) {
           }, 1200);
 
         } // 
+
+        dispatch( setModal(true) ); // 모달 - 열림
         
       }, {} );
 
@@ -90,6 +96,8 @@ export default function ModalVerification ( { length = 6 }: Props ) {
         // 타이머 초기화 
         if ( timerCountTime != null ) clearInterval( timerCountTime );
         timerCountTime = null;
+
+        dispatch( setModal(false) ); // 모달 - 닫힘
 
       }, {} );
 

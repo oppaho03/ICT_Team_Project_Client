@@ -135,16 +135,19 @@
     &[aria-expanded="false"] { // 비확장
 
       .menu-containr {
+       
         & > hgroup.menu-containr-headline { 
-          
+         
           h2 { text-align: center; }
-          h2 > span { width: 0; }
+          h2 > span { display: none; }
 
         }
       }
 
       // 채팅 세션 메뉴
-      .menu.chat-session-menu {
+      .chat-session-menu {
+
+        &-wrap > *[itemprop="headline"] { display: none; }
 
         & a.link {
 

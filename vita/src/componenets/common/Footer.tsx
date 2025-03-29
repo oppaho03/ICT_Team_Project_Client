@@ -2,6 +2,7 @@
  * 컴포넌트 : 풋터 영역
  */
 
+import ModalAlter from "../modal/ModalAlter";
 import ModalVerification from "../modal/ModalVerification";
 
 export default function Footer() {
@@ -30,8 +31,12 @@ export default function Footer() {
   </div>
 </div> */}
 
+    {/* 모달 - 메시지 */}
+    <ModalAlter message=""/>
+
     {/* 모달 - 이메일 인증 */}
     <ModalVerification length={6} />
+
   
     <div className="app-footer-wrap">
       <div className="app-footer-outer">

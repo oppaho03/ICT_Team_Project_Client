@@ -2,9 +2,6 @@
  * 컴포넌트 : 필드셋 - 회원 가입
  */
 
-
-
-
 export default function FieldsetSignIn () {
   return ( <>
   <fieldset> 

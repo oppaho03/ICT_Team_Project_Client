@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setActive  } from "../store/chatPromptSlice";
@@ -9,6 +9,7 @@ import { setActive  } from "../store/chatPromptSlice";
  */
 const BodyClass = () => {
 
+  const navigate = useNavigate();
   const location = useLocation();
 
   const ui = useSelector( ( state: any ) => state.ui );
@@ -28,14 +29,20 @@ const BodyClass = () => {
       if ( paths.length < 2 ) {
         // 
         name = paths.length == 0 ? "home" : paths.pop();
+        
       }
+
+      
 
       if ( name ) {
         classes.push( name ); 
+        
 
         // 채팅 프롬프트 활성화 - 대화 시작 / 종료 토글
         if ( name == "c" ) dispatch( setActive(true) );
         else dispatch( setActive(false) );
+
+        if ( name == "signin" && window.isLoggedIn() ) navigate("/"); // - MyPage  
       }
       
     }

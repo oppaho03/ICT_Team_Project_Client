@@ -19,7 +19,7 @@ export async function findAll ( taxonomy: string, callback: null | ( (datas:any|
   try {
     const uri = `${SERVER_URL}/api/terms/category/${taxonomy}`;
     const result = await axios.get<IFetchResponseDefault>( uri, {}); 
-
+    console.log(result);
     // 서버 응답 데이터 : IResponseEntity
     const resultData = result.data ? result.data as unknown as IResponseEntity : null;
 

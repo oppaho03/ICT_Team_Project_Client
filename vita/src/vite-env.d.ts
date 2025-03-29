@@ -8,7 +8,7 @@ interface Window {
   // 로그인 세션 관련
   isLoggedIn: () => boolean; // 로그인 유무 검사
 
-  // 구글 맵
-  initGoogleMap: () => void;
-  resetGoogleMap: () => void;
+  // 맵
+  initMap: () => void;
+  resetMap: () => void;
 }

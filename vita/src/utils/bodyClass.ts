@@ -29,10 +29,7 @@ const BodyClass = () => {
       if ( paths.length < 2 ) {
         // 
         name = paths.length == 0 ? "home" : paths.pop();
-        
       }
-
-      
 
       if ( name ) {
         classes.push( name ); 

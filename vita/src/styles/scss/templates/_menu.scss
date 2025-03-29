@@ -303,9 +303,15 @@
       @include set-prefix( transition, ( width 0.6s ease('out-circ'), opacity 0.6s ease('out-circ') ), 'webkit' '' );
     }
 
-    &:hover {
+    &:hover,
+    &.activated {
       color: get-color("white" "");
       &::before { width: 100%; opacity: 1; }
+    }
+
+    // - 활성화 
+    &.activated:hover { 
+      &::before { width: 100%; opacity: 0.75; }
     }
 
     // - 공개 채팅 세션

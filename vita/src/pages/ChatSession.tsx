@@ -18,10 +18,9 @@ import ChatMessage from "../componenets/chat/ChatMessage";
 import sortBy from "sort-by";
 
 import * as FecthChatSession  from "../utils/fetchs/fetchChatSession";
-import * as FetchMap from '../utils/fetchs/fetchGoogleMaps';
+import * as FetchMap from '../utils/fetchs/fetchMaps';
 import * as FetchYoutubeData from '../utils/fetchs/fetchYoutubeData';
 import { IDataChatAnswer, IDataChatAnswerBindSession, IDataYoutubeSearchResult } from "../utils/interfaces";
-
 
 import { setUpdateMenuChatSessions } from '../store/uiSlice';
 
@@ -328,7 +327,7 @@ export default function ChatSession (  ) {
     FecthChatSession.extrKeywords( message, ( datas => {
 
       const keywords = datas && datas.keywords ? datas.keywords : null;
-
+      console.log(datas);
       if ( ! keywords || ! keywords.length ) {
         // 추출 결과 : 키워드 없음
         updateBotChatMessage( [ { ...MetaDataBotChatMessage, ...{ intro: "유효한 키워드가 존재하지 않습니다. 질문을 바꿔서 다시 시도해주세요." } } ], -1 );
@@ -353,7 +352,7 @@ export default function ChatSession (  ) {
           }
           else {
             // 검색 결과 : 답변 있음    
-            console.log(data);
+            
             const answes = ( data as IDataChatAnswerBindSession ).answers;
             if ( answes ) {
               updateBotChatMessage( answes == null ? [] : answes.map( answer => { return { ...answer, ...{ keywords } } } ) );
@@ -530,8 +529,6 @@ export default function ChatSession (  ) {
 
     if ( cursid ) {
       // 초기화
-      
-
       // cursid -> 이전 채팅 세션 재구성 (이어하기)
       FecthChatSession.findSessionQnA( cursid, ( datas ) => { 
         
@@ -558,9 +555,27 @@ export default function ChatSession (  ) {
 
       } );
     }
+
   }, [cursid] );
 
   useEffect( () => {
+
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(
+    //     (position) => {
+
+    //       // console.log(position.coords);
+    //       const { latitude, longitude } = position.coords;
+    //       console.log(position.coords);
+    //       // setCurrentPosition({ lat: latitude, lng: longitude });
+    //     },
+    //     (error) => {
+    //       console.error('Error getting location', error);
+    //     }
+    //   );
+    // }
+    ///
+
 
     if ( ! prompt.pending ) {
 

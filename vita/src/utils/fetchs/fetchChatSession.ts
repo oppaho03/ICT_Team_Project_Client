@@ -40,7 +40,12 @@ export async function extrKeywords ( text: string, callback: null | ( (datas:any
   catch ( err: any ) {
     console.log(err);
 
-    respData = text.split(/\s+/).filter( word => word.length > 1 );
+    respData = {
+      original_text: text, 
+      processed_text: text, 
+      keywords: text.split(/\s+/).filter( word => word.length > 1 )
+    };
+    
     if ( err.message ) console.log(err.message);
     // else console.log(err);
   }

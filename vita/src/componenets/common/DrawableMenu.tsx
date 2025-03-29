@@ -6,7 +6,7 @@ import * as Commons from "../../../public/assets/js/commons";
 
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import * as FetchChatSession from "../../utils/fetchs/fetchChatSession";
 import { setUpdateMenuChatSessions } from "../../store/uiSlice";
 
@@ -37,13 +37,16 @@ interface IChatSessionGroup {
 
 export default function DrawableMenu() {
 
+  const location = useLocation();
+  const urlQuerys = new URLSearchParams(location.search);
+
+  const cursid : number = urlQuerys.size && urlQuerys.has('sid') != null && urlQuerys.get('sid')?.trim() != "" ? parseInt( urlQuerys.get('sid')?.toString() ?? "0" ) : 0; // 현재 채팅 새션 ID
+  
+
   const dispatch = useDispatch();
   const ui = useSelector( (state:any) => state.ui );
 
   const [ chatSessions, setChatSessions ] = useState<IChatSessionGroup|null>(null);
-
-
-  // setUpdateMenuChatSession
 
   useEffect( () => {
 
@@ -53,11 +56,16 @@ export default function DrawableMenu() {
     if ( window.isLoggedIn() ) { // 로그인 된 경우 메뉴
       /* 채팅 세션 메뉴 초기화
       */ 
+      
       if ( ! updatedChatSessions ) {
         dispatch( setUpdateMenuChatSessions( curDateTime ) );
+       
       }
       else {
+        
         FetchChatSession.findSessions( 1, 10, datas => {
+
+          
 
           if ( ! datas || ( datas && ! datas.length )  ) {
             // 검색 결과 : 채팅 세션 없음
@@ -97,14 +105,9 @@ export default function DrawableMenu() {
             setChatSessions( groupBy ); // - 채팅 세션 데이터 업데이트
           }
 
-          
-          
         } );
       }
     } // end if
-
-    
-  
 
   }, [ ui.update_menu_chat_sessions ]);
 
@@ -137,7 +140,7 @@ export default function DrawableMenu() {
                     { group.datas.map( ( s: IDataChatSession, si: number  ) => {
                       return (
                       <li className="menu-item menu-item-type-icon" key={si}>
-                        <Link to={`/c?sid=${s['id']}`} className="link link-has-icon link-unstyle" title="" aria-label="">
+                        <Link to={`/c?sid=${s['id']}`} className={`link link-has-icon link-unstyle${ s['status'] == 0 ? ' publish' : '' }${ s['id'] == cursid ? ' activated' : '' }`} title="" aria-label="">
                           <i className="im icon-bubble"></i><span> {  s['lastQuestion'] ? s['lastQuestion'] : "빈 대화 세션입니다." } </span>
                         </Link>
                       </li> 

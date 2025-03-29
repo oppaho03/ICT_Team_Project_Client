@@ -90,7 +90,7 @@ function App() {
     /**
      * 구글 맵 생성
      */
-    window.initGoogleMap = () => {
+    window.initMap = () => {
       if ( ! ui.map ) dispatch( setMap(true) ); // UI. 맵 활성화
     }
   } // - 전역 함수 초기화 (global.d.ts / vite-env.d)

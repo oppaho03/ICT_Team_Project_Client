@@ -35,7 +35,7 @@ export default function ChatPrompter ( ) {
     // Commons.setSessionStorage("token", "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwic3ViIjoiMiIsImlhdCI6MTc0Mjc4NDIzOSwiZXhwIjoxNzQyNzg1MTM5fQ.neYTm70_YGG11j5kuHkA_HKBWeY-Bird9u4JhT3xMl0");
 
     // const token = Commons.getSessionStorage("token");
-    // Commons.removeSessionStorage("token");
+    //Commons.removeSessionStorage("token");
   }, []);
 
   const prompt = useSelector( (state: any) => state.prompt );

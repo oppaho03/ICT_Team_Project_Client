@@ -14,9 +14,9 @@ export interface IFetchResponseDefault {
   statusText: string
 }
 
-export const SERVER_URL = (import.meta.env.VITE_SERVER_SSL == "0" ? "http://" : "https://" ) + import.meta.env.VITE_SERVER_HOST + ":" + import.meta.env.VITE_SERVER_PORT;
+export const SERVER_URL = (import.meta.env.VITE_SERVER_SSL == "0" ? "http://" : "https://" ) + import.meta.env.VITE_SERVER_HOST + ( import.meta.env.VITE_SERVER_PORT ? ":" + import.meta.env.VITE_SERVER_PORT : "" );
 
-export const SERVER_FEST_API_URL = (import.meta.env.VITE_SERVER_FEST_API_SSL == "0" ? "http://" : "https://" ) + import.meta.env.VITE_SERVER_FEST_API_HOST + ":" + import.meta.env.VITE_SERVER_FEST_API_PORT;
+export const SERVER_FEST_API_URL = (import.meta.env.VITE_SERVER_FEST_API_SSL == "0" ? "http://" : "https://" ) + import.meta.env.VITE_SERVER_FEST_API_HOST + ( import.meta.env.VITE_SERVER_FEST_API_PORT ? ":" + import.meta.env.VITE_SERVER_FEST_API_PORT : "" );
 
 /**
  * 헤더 값 불러오기 

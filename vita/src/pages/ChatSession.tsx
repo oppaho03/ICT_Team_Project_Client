@@ -327,7 +327,7 @@ export default function ChatSession (  ) {
     FecthChatSession.extrKeywords( message, ( datas => {
 
       const keywords = datas && datas.keywords ? datas.keywords : null;
-      console.log(datas);
+      
       if ( ! keywords || ! keywords.length ) {
         // 추출 결과 : 키워드 없음
         updateBotChatMessage( [ { ...MetaDataBotChatMessage, ...{ intro: "유효한 키워드가 존재하지 않습니다. 질문을 바꿔서 다시 시도해주세요." } } ], -1 );
@@ -351,7 +351,12 @@ export default function ChatSession (  ) {
             updateBotChatMessage( [ answerDef ], -1 );
           }
           else {
-            // 검색 결과 : 답변 있음    
+            // 검색 결과 : 답변 있음   
+            
+            // 채팅 세션 업데이트
+            if ( cursid && cursid != data.sid ) {
+              setSessionId( data.sid ); // - 채팅 세션 아이디 업데이트
+            }
             
             const answes = ( data as IDataChatAnswerBindSession ).answers;
             if ( answes ) {
@@ -362,14 +367,11 @@ export default function ChatSession (  ) {
               updateBotChatMessage( [ answerDef ], -1 );
             }
 
-
-            // 채팅 세션 업데이트
-            if ( cursid != data.sid ) {
-              setSessionId( data.sid ); // - 채팅 세션 아이디 업데이트
+            if ( cursid != data.sid ) { // 갱신
               navigate( `/c?sid=${data.sid}`, { replace: true } ); // URL 쿼리 변경
               dispatch( setUpdateMenuChatSessions(Commons.formatDateTime('yyyy-MM-dd HH:mm:ss')) );
             }
-            
+
           }
           
         } );

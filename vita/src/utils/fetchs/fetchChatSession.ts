@@ -72,8 +72,6 @@ export async function findSessions ( p: number, ol: number, callback: null | ( (
 
     const result = await axios.get<IFetchResponseDefault>( uri, { headers, params: reqData }); 
 
-    console.log(headers);
-
     // 서버 응답 데이터 : IResponseEntity
     const resultData = result.data ? result.data as unknown as IResponseEntity : null;
     

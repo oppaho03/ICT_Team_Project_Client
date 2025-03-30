@@ -62,11 +62,8 @@ export default function DrawableMenu() {
        
       }
       else {
-        console.log("---");
-        
-        FetchChatSession.findSessions( 1, 10, datas => {
 
-          
+        FetchChatSession.findSessions( 1, 10, datas => {
 
           if ( ! datas || ( datas && ! datas.length )  ) {
             // 검색 결과 : 채팅 세션 없음

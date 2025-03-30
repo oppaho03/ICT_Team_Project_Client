@@ -7,6 +7,8 @@ import { Suspense, useEffect } from 'react'
 import "./styles/styles.css"
 import "./ts/app"
 
+import * as Commons from '../public/assets/js/commons'
+
 import { RouterProvider } from 'react-router-dom' 
 
 import Loader from './componenets/common/Loader' // (공통) 컴포넌트 : 대기, 로더 
@@ -15,7 +17,8 @@ import routes from './utils/routes' // ROUTER 설정
 import { useSelector } from 'react-redux';
 import { setMap } from './store/uiSlice'
 import { useDispatch } from 'react-redux'
-import * as Commons from '../public/assets/js/commons'
+
+import * as FetchMap from './utils/fetchs/fetchMaps';
 
 declare var bootstrap : any | null; // - 부트스트랩 개체
 
@@ -87,15 +90,16 @@ function App() {
       return token ? true : false;
     }
 
-    /**
-     * 구글 맵 생성
-     */
-    window.initMap = () => {
-      if ( ! ui.map ) dispatch( setMap(true) ); // UI. 맵 활성화
-    }
   } // - 전역 함수 초기화 (global.d.ts / vite-env.d)
 
   useEffect(() => { 
+
+    // 카카오 맵 스크립트 로드
+    FetchMap.addScript( () => { 
+      dispatch( setMap(true) ); 
+
+    } );
+
   }, []);
 
 

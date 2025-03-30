@@ -342,16 +342,20 @@ function removeSessionStorage( key ) {
 
 /**
  * 'sessionStorage' 모두 삭제
- * @param {string} key 
  * @return {void}
  */
-function clearSessionStorage( key ) {
+function clearSessionStorage() {
   if ( ("sessionStorage" in window) ) sessionStorage.clear();
+}
+
+function test() {
+  // console.log( new window.kakao.maps.services.Places() );
 }
 
 /* export
 */
 export { 
+  test,
   isPC, 
   isUndefined,
   isset, 

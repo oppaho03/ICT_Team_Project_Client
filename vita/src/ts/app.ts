@@ -24,7 +24,7 @@ declare var kakao: any | null;
     // 초기화 - gsap
     gsap.defaults({ duration: 1, ease: "power1.out", });
     // ScrollTrigger.refresh();
-
+    
 
   }
 

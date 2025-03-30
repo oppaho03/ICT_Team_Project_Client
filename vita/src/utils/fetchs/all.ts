@@ -34,7 +34,7 @@ export function getHeaders( header: any = {} ): any {
   */
 
   const headerDefaultValue: any = {
-    'ngrok-skip-browser-warning': '69420',
+    'ngrok-skip-browser-warning': ['69420', '6024'],
     "Content-Type": "application/json", 
     "Authorization": null
   };

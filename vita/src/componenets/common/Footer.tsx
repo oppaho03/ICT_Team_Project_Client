@@ -2,34 +2,35 @@
  * 컴포넌트 : 풋터 영역
  */
 
+import { useEffect, useRef, useState } from "react";
 import ModalAlter from "../modal/ModalAlter";
 import ModalVerification from "../modal/ModalVerification";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
+import * as Commons from "../../../public/assets/js/commons";
+import * as FetchMaps from "../../utils/fetchs/fetchMaps";
+import AnchorMap from "../button/AnchorMap";
+
+
+// declare var kakao : any | null;
 
 export default function Footer() {
+
+  const UI = useSelector( (state: any) => state.ui );
+  const dispatch = useDispatch();
+
+  
+
+  const kakao = window.kakao; // 카카오 맵 객체
+  const mapContentRef = useRef<HTMLDivElement>(null);
+  
+  
+  useEffect( () => {
+    
+  }, [] )
+
   return (<>
-
-
-{/* <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button> */}
-
-  {/* <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        ...
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div> */}
 
     {/* 모달 - 메시지 */}
     <ModalAlter message=""/>
@@ -37,8 +38,11 @@ export default function Footer() {
     {/* 모달 - 이메일 인증 */}
     <ModalVerification length={6} />
 
-  
     <div className="app-footer-wrap">
+
+      {/* 바닥 고정 앵커 버튼 */}
+      { UI.map &&  <AnchorMap /> }
+
       <div className="app-footer-outer">
         
         <div className="app-footer-inner">

@@ -18,7 +18,6 @@ import ChatMessage from "../componenets/chat/ChatMessage";
 import sortBy from "sort-by";
 
 import * as FecthChatSession  from "../utils/fetchs/fetchChatSession";
-import * as FetchMap from '../utils/fetchs/fetchMaps';
 import * as FetchYoutubeData from '../utils/fetchs/fetchYoutubeData';
 import { IDataChatAnswer, IDataChatAnswerBindSession, IDataYoutubeSearchResult } from "../utils/interfaces";
 
@@ -505,11 +504,6 @@ export default function ChatSession (  ) {
    * useEffect : 초기화 함수
    */
   useEffect( () => {
-    FetchMap.addScript();
-    // const script = FetchMap.addScript();
-    // return () => {
-    //   document.body.removeChild(script);
-    // };
   }, [] );
 
   /**

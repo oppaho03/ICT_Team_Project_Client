@@ -2,8 +2,7 @@
  * 데이터 통신 (Fetch:Axios) : 채팅 세션 
  */
 import axios from "axios";
-import { SERVER_URL, SERVER_FEST_API_URL, IFetchResponseDefault }from  "./all";
-import { getHeaders }from  "./all";
+import { SERVER_URL, SERVER_FEST_API_URL, IFetchResponseDefault, getHeaders }from  "./all";
 import { IResponseEntity, IDataExtraKeywords,  IDataChatSession, IDataChatQnA } from "../interfaces";
 
 
@@ -63,16 +62,17 @@ export async function extrKeywords ( text: string, callback: null | ( (datas:any
  */
 export async function findSessions ( p: number, ol: number, callback: null | ( (datas:Array<IDataChatSession>|null )=> any ) ) {
   let respData;
-
+  
   try {
     
     const uri = `${SERVER_URL}/api/sessions/me`;
 
     const headers = getHeaders();
     const reqData = { p, ol };
-  
+
     const result = await axios.get<IFetchResponseDefault>( uri, { headers, params: reqData }); 
 
+    console.log(headers);
 
     // 서버 응답 데이터 : IResponseEntity
     const resultData = result.data ? result.data as unknown as IResponseEntity : null;

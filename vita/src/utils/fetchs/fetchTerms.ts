@@ -2,7 +2,7 @@
  * 데이터 통신 (Fetch:Axios) : 용어 및 카테고린ㄴ
  */
 import axios from "axios";
-import { SERVER_URL, SERVER_FEST_API_URL, IFetchResponseDefault }from  "./all";
+import { SERVER_URL, SERVER_FEST_API_URL, IFetchResponseDefault, getHeaders }from  "./all";
 import { IResponseEntity } from "../interfaces";
 
 
@@ -17,9 +17,11 @@ export async function findAll ( taxonomy: string, callback: null | ( (datas:any|
   let respData;
 
   try {
-    const uri = `${SERVER_URL}/api/terms/category/${taxonomy}`;
-    const result = await axios.get<IFetchResponseDefault>( uri, {}); 
-    console.log(result);
+    const uri = `${SERVER_URL}/api/terms/category/${taxonomy}?test=1`;
+
+    const headers = getHeaders();
+    const result = await axios.get<IFetchResponseDefault>( uri, { headers }); 
+    
     // 서버 응답 데이터 : IResponseEntity
     const resultData = result.data ? result.data as unknown as IResponseEntity : null;
 

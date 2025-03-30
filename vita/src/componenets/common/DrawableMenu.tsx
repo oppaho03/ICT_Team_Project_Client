@@ -62,6 +62,7 @@ export default function DrawableMenu() {
        
       }
       else {
+        console.log("---");
         
         FetchChatSession.findSessions( 1, 10, datas => {
 

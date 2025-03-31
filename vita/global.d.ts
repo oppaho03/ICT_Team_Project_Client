@@ -8,9 +8,12 @@ declare global {
     // 로그인 세션 관련
     isLoggedIn: () => boolean;  // 로그인 유무 검사
 
-    // 카카오 맵 
-    kakao: any
+    // bootstrap 객체 
+    bootstrap: any;
 
+    // 카카오 맵객체
+    kakao: any;
+    
   }
 }
   

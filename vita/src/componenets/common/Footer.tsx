@@ -39,7 +39,7 @@ export default function Footer() {
     <ModalVerification length={6} />
 
     <div className="app-footer-wrap">
-
+      
       {/* 바닥 고정 앵커 버튼 */}
       { UI.map &&  <AnchorMap /> }
 

@@ -12,9 +12,6 @@ import shortid from "shortid";
 import { useEffect, useRef, useState } from "react";
 
 
-
-
-
 /**
  * UI - 버튼 : 녹음
  */
@@ -23,14 +20,22 @@ export default function AnchorMap() {
   const dispatch = useDispatch();
   const UI = useSelector( (state: any) => state.ui );
 
+  const bootstrap = window.bootstrap; // 부트스트랩 객체
+  const offcanvasRef  = useRef<HTMLDivElement>( null ); 
+  
+
   const [ map, setMap ] = useState<any>(null);
   const [ mapRange, setMapRange ] = useState<any>(null);
   const [ mapMarkers, setMarkers ] = useState<any[]>([]);
+
+  const [ countPlace, setCountPlace ] = useState<number>(0);
+
   
-  const [ toggle, setToggle ]= useState<boolean>(false);
   
   const kakao = window.kakao; // 카카오 맵 객체
   const mapContainerRef = useRef<HTMLDivElement>(null);
+
+  const [ toggle, setToggle ]= useState<boolean>(false);
   
 
   // https://apis.map.kakao.com/web/sample/drawShape/
@@ -45,11 +50,11 @@ export default function AnchorMap() {
         mapTypeId:kakao.maps.MapTypeId.ROADMAP 
       });
       setMap( objMap ); // map 객체 삽입
-
       curMap = objMap;
     }
     else curMap = map;
 
+    curMap.setDraggable(true);
     curMap.relayout();
 
     // 마커 : 중심 좌표 
@@ -82,7 +87,12 @@ export default function AnchorMap() {
     if ( true ) {
       FetchMaps.findPlaces( "병원", { location: latlng, radius }, ( datas ) => {
 
-        if ( ! datas ) return;
+        if ( ! datas ) {
+          setCountPlace(0);
+          return;
+        }
+        else setCountPlace( datas.length );
+        
 
         for( const data of datas ) { /// place
           if ( ! data ) continue;
@@ -102,7 +112,6 @@ export default function AnchorMap() {
           place_marker.setMap( curMap );
           setMarkers( [ ...mapMarkers, marker ] );
         }
-
         
       } );
     } // 
@@ -123,17 +132,38 @@ export default function AnchorMap() {
     setMarkers( [] ); // 마커 초기화
   };
 
-
-
   /* useEffect 
   */
-  useEffect( () => {}, []);
+  useEffect( () => {
+
+    if ( offcanvasRef?.current ) {
+      offcanvasRef.current.addEventListener("shown.bs.offcanvas", () => {
+        setToggle(true);
+      });
+      offcanvasRef.current.addEventListener("hide.bs.offcanvas", () => {
+        setToggle(false);
+      });
+    }
+
+  }, []);
 
 
   /**
    * 
    */
   const onClick = () => {
+
+    if ( bootstrap ) {
+
+      const offcanvas = offcanvasRef?.current ? new bootstrap.Offcanvas(offcanvasRef?.current) : null;
+      if ( offcanvas ) { 
+
+        // setToggle
+        if ( ! toggle )  offcanvas.show();
+       
+      }
+      else return;
+    } 
 
     if ( ! mapContainerRef?.current || ! UI.map || ! kakao ) return; 
 
@@ -174,12 +204,21 @@ export default function AnchorMap() {
 
   return (<>
     <div className="anchor-wrap anchor-map-wrap">
-        <button className="btn anchor anchor-map" aria-expanded="false" data-count="0" onClick={onClick}>
+        
+        <button className="btn anchor anchor-map" aria-expanded="false" data-count={countPlace} onClick={onClick} disabled={toggle}>
           <i className="fa-solid fa-map"></i>
         </button>
-        <div className="map-content-wrap map-wrap">
-          <div className="map-content map" id="map" ref={mapContainerRef}></div>
+
+        <div className="offcanvas offcanvas-bottom map-content-wrap map-wrap" tabIndex={-1} aria-labelledby="offcanvasBottomLabel" ref={offcanvasRef} >
+          <div className="offcanvas-header">
+            <h5 className="offcanvas-title" id="offcanvasBottomLabel"></h5>
+            <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div className="offcanvas-body small position-relative">
+            <div className="map-content map" id="map" ref={mapContainerRef}></div>
+          </div>
         </div>
+
       </div>
   </>);
 };

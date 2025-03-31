@@ -8,6 +8,9 @@ interface Window {
   // 로그인 세션 관련
   isLoggedIn: () => boolean; // 로그인 유무 검사
 
+  // bootstrap 객체 
+  bootstrap: any;
+
   // 카카오 맵 
   kakao: any
 

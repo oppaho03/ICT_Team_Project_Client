@@ -556,23 +556,6 @@ export default function ChatSession (  ) {
 
   useEffect( () => {
 
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(
-    //     (position) => {
-
-    //       // console.log(position.coords);
-    //       const { latitude, longitude } = position.coords;
-    //       console.log(position.coords);
-    //       // setCurrentPosition({ lat: latitude, lng: longitude });
-    //     },
-    //     (error) => {
-    //       console.error('Error getting location', error);
-    //     }
-    //   );
-    // }
-    ///
-
-
     if ( ! prompt.pending ) {
 
       const latestMessage = prompt.latestMessage; // 최신 메시지

@@ -5,7 +5,6 @@ import axios from "axios";
 import { SERVER_URL, SERVER_FEST_API_URL, IFetchResponseDefault, getHeaders }from  "./all";
 import { IResponseEntity, IDataExtraKeywords,  IDataChatSession, IDataChatQnA } from "../interfaces";
 
-
 /**  
  * 문장 -> 키워드 추출 
  * @param { string } text 

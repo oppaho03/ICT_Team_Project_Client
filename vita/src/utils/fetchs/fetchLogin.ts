@@ -58,4 +58,35 @@ export async function onLogin ( email: string, password: string, callback: null 
 }
 
 
+/**
+ * 인증 코드 -> 인증 토큰으로 변경
+ * @param { string } provider - google | kakao | naver 
+ * @param { string } authcode - 인증 코드 
+ * @param { function } callback
+ */
+export async function setAuthToken ( provider: string,  authcode: string, callback: null | ( (datas:any|null )=> any ) ) {
+
+  let respData = null;
+  
+  try {
+
+    if ( callback ) callback( respData );  
+  }
+  catch ( err: any ) {
+    console.log(err);
+
+    respData = null;
+    if ( err.message ) console.log(err.message);
+    // else console.log(err);
+  }
+  finally {
+    if ( callback ) callback( respData );  
+  }
+}
+
+
+export async function onLoginGoogle ( authcode: string, callback: null | ( (datas:any|null )=> any ) ) {
+
+}
+
 

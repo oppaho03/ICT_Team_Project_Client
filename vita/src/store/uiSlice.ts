@@ -41,5 +41,5 @@ const uiSlice = createSlice({
   }
 });
 
-export const { setExpanded, setModal, setLoading, setMap, setUpdateMenuChatSessions, toggleExpanded, toggleModal, toggleLoading, toggleMap } = uiSlice.actions;
+export const { setExpanded, setPopup, setModal, setLoading, setMap, setUpdateMenuChatSessions, toggleExpanded, toggleModal, toggleLoading, toggleMap } = uiSlice.actions;
 export default uiSlice.reducer;

@@ -8,8 +8,9 @@ import { setFocus, setActive, setMessage } from "../../store/chatPromptSlice"
 
 import ChatPrompterFormFilter from "./ChatPrompterFormFilter";
 import { useNavigate } from "react-router-dom";
-import RecordToggle from "../button/RecordToggle";
-import ModalAlter from "../modal/ModalAlter";
+import RecordToggleButton from "../button/RecordToggleButton";
+
+import UploadImageButton from "../button/UploadImageButton";
 
 
 
@@ -103,8 +104,9 @@ export default function ChatPrompterForm ( ) {
         <div className="chat-prompter-input" id="chat-prompter-input">
           
           <div className="input-wrap d-flex align-items-center rounded-pill">
+            
             {/* 버튼 : STT */}
-            <RecordToggle />
+            <RecordToggleButton />
             
             {/* 버튼 : SUBMIT */}
             <button type="submit" className="btn btn-has-icon btn-search btn-unstyled icon-btn flex-grow-0 flex-shrink-0">
@@ -112,6 +114,9 @@ export default function ChatPrompterForm ( ) {
             </button>
 
             <input ref={inputPromptRef} type="text" className="form-control form-control-unstyled" name="s" placeholder="..." onFocus={inputFocus} onBlur={inputBlur} onKeyDown={inputKeyDown} />
+
+            {/* 버튼 : 이미지 업로드 버튼 */}
+            <UploadImageButton />
 
           </div>
 

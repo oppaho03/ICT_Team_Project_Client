@@ -1,3 +1,4 @@
+
 /* 인터페이스 : 응답 데이터
  */
 export interface IResponseEntity { success: number, response: any }

@@ -15,10 +15,12 @@ import Loader from './componenets/common/Loader' // (공통) 컴포넌트 : 대�
 import routes from './utils/routes' // ROUTER 설정
 
 import { useSelector } from 'react-redux';
-import { setMap } from './store/uiSlice'
+import { setMap, setPopup } from './store/uiSlice'
 import { useDispatch } from 'react-redux'
 
 import * as FetchMap from './utils/fetchs/fetchMaps';
+
+
 
 declare var bootstrap : any | null; // - 부트스트랩 개체
 
@@ -27,6 +29,19 @@ function App() {
   // const [count, setCount] = useState(0)
   const ui = useSelector( (state: any) => state.ui );
   const dispatch = useDispatch();
+
+
+  /* window 바인딩 
+  */
+  if ( true ) {
+
+    /// window.message 바인드
+    Commons.setEventListener( window, "message", ( e: MessageEvent ) => {
+      // (event.origin !== 'http://localhost:3000') return; // 안전을 위해 이벤트의 origin 확인
+      // console.log(e.data);
+    }, {} );
+
+  }
 
   /* 전역 함수 초기화 (global.d.ts / vite-env.d)
   */ 
@@ -91,6 +106,12 @@ function App() {
     }
 
   } // - 전역 함수 초기화 (global.d.ts / vite-env.d)
+
+
+
+ 
+  
+
 
   useEffect(() => { 
 

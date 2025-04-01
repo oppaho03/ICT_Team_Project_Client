@@ -98,7 +98,7 @@ function stopRecording(): void {
 /**
  * UI - 버튼 : 녹음
  */
-export default function RecordToggle() {
+export default function RecordToggleButton() {
   
   const dispatch = useDispatch();
   const prompt = useSelector( (state: any) => state.prompt ); 

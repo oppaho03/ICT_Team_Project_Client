@@ -7,6 +7,7 @@ import ChatSession from "../pages/ChatSession.tsx";
 import SignIn from "../pages/SignIn.tsx";
 import SignUp from "../pages/SignUp.tsx";
 import Logout from "../pages/Logout.tsx";
+import MyPage from "../pages/MyPage.tsx";
 
 /**
  * createBrowserRouter() : JSON 형식으로 라우팅 설정
@@ -37,7 +38,11 @@ const routes = createBrowserRouter([
       { // 페이지 : 로그아웃
         path: '/logout',
         element: React.createElement(Logout),
-      }
+      },
+      { // 페이지 : 마이페이지
+        path: '/members',
+        element: React.createElement(MyPage),
+      },
     ]
   },
 ]);

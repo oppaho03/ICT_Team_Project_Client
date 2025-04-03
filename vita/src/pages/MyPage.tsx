@@ -1,6 +1,5 @@
 import FieldsetEtcFunction from "../componenets/fieldset/FSEtcFunction";
 import FieldsetMemberInfo from "../componenets/fieldset/FSMemberInfo";
-import FieldsetMemberProfile from "../componenets/fieldset/FSMemberProfile";
 import Branding from "../componenets/headline/BrandingForm";
 
 export default function MyPage() {
@@ -32,10 +31,7 @@ return (<>
         {/* 필드셋 : 사용자 정보 */}
         <div className="d-flex flex-column justy gap-3">
 
-          <div>
-            <FieldsetMemberProfile />
-          </div>
-          <div className="w-100 ">
+          <div className="#">
             <FieldsetMemberInfo />
           </div>
         </div>

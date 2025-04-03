@@ -2,7 +2,31 @@
  * 컴포넌트 : 필드셋 - 회원 정보
  */
 
+import { useState } from "react";
+
 export default function FieldsetMemberInfo () {
+
+  // 한번 가져와 보기
+  axios.get('http://localhost:8080/api/members')
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function(error){
+      console.log(error);
+    })
+
+  /* const [myData, setMyData] = useState({
+  id:id,
+  email:email,
+  name:name,
+  nickname:nickname,
+  gender:gender,
+  birth:birth,
+  address:address,
+  
+  }); */
+
+
 
   return(<>
     
@@ -10,11 +34,45 @@ export default function FieldsetMemberInfo () {
       {/* 카드 제목 */}
       <legend>
         <div className="form-heading">
-          <h2>마이페이지</h2>
+          <b className="h1 text-center w-25 p-3 ">마이페이지</b>
         </div>
       </legend>
 
-      
+
+
+    <div className="bg-white p-3  shadow-sm">
+      <img className="img-thumbnail rounded-circle float-start m-3" src="\profiile_test.png" width="128" alt="프로필 이미지" />
+      <h1 className="m-3">○○○님 개인정보</h1>
+      <button className="btn btn-outline-primary">개인정보 수정</button>
+      <table className="table table-borderless m-3 p-3">
+          <thead></thead>
+          <tbody >
+            <tr>
+              <th className="text-secondary">아이디</th>
+              <td>jeongjs501</td>
+              <th>이메일</th>
+              <td>jeongjs501@naver.com</td>
+            </tr>
+            <tr>
+              <th>비밀번호</th>
+              <td>●●●●●●●●●●●●●</td>
+              <td><button className="btn btn-outline-primary">비밀번호 변경</button></td>
+            </tr>
+            <tr>
+              <th>성 명</th>
+              <td>정종섭</td>
+              <th>성 별</th>
+              <td>남성</td>
+            </tr>
+            <tr>
+              <th>주 소</th>
+              <td>서울시 강동구 상일로 5길 10-9</td>
+              <th>상세주소</th>
+              <td>101호</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
 
 {/*
 << MEMO >>
@@ -25,10 +83,21 @@ useSelector hook?
 */}
 
 
+
+
+
       <div className="bg-white rounded shadow p-3 my-4">
         <h2 className="mb-3">유저정보</h2>
-        <table className="table mx-start text-end small">
+        <table className="table">
           <tbody>
+            <tr>{/* 유저정보 : 아이디 */}
+              <td>
+                <img className="img-thumbnail rounded-circle img-fluid " width="128" src="\profiile_test.png" alt="유저이미지" />
+              </td>
+              <th>아이디</th>
+              <td><input type="text" /></td>
+            </tr>
+
           {/* 유저정보 : 아이디 */}
             <tr>
               <th className="align-middle">아이디</th>

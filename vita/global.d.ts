@@ -13,6 +13,7 @@ declare global {
 
     // 카카오 맵객체
     kakao: any;
+
     
   }
 }

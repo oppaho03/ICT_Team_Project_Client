@@ -70,6 +70,16 @@ function App() {
     window.modalAlter = ( message: string, title: string | null = null ) => { 
 
       let el = document.getElementById("modal-alter");
+
+      if ( el ) { // - 모달 새로 생성(복제)
+        let elTemp = el.cloneNode( true );
+        el.replaceWith( elTemp );
+        el = document.getElementById("modal-alter");
+      }
+
+      // let newEl = el?.cloneNode( true );
+
+      // if ( el ) el.replaceWith(el.cloneNode( true ));
       
       const modal = el ? new bootstrap.Modal( el ) : null
       if ( ui.modal || ! modal ) return null; 
@@ -106,13 +116,7 @@ function App() {
     }
 
   } // - 전역 함수 초기화 (global.d.ts / vite-env.d)
-
-
-
- 
   
-
-
   useEffect(() => { 
 
     // 카카오 맵 스크립트 로드

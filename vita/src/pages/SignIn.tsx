@@ -3,7 +3,7 @@
  */
 import * as Commons from "../../public/assets/js/commons";
 
-import * as FetchLogin from "../utils/fetchs/fetchLogin";
+import * as FetchSignIn from "../utils/fetchs/fetchSignIn";
 
 import { Link, useLocation, useNavigate, } from "react-router-dom";
 import LoginSNSGoogle from "../componenets/button/LoginSNSGoogle";
@@ -73,7 +73,7 @@ export default function SignIn() {
       return;
     }
     
-    FetchLogin.onLogin( email.toString(), pwd.toString(), data => {
+    FetchSignIn.onSignIn( email.toString(), pwd.toString(), data => {
    
       if ( data && data.token ) 
         Commons.setSessionStorage( "token", data.token ); // 로그인 결과: 성공
@@ -89,7 +89,7 @@ export default function SignIn() {
    * 로그인 : 구글 
    * @param e 
    */
-  const onLoginGoogle = (e: MouseEvent) => {
+  const onSignInGoogle = (e: MouseEvent) => {
 
     if ( window.opener ) return;  // - 팝업에서는 실행되지 않음
 
@@ -112,7 +112,7 @@ export default function SignIn() {
    * 로그인 : 카카오
    * @param e 
    */
-  const onLoginKaKao = (e: MouseEvent) => {
+  const onSignInKaKao = (e: MouseEvent) => {
   };
 
 
@@ -127,11 +127,9 @@ export default function SignIn() {
       const code = params.get("code");
       const currentUri = window.location.href;
 
-      FetchLogin.setAuthToken( "google", code ?? "", (resp) => {
+      FetchSignIn.setAuthToken( "google", code ?? "", (resp) => {
         
         console.log(resp);
-
-        console.log("askjdlksad");
         alert("-");
         window.close(); // - 팝업 닫기
 
@@ -163,8 +161,8 @@ export default function SignIn() {
 
             {/* 필드셋 : SNS 로그인 */}
             <ul className="w-100 list-unstyled sns-login-list">
-              <li> <div className="form-control-field"><LoginSNSKaKao onClick={onLoginKaKao}/></div> </li>
-              <li> <div className="form-control-field"><LoginSNSGoogle onClick={onLoginGoogle}/></div> </li>
+              <li> <div className="form-control-field"><LoginSNSKaKao onClick={onSignInKaKao}/></div> </li>
+              <li> <div className="form-control-field"><LoginSNSGoogle onClick={onSignInGoogle}/></div> </li>
             </ul>
 
             {/* 필드셋 : SNS 로그인 */}

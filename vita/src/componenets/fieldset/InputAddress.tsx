@@ -1,14 +1,12 @@
 /**
  * 컴포넌트 : 필드셋 - 입력 : 주소 
  */
-import { KeyboardEvent, useState } from "react";
+import React, { KeyboardEvent, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 
 interface InputAddressProps {
   onChange?: (addr: string) => void;
 }
-
-
 
 export default function InputAddress ({onChange}: InputAddressProps) {
 
@@ -35,15 +33,20 @@ export default function InputAddress ({onChange}: InputAddressProps) {
   }
 
   return ( <>
-    {/* 주소 */}
-    <input type="text" className="form-control" name="address" placeholder="" data-is-validation='0'onFocus={() => setOpen(true)} value={value} onChange={(e) => {
-          setValue(e.target.value);
-          if (onChange) onChange(e.target.value);
-        }} onKeyUp={onKeyUp} /> 
-    <div className="post-code-container">
-      { isOpen ? (
-      <DaumPostcode className="" style={{height: '320px'}} defaultQuery="" onComplete={onCompleated}/>
-      ) : null }
+    <div className="input-wrap">
+      {/* 주소 */}
+      <input type="text" className="form-control" name="address" placeholder="" data-is-validation='0'onFocus={() => setOpen(true)} value={value} onChange={(e) => {
+            setValue(e.target.value);
+            if (onChange) onChange(e.target.value);
+          }} onKeyUp={onKeyUp} /> 
+      <div className="post-code-container">
+        { isOpen && 
+          <React.Fragment>
+            <button type="button" className="btn-close" onClick={() => setOpen( false )}></button>
+            <DaumPostcode className="post-code-content" style={{height: '320px'}} defaultQuery="" onComplete={onCompleated}/>
+          </React.Fragment>
+        }
+      </div>
     </div>
   </>);
 }

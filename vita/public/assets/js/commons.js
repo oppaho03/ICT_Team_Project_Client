@@ -138,8 +138,6 @@ function formatDateTimeByISO8601( value, format ) {
   return format.replace( /yyyy|MM|dd|HH|mm|ss/g, (match) => dateTime[match] );
 }
 
-
-
 /**
  * 포맷터: 문자열에서 숫자만 추출
  * @param {string} value 
@@ -147,6 +145,43 @@ function formatDateTimeByISO8601( value, format ) {
  */
 function formatNumbers( value ) {
   return value && value.length ? value.replace( /[^0-9]/g, '' ) : "";
+}
+
+
+/**
+ * 값 검증 (포맷)
+ * @param {string} type 
+ * @param {string} value 
+ * @returns boolean
+ */
+function validateValue( type, value ) {
+
+  let result = true;
+  let regex = null;
+
+  switch ( type.toLowerCase() ) {
+
+    case "email":
+      regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      break;
+
+    case "password":
+      regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      break;
+
+  }
+
+  return regex ? regex.test( value ) : false;
+}
+
+
+/**
+ * 필터 : 생년월일
+ * @param {string} value 
+ * @returns 
+ */
+function filterBirth( value ) {
+  return value.replace(/[^0-9]/g, "").replace(/^(\d{4})(\d{2})(\d{2}).*/, "$1-$2-$3");
 }
 
   
@@ -348,14 +383,10 @@ function clearSessionStorage() {
   if ( ("sessionStorage" in window) ) sessionStorage.clear();
 }
 
-function test() {
-  // console.log( new window.kakao.maps.services.Places() );
-}
 
 /* export
 */
 export { 
-  test,
   isPC, 
   isUndefined,
   isset, 
@@ -377,6 +408,9 @@ export {
   formatDateTime,
   formatDateTimeByISO8601,
   formatNumbers,
+  validateValue,
+
+  filterBirth,
 
   getSessionStorage,
   setSessionStorage,

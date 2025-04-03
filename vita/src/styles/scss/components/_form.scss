@@ -48,9 +48,7 @@ form.form {
       font-weight: 600;
     } // &__name
 
-    &__input-container {
-
-    } // &__input-container
+    // &__input-container {} // &__input-container
 
   }
 
@@ -141,12 +139,16 @@ form.form {
         @include position ( relative );
         width: 100%; 
         
-        & > * {
+        & > .post-code-content {
           @include position( absolute, l 0 t 0 z 10 );
           border-width: 1px;
           border-color: get-color('br' '200');
           border-style: solid;
           box-sizing: content-box;
+        }
+
+        & > button.btn-close {
+          @include position( absolute, r 0 t -1.5em z 11 );
         }
       }
 

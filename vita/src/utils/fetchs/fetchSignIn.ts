@@ -6,7 +6,6 @@ import { SERVER_URL, SERVER_FEST_API_URL, IFetchResponseDefault }from  "./all";
 import { getHeaders }from  "./all";
 import { IResponseEntity,  } from "../interfaces";
 
-
 /**  
  * 로그인 : 다이렉트
  * - 질문과 세션 생성
@@ -15,7 +14,7 @@ import { IResponseEntity,  } from "../interfaces";
  * @param { function } callback
  * @return
  */
-export async function onLogin ( email: string, password: string, callback: null | ( (datas:any|null )=> any ) ) {
+export async function onSignIn ( email: string, password: string, callback: null | ( (datas:any|null )=> any ) ) {
 
   let respData;
 

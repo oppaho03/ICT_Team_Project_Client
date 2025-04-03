@@ -17,6 +17,25 @@ export interface IDataCategory {
 };
 
 
+///
+/// 데이터 세트 : 회원  
+/// 
+export interface IDataMember {
+  id: number,
+  email: string
+  name: string,
+  nickname: string,
+  gender: string, // M | F
+  birth: string, 
+  address: string, 
+  updated_at: string,
+  created_at: string,
+  contact?: string, 
+  status?: number,
+
+}
+
+
 
 ///
 /// 데이터 세트 : 채팅 

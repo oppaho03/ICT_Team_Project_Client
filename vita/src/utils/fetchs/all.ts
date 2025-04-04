@@ -14,8 +14,13 @@ export interface IFetchResponseDefault {
   statusText: string
 }
 
+// Spring Boot 서버
 export const SERVER_URL = (import.meta.env.VITE_SERVER_SSL == "0" ? "http://" : "https://" ) + import.meta.env.VITE_SERVER_HOST + ( import.meta.env.VITE_SERVER_PORT ? ":" + import.meta.env.VITE_SERVER_PORT : "" );
 
+// DJango 서버 
+export const SERVER_DJANGO_API_URL = (import.meta.env.VITE_SERVER_DJANGO_API_SSL == "0" ? "http://" : "https://" ) + import.meta.env.VITE_SERVER_DJANGO_API_HOST + ( import.meta.env.VITE_SERVER_DJANGO_API_PORT ? ":" + import.meta.env.VITE_SERVER_DJANGO_API_PORT : "" );
+
+// FEST API 서버 
 export const SERVER_FEST_API_URL = (import.meta.env.VITE_SERVER_FEST_API_SSL == "0" ? "http://" : "https://" ) + import.meta.env.VITE_SERVER_FEST_API_HOST + ( import.meta.env.VITE_SERVER_FEST_API_PORT ? ":" + import.meta.env.VITE_SERVER_FEST_API_PORT : "" );
 
 /**

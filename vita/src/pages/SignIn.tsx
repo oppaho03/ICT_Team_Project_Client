@@ -2,7 +2,14 @@
  * 페이지: 로그인
  */
 import * as Commons from "../../public/assets/js/commons";
+import * as IS from "../utils/interfaces";
 
+import { FormEvent, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { v4 as uuidv4 } from 'uuid';
+
+import * as uiSlice from "../store/uiSlice";
 import * as FetchSignIn from "../utils/fetchs/fetchSignIn";
 
 import { Link, useLocation, useNavigate, } from "react-router-dom";
@@ -11,13 +18,19 @@ import LoginSNSKaKao from "../componenets/button/LoginSNSKaKao";
 import FieldsetSignIn from "../componenets/fieldset/FSSignIn";
 import Branding from "../componenets/headline/BrandingForm";
 
-import { FormEvent, useEffect, useState } from "react";
+
 
 
 export default function SignIn() {
 
+  const UI = useSelector( (state: any) => state.ui );
+  const dispatch =  useDispatch();
+  
   const navigate = useNavigate();
   const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  const mode = params.get( "mode" );
 
   const redirectUri = import.meta.env.VITE_OAUTH2_REDIRECT_URL; // OAUTH2 - (공통)
 
@@ -37,7 +50,7 @@ export default function SignIn() {
 
     const popup = window.open(
       uri, 
-      "VITA - SNS Login", 
+      "oauth_login_popup", 
       `width=${width},height=${height},top=${top},left=${left}`
     );
 
@@ -53,7 +66,7 @@ export default function SignIn() {
   };
 
   /**
-   * 로그인 : 다이렉트 
+   * 로그인 : 다이렉트 로그인
    * @param e 
    */
   const onSubmit = (e: FormEvent) => {
@@ -74,7 +87,7 @@ export default function SignIn() {
     }
     
     FetchSignIn.onSignIn( email.toString(), pwd.toString(), data => {
-   
+
       if ( data && data.token ) 
         Commons.setSessionStorage( "token", data.token ); // 로그인 결과: 성공
 
@@ -86,7 +99,61 @@ export default function SignIn() {
   };
 
   /**
-   * 로그인 : 구글 
+   * 로그인 : OAuth2 방식 로그인
+   * @param datas 
+   */
+  const onSubmitOAuthToken = ( datas: IS.IDataOAuthTokenPayload ) => {
+
+    FetchSignIn.onSignInByOAuthToken( {
+      provider_id: datas.provider_id,
+      provider: datas.provider,
+      email: datas.email,
+      access_token: datas.token.access_token,
+      picture: datas.picture,
+      name: datas.name,
+    }, ( resp ) => {
+
+      if ( resp ) {
+        /* SNS 로그인 및 회원 정보 파싱
+        */
+        let provider: string | null = resp.provider;
+        let access_token: string | null = resp.access_token;
+        let refresh_token: string | null = resp.refresh_token;
+
+        //  회원정보
+        const member = resp.member;
+        let token: string | null = ""; // - JWT 토큰
+        if ( member ) token = member.token ? member.token : "";
+
+        // 로그인 완료 - 세션 정보
+        if ( token && token.length ) {
+
+          Commons.setSessionStorage( "token", token ); // 로그인 결과: 성공
+
+          // 인증 : 공급업체
+          Commons.setSessionStorage( "auth_provider", provider ); 
+          // 인증 : 접근 토큰
+          Commons.setSessionStorage( "auth_access_token", access_token ); 
+          // 인증 : 새로고침 토큰
+          Commons.setSessionStorage( "auth_refresh_token", refresh_token );  
+        }
+        
+      }
+
+      // - 윈도우 닫기 및 페이지 초기화
+      if ( window.opener ) {
+        window.opener.location.replace("/");
+        window.close();
+      }
+      else window.location.replace("/");
+      
+    } );
+    
+  };
+
+
+  /**
+   * 로그인 : 구글 - 인증 토큰 요청
    * @param e 
    */
   const onSignInGoogle = (e: MouseEvent) => {
@@ -102,14 +169,18 @@ export default function SignIn() {
     // const secretKey = import.meta.env.VITE_OAUTH2_GOOGLE_SECRET_KEY;
     const scope = encodeURIComponent( import.meta.env.VITE_OAUTH2_GOOGLE_SCOPE );
     
-    const requestUri = `${baseUri}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline`;
+    /* SNS 로그인 - 인증 코드 요청
+    */ 
+    let authUri = `${baseUri}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline`;
 
-    openPopup( requestUri ); // - 팝업 열기
-      
+    if ( mode && mode == "test" ) 
+      authUri = `${redirectUri}?code=testcode&provider=google`// 테스트 코드 ***
+    
+    openPopup( authUri ); // - 팝업 열기åå
   };
 
   /**
-   * 로그인 : 카카오
+   * 로그인 : 카카오 - 인증 토큰 요청
    * @param e 
    */
   const onSignInKaKao = (e: MouseEvent) => {
@@ -120,26 +191,65 @@ export default function SignIn() {
 
     /* URL 쿼리 파싱
     */ 
-    const params = new URLSearchParams(location.search);
-    
-
     if ( window.opener ) {
-      const code = params.get("code");
-      const currentUri = window.location.href;
 
-      FetchSignIn.setAuthToken( "google", code ?? "", (resp) => {
+      dispatch( uiSlice.setContents(false) );
+
+      let provider = ""; 
+      let code = "";
+
+      const uri = window.location.href;
+      const queryString = uri.slice( uri.indexOf('?') + 1 );
+
+      if ( queryString.indexOf( "google" ) !== -1 ) provider = "google";
+      else if ( queryString.indexOf( "kakao" ) !== -1 ) provider = "kakao";
+      
+      if ( provider == "google" ) 
+        code = queryString.slice( queryString.indexOf("code=") + 5 );
+
+      code = decodeURIComponent(code);
+      
+      FetchSignIn.setAuthToken( provider, code ?? "", (resp) => {
+
+        /* 테스트 코드: 샘플 데이터 
+        */ 
         
-        console.log(resp);
-        alert("-");
-        window.close(); // - 팝업 닫기
+        code = params.get("code") ?? "";
+        if ( code == "testcode" ) { // 테스트 코드: 새플 데이터
+          resp = {
+            provider_id: uuidv4(),
+            provider: provider,
+            picture: "https://lh3.googleusercontent.com/a/ACg8ocLFpG2QtJNS19tdH4FEvVPUUm8Fd0BV8uh4pIPh1m4uZAuynA=s96-c",
+            name: "박윤성",
+            email: "user01@gmail.com",
+            token: {
+              token_type: "Bearer",
+              id_token: `${code}.${uuidv4()}`,
+              access_token: `ya29.${code}.${uuidv4()}`,
+              expires_in: 0
+            }
+          };
+
+        } // code == "testcode"
+
+        if ( ! resp || ( resp && ! resp.provider_id ) ) { // - SNS 로그인 실패
+
+          // - 팝업 열림
+          const _modal = window.modalAlter( `<b class="text-danger">유효한 토큰을 발급 받을 수 없습니다</b>. 관리자에게 문의하세요.` );
+
+          // - 팝업 닫힘
+          if ( _modal ) window.modalBindClosed( _modal, () => { window.close(); } );
+          else window.close(); 
+
+        }
+        else {  // - SNS 로그인 성공
+          
+          onSubmitOAuthToken( resp );
+        }
 
       } );
 
-      
-    }
-    else { // 
-      console.log("sajdklasjdas");
-    }
+    } // end if window.opener
     
 
   }, [location.search] );

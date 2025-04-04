@@ -6,15 +6,30 @@ import ChatPrompter from "../chat/ChatPrompter";
 import BodyClass from "../../utils/bodyClass";
 import InputReboot from "../../utils/inputReboot";
 
+import ModalAlter from "../modal/ModalAlter";
+import ModalVerification from "../modal/ModalVerification";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 /**
  * 레이아웃 : 기본 페이지
  */
 export default function PageLayout () {
 
+  const UI = useSelector( (state: any) => state.ui );
+  
+  const [ isVisible, setIsVisible ] = useState<boolean>( UI.contents );
+
+  useEffect( () => {
+    
+    setIsVisible( UI.contents );
+
+  }, [ UI.contents ]);
+
   return (<>
     <BodyClass />
     <InputReboot />
-    <div className="lyt-grid root">
+    <div className={`lyt-grid root${ isVisible ? "" : " d-none" }`}>
       <div className="lyt-grid-item d-flex flex-column" role="section" >
         { /* Header 영역 */ }
         <Header />
@@ -37,6 +52,11 @@ export default function PageLayout () {
       </div> { /* lyt-grid-item */ }
 
     </div> {/* lyt-grid root */}
+
+    {/* 모달 - 메시지 */}
+    <ModalAlter message=""/>
+    {/* 모달 - 이메일 인증 */}
+    <ModalVerification length={6} />
   </>);
 }
 

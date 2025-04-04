@@ -111,16 +111,231 @@
 /// --------------------------------------------------------------
 
 .offcanvas {
-  overflow: hidden;;
+  
+
+  &.offcanvas-bottom, 
+  &.offcanvas-bottom .offcanvas-header {
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+  }
 
   .offcanvas-header { 
+    
     @extend %linear-gradient-def-hor;
 
     .btn-close {
       background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
 
     }
+
+    .offcanvas-title { color: get-color('white' ''); }
   }
 
+  // .offcanvas-body {} // .offcanvas-body
+
   
+}
+
+/* offcanvas: 고정 맵 
+*/
+.offcanvas#offcanvas-anchor-map {
+
+  // overflow: visible; 
+
+  // @include position( fixed, r 1em b 1em );
+
+  .map-content {
+    @include position ( absolute, l 0 t 0 ); 
+    width: 100%;
+    height: 100%;
+  }
+  
+  .offcanvas-body {
+    overflow: visible;
+
+    .map-option-wrap { @include position( relative, z 10 ); } // .map-option-wrap 
+
+    // 맵 옵션 : 필터 
+    .map-option.option-filter {
+      $w: 50px;
+
+      @include position( absolute, l 0 t 0 );
+
+      .btn {
+
+        $c-bg: get-color('secondary' "");
+        $c-bg-hover: get-color('secondary' "hover");
+        $c-f: get-color('white' '' );
+
+        $s: $w; 
+
+        margin: 0 0 0.5em 0;
+        width: $s; 
+        height: $s;
+        background-color: $c-bg;
+        line-height: $s;
+
+        & > i { 
+          color: get-color('white' '' );
+          font-size: calc( $s / 3 );
+        }
+
+        &:not(.toggled):hover {
+          background-color: $c-bg-hover;
+
+          & > i { color: $c-f; }
+        }
+
+        &[aria-expanded="true"],
+        &.toggled {
+          $c-bg: get-color('primary' "");
+          $c-bg-hover: get-color('primary' "hover");
+          background-color: $c-bg;
+
+          &:hover { background-color: $c-bg-hover; }
+        }
+
+      } // .btn.btn-has-icon
+
+      .row.btn-group .btn { border-radius: 0.25rem; }
+
+    } // .map-option.option-filter
+
+    // 맵 옵션 : 주소 검색 (폼)
+    .map-option.option-search {
+      
+      overflow: hidden;
+      // @include padding( t 7px b 7px );
+      @include position( absolute, l 0 t 0 );
+
+      width: 0;
+      background-color: get-color( 'white' '' );
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      border-bottom-color: get-color('br' '200');
+      // height: 50px;
+      
+      .input-wrap {
+        
+        $h: 36px;
+        $btn-c-bg: get-color('primary' '');
+        $btn-c-bg-hover: get-color('primary' 'hover');
+
+        padding: 7px 1rem;
+        width: 100%;
+        
+        .has-icon > i, 
+        .btn-has-icon > i {
+          $s: $h;
+
+          display: block;
+          width: $s;
+          height: $s;
+          line-height: $s;
+          text-align: center;
+          font-size: 0.875rem;
+        }
+
+        .has-icon > i { width: auto; }
+
+        label.has-icon { display: block; }
+        label.has-icon { color:  $btn-c-bg; }
+
+        .btn.btn-has-icon {
+
+          $c-f: get-color('white' '');
+
+          padding: 0;
+          background-color: $btn-c-bg;
+          color: $c-f;
+
+          &:hover { background-color: $btn-c-bg-hover }
+
+        } // .btn.btn-has-icon 
+
+        // input { margin: 0 0.75rem; }
+        // input:active,
+        // input:focus {
+        //   border: none;
+        //   box-shadow: none;
+        // }
+
+      } // .input-wrap
+
+
+      
+      &[data-expanded="0"] { 
+        opacity: 0; 
+        @include set-prefix( transition, ( width 1s ease, opacity 0.5s 0.5s ease ), 'webkit' '' );
+      }
+      &[data-expanded="1"] { 
+        width: 100%; 
+        opacity: 1; 
+        @include set-prefix( transition, ( width 1s ease, opacity 0.5s ease ), 'webkit' '' );
+      }
+
+      // &[data-expanded="0"] { @extend %scale-out-hor-left; }
+      // &[data-expanded="1"] { @extend %scale-in-hor-left; }
+
+    } // .option.option-filter
+
+  }
+
+  /// @ 미디어 쿼리 
+  $bg : $grid-breakpoints;
+  $bg_lg: map-get( $bg, 'lg' );
+
+  @include media( "<#{$bg_lg}" ) { // : 모바일 
+    & { height: 70vh;  }
+    @at-root & { bottom: 0; }
+
+    // 옵션 : 필터
+    // .map-option.option-filter
+    .offcanvas-body .map-option.option-filter {
+
+      $s: 50px;
+      $h: 62px;
+
+      @include padding( l 1rem r 1rem );
+      top: calc( -1 * ( $h + $s + 10px ) );
+      width: 100%;
+
+      @include flex-c( flex row );
+
+      
+      &, 
+      .row.btn-group {
+        @include gap( 0 0.5rem );
+      }
+      
+    } // .map-option.option-filter
+  }
+  @include media( ">=#{$bg_lg}" ) { // : PC 
+
+    & {  
+      left: auto;
+      @include position( fixed, r 2em b 2em );
+      width: 35vw;
+      height: 35vw;
+    }
+    
+    @at-root & {  @include position( fixed, r 1em b 1em ); }
+    
+    // 옵션 : 필터
+    // .map-option.option-filter
+    .offcanvas-body .map-option.option-filter {
+
+      $w: 50px;
+
+      left: calc( -1 * ( $w + 10px ) );
+      width: $w;
+
+      .row.btn-group {
+        float: right;
+        @include flex-container-append( nowrap justify-end );
+        @include gap( 0 0.25em );
+      } // .row.btn-group
+
+    } // .map-option.option-filter
+  }
 }

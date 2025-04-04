@@ -28,7 +28,12 @@ export default function AnchorMap() {
   const [ mapRange, setMapRange ] = useState<any>(null);
   const [ mapMarkers, setMarkers ] = useState<any[]>([]);
 
+  const [ place, setPlace ] = useState<string>("병원");
   const [ countPlace, setCountPlace ] = useState<number>(0);
+
+  /* 맵 옵션 
+  */ 
+  const [ toggledSearchBar, setToggledSearchBar ] = useState<boolean>(false);
 
   
   
@@ -36,7 +41,16 @@ export default function AnchorMap() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const [ toggle, setToggle ]= useState<boolean>(false);
-  
+
+
+  const searchByAddress = ( address: string ) => {
+    FetchMaps.getLatLngByAddress(address, ( result ) => {
+
+      const latlng = { lat : 0, lng: 0 };
+      const addr = result.length ? result[0] : null; // x - LNG, y- LAT
+
+    });
+  }
 
   // https://apis.map.kakao.com/web/sample/drawShape/
   const initMap = ( latlng:any ) => {
@@ -83,9 +97,11 @@ export default function AnchorMap() {
     }
 
     // 장소(Place) 추가 
-    // "병원" 검색 
+    // 장소 검색 
     if ( true ) {
-      FetchMaps.findPlaces( "병원", { location: latlng, radius }, ( datas ) => {
+
+      /// 장소 검색 : place
+      FetchMaps.findPlaces( place, { location: latlng, radius }, ( datas ) => {
 
         if ( ! datas ) {
           setCountPlace(0);
@@ -132,6 +148,42 @@ export default function AnchorMap() {
     setMarkers( [] ); // 마커 초기화
   };
 
+
+
+
+
+  /**
+   * 버튼 바인드 
+   * @param e 
+   * @returns 
+   */
+  const onClickByButton = ( e: React.MouseEvent<HTMLButtonElement> ) => {
+
+    const _CLASS_TOGGLED_ = "toggled";
+
+    const t = e.target as HTMLButtonElement;
+    const tagName = t && t.tagName ? t.tagName.toLowerCase() : null;
+    if ( tagName != "button" ) return;
+
+    if ( t.name == "toggle-search" ) {
+      setToggledSearchBar( ! toggledSearchBar );
+    }
+    else if ( ["d-hs", "d-ds"].includes( t.name ) === true ) {
+      
+      if ( t.parentNode ) {
+        const _other = t.parentNode.querySelector( `.${_CLASS_TOGGLED_}` );
+        if ( _other ) _other.classList.remove( _CLASS_TOGGLED_ );
+
+        t.classList.toggle( _CLASS_TOGGLED_ );
+      }
+
+      let place_name = t.name == "d-hs" ? "병원" : "약국";
+      setPlace( place_name ); // 장소 설정
+      
+    }
+
+  }; 
+
   /* useEffect 
   */
   useEffect( () => {
@@ -167,37 +219,37 @@ export default function AnchorMap() {
 
     if ( ! mapContainerRef?.current || ! UI.map || ! kakao ) return; 
 
-    if ( map ) clearMap();
+    // if ( map ) clearMap();
 
-    if ( "geolocation" in navigator ) {
-      // 현재 좌표 검색
-      navigator.geolocation.getCurrentPosition( (pos) => {
-        // const position = FetchMaps.setPosition( pos.coords.latitude, pos.coords.longitude );
-        const position = FetchMaps.setPosition( 37.5012446735418, 127.025011541805 );
-        if ( position ) initMap( position ); // 지도 렌더링
-      } );
-    }
-    else {
-      // 주소 검색 
-      FetchMaps.getLatLngByAddress("서울 서초구 서초동 1308-6", ( addrs ) => {
+    // if ( "geolocation" in navigator ) {
+    //   // 현재 좌표 검색
+    //   navigator.geolocation.getCurrentPosition( (pos) => {
+    //     // const position = FetchMaps.setPosition( pos.coords.latitude, pos.coords.longitude );
+    //     const position = FetchMaps.setPosition( 37.5012446735418, 127.025011541805 );
+    //     if ( position ) initMap( position ); // 지도 렌더링
+    //   } );
+    // }
+    // else {
+    //   // 주소 검색 
+    //   FetchMaps.getLatLngByAddress("서울 서초구 서초동 1308-6", ( addrs ) => {
 
-        const latlng = { lat : 0, lng: 0 };
-        const addr = addrs.length ? addrs[0] : null; // x - LNG, y- LAT
+    //     const latlng = { lat : 0, lng: 0 };
+    //     const addr = addrs.length ? addrs[0] : null; // x - LNG, y- LAT
 
-        if ( addr ) {
-          latlng.lng = parseFloat(addr.x); // x - lng
-          latlng.lat = parseFloat(addr.y); // y - lat
-        }
-        else {
-          // 초기 값
-          latlng.lng = 127.025011541805; // x - lng
-          latlng.lat = 37.5012446735418; // y - lat
-        }
+    //     if ( addr ) {
+    //       latlng.lng = parseFloat(addr.x); // x - lng
+    //       latlng.lat = parseFloat(addr.y); // y - lat
+    //     }
+    //     else {
+    //       // 초기 값
+    //       latlng.lng = 127.025011541805; // x - lng
+    //       latlng.lat = 37.5012446735418; // y - lat
+    //     }
 
-        const position = FetchMaps.setPosition(latlng.lat, latlng.lng);
-        if ( position ) initMap( position ); // 지도 렌더링
-      });
-    }
+    //     const position = FetchMaps.setPosition(latlng.lat, latlng.lng);
+    //     if ( position ) initMap( position ); // 지도 렌더링
+    //   });
+    // }
 
   }
 
@@ -209,14 +261,69 @@ export default function AnchorMap() {
           <i className="fa-solid fa-map"></i>
         </button>
 
-        <div className="offcanvas offcanvas-bottom map-content-wrap map-wrap" tabIndex={-1} aria-labelledby="offcanvasBottomLabel" ref={offcanvasRef} >
+        <div className="offcanvas offcanvas-bottom map-content-wrap map-wrap" tabIndex={-1} aria-labelledby="offcanvas-anchor-map-labelledby" id="offcanvas-anchor-map" ref={offcanvasRef} >
           <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="offcanvasBottomLabel"></h5>
+            <h5 className="offcanvas-title" id="offcanvas-anchor-map-labelledby">
+              <i className="fa-solid fa-location-dot me-2"></i>주변 검색
+            </h5>
             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
-          <div className="offcanvas-body small position-relative">
+          <div className="offcanvas-body small position-relative p-0">
+            
+            <div className="map-option-wrap"> 
+
+              {/* 옵션: 필터 */}
+              <div className="map-option option-filter">
+                {/* 버튼: 검색어 입력란 토글 */}
+                <button className="btn btn-has-icon" name="toggle-search" aria-expanded={ toggledSearchBar ? "true" : "false" } onClick={onClickByButton}>
+                  <i className="fa-solid fa-magnifying-glass"></i>
+                </button>
+                {/* 버튼 그룹: 줌 인 / 아웃 */}
+                <button className="btn btn-has-icon" name="zoom-in" onClick={onClickByButton}>
+                  <i className="fa-solid fa-magnifying-glass-plus"></i>
+                </button>
+                <button className="btn btn-has-icon" name="zoom-out" onClick={onClickByButton}>
+                  <i className="fa-solid fa-magnifying-glass-minus" ></i>
+                </button>
+                {/* 버튼 그룹: 병원/ 약국 */}
+                {/* flex-row flex-lg-nowrap flex-lg-row gap-2 justify-content-lg-end btn-group */}
+                <div className="row btn-group m-0">
+                  <button className="btn btn-has-icon toggled" name="d-hs" onClick={onClickByButton}>
+                    <i className="fa-solid fa-stethoscope"></i>
+                  </button>
+                  <button className="btn btn-has-icon" name="d-ds" onClick={onClickByButton}>
+                    <i className="fa-solid fa-prescription-bottle-medical"></i>
+                  </button>
+                </div>
+              </div> 
+
+              {/* 옵션: 검색 (폼)) */}
+              <form className="form form-option map-option option-search" role="form" tabIndex={-1} action="/signin" method="post" data-expanded={ toggledSearchBar ? "1" : "0" }>
+                <div className="form-control-field field-s">
+                  <div className="form-control-field__input-container">
+                    <div className="input-wrap d-flex align-items-center">
+                      
+                      <label className="has-icon"><i className="fa-solid fa-location-dot"></i></label>
+                      
+                      <input type="text" className="form-control form-control-unstyled flex-grow-1 flex-shrink-1" name="s" placeholder="주변 검색 대상의 주소" data-is-validation='0' required />
+
+                      <button className="btn btn-has-icon" aria-expanded="false">
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                      </button>
+
+                    </div> { /* .input-wrap */ }
+                  </div>
+                </div>
+              </form> { /* .map-option.option-filter */ }
+            </div>
+
             <div className="map-content map" id="map" ref={mapContainerRef}></div>
+
+
+
           </div>
+
+          
         </div>
 
       </div>

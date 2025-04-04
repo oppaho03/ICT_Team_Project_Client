@@ -291,57 +291,7 @@ button.anchor {
     }
 
     // 버튼 랩
-    @at-root .anchor-map-wrap {
-      @include position( fixed, r 1em b 1em );
-      // background-color: #eee;
-    }
-
-    & ~ .offcanvas.map-wrap {
-
-      border-top-left-radius: 1em;
-      border-top-right-radius: 1em;
-
-      .map-content {
-        @include position ( absolute, l 0 t 0 ); 
-        width: 100%;
-        height: 100%;
-      }
-
-    } // .map-wrap
-    
-
-    /// @ 미디어 쿼리 
-    $bg : $grid-breakpoints;
-    $bg_lg: map-get( $bg, 'lg' );
-    @include media( "<#{$bg_lg}" ) { // : 모바일 
-
-      @at-root .anchor-map-wrap {
-        bottom: 125px;
-       
-      }
-
-      & ~ .offcanvas.map-wrap { height: 70vh; }
-    }
-    @include media( ">=#{$bg_lg}" ) { // : PC 
-
-      // 버튼 랩
-      @at-root .anchor-map-wrap {
-        @include position( fixed, r 1em b 1em );
-        // background-color: #eee;
-      }
-
-      & ~ .offcanvas.map-wrap {
-
-        left: auto;
-        @include position( fixed, r 2em b 2em );
-        width: 35vw;
-        height: 35vw;
-
-      }
-
-
-
-    }
+    @at-root .anchor-map-wrap { @include position( fixed, r 1em b 1em ); }
 
   } // &.anchor-map
 

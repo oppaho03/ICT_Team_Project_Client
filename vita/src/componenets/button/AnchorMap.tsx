@@ -25,6 +25,7 @@ export default function AnchorMap() {
   
 
   const [ map, setMap ] = useState<any>(null);
+  const [ mapLevel, setMapLevel ]= useState<number>(4); 
   const [ mapRange, setMapRange ] = useState<any>(null);
   const [ mapMarkers, setMarkers ] = useState<any[]>([]);
 
@@ -36,19 +37,37 @@ export default function AnchorMap() {
   const [ toggledSearchBar, setToggledSearchBar ] = useState<boolean>(false);
 
   
-  
   const kakao = window.kakao; // 카카오 맵 객체
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const [ toggle, setToggle ]= useState<boolean>(false);
 
-
+  /**
+   * 
+   * @param {string} address 
+   */
   const searchByAddress = ( address: string ) => {
+
+    
+
     FetchMaps.getLatLngByAddress(address, ( result ) => {
 
       const latlng = { lat : 0, lng: 0 };
       const addr = result.length ? result[0] : null; // x - LNG, y- LAT
 
+      console.log(addr);
+
+      if ( addr ) {
+        latlng.lng = parseFloat(addr.x); // x - lng
+        latlng.lat = parseFloat(addr.y); // y - lat
+      }
+      else {
+        latlng.lng = 127.025011541805; // x - lng
+        latlng.lat = 37.5012446735418; // y - lat
+      }
+
+      const position = FetchMaps.setPosition(latlng.lat, latlng.lng);
+      if ( position ) initMap( position ); // - 지도 렌더링
     });
   }
 
@@ -60,13 +79,16 @@ export default function AnchorMap() {
     if ( ! map ) {
       const objMap = new kakao.maps.Map(mapContainerRef.current, { 
         center: latlng, 
-        level: 4, 
+        level: mapLevel, 
         mapTypeId:kakao.maps.MapTypeId.ROADMAP 
       });
       setMap( objMap ); // map 객체 삽입
       curMap = objMap;
     }
-    else curMap = map;
+    else {
+      clearMap();
+      curMap = map;
+    }
 
     curMap.setDraggable(true);
     curMap.relayout();
@@ -100,7 +122,7 @@ export default function AnchorMap() {
     // 장소 검색 
     if ( true ) {
 
-      /// 장소 검색 : place
+      /// 장소 검색 : place 
       FetchMaps.findPlaces( place, { location: latlng, radius }, ( datas ) => {
 
         if ( ! datas ) {
@@ -131,6 +153,8 @@ export default function AnchorMap() {
         
       } );
     } // 
+
+    curMap.setCenter( latlng ); // 중심 이동
     
   };
 
@@ -143,13 +167,11 @@ export default function AnchorMap() {
 
     // 마커 모두 삭제
     for( const marker of mapMarkers ) {
-      if ( ! marker ) marker.setMap(null);
+      if ( marker ) marker.setMap(null);
     }
     setMarkers( [] ); // 마커 초기화
+
   };
-
-
-
 
 
   /**
@@ -181,8 +203,36 @@ export default function AnchorMap() {
       setPlace( place_name ); // 장소 설정
       
     }
+    else if ( ["zoom-in", "zoom-out"].includes( t.name ) === true ) {
+      if ( ! map ) return;
+
+      let lv = mapLevel;
+      if ( t.name == "zoom-in" ) lv -= 1;
+      else if ( t.name == "zoom-out" ) lv += 1;
+
+      if ( lv < 1 ) lv = 1;
+      else if ( lv > 14 ) lv = 14;
+
+      setMapLevel( lv );
+      map.setLevel(lv); // 맵 줌 인 아웃
+    }
 
   }; 
+
+
+  const onSubmitBySearch = ( e: React.FormEvent<HTMLFormElement> ) => {
+
+    e.preventDefault();
+
+    const t = e.target as HTMLFormElement; // Form 
+
+    let s = t.s.value;
+    if ( ! s.trim().length ) s = "서울 서초구 서초동 1308-6";
+
+    searchByAddress( s );
+
+  };
+
 
   /* useEffect 
   */
@@ -298,16 +348,16 @@ export default function AnchorMap() {
               </div> 
 
               {/* 옵션: 검색 (폼)) */}
-              <form className="form form-option map-option option-search" role="form" tabIndex={-1} action="/signin" method="post" data-expanded={ toggledSearchBar ? "1" : "0" }>
+              <form className="form form-option map-option option-search" role="form" tabIndex={-1} action="/signin" method="post" data-expanded={ toggledSearchBar ? "1" : "0" } onSubmit={onSubmitBySearch}>
                 <div className="form-control-field field-s">
                   <div className="form-control-field__input-container">
                     <div className="input-wrap d-flex align-items-center">
                       
                       <label className="has-icon"><i className="fa-solid fa-location-dot"></i></label>
                       
-                      <input type="text" className="form-control form-control-unstyled flex-grow-1 flex-shrink-1" name="s" placeholder="주변 검색 대상의 주소" data-is-validation='0' required />
+                      <input type="text" className="form-control form-control-unstyled flex-grow-1 flex-shrink-1" name="s" placeholder="검색할 주소를 입력해주세요." />
 
-                      <button className="btn btn-has-icon" aria-expanded="false">
+                      <button type="submit" className="btn btn-has-icon" >
                         <i className="fa-solid fa-magnifying-glass"></i>
                       </button>
 

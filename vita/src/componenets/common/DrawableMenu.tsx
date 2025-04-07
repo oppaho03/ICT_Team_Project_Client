@@ -13,6 +13,8 @@ import { setUpdateMenuChatSessions } from "../../store/uiSlice";
 import { IDataChatSession } from "../../utils/interfaces";
 import sortBy from "sort-by";
 import BlockNotFound from "../headline/BlockNotFound";
+import * as FetchMember from "../../utils/fetchs/fetchMember";
+import MemberEntry from "../entry/MemberEntry";
 
 /* 인터페이스: 채팅 세션 그룹
 */ 
@@ -47,8 +49,13 @@ export default function DrawableMenu() {
   const ui = useSelector( (state:any) => state.ui );
   const prompt = useSelector( (state:any) => state.prompt );
 
+
   const [ chatSessions, setChatSessions ] = useState<IChatSessionGroup|null>(null);
 
+  const [ memberProfile, setMemberProfile ] = useState<any>(null);
+
+
+  
   useEffect( () => {
 
     const curDateTime = Commons.formatDateTime('yyyy-MM-dd HH:mm:ss');
@@ -57,10 +64,8 @@ export default function DrawableMenu() {
     if ( window.isLoggedIn() ) { // 로그인 된 경우 메뉴
       /* 채팅 세션 메뉴 초기화
       */ 
-      
       if ( ! updatedChatSessions ) {
         dispatch( setUpdateMenuChatSessions( curDateTime ) );
-       
       }
       else {
 
@@ -106,7 +111,20 @@ export default function DrawableMenu() {
 
         } );
       }
+
+      /* 회원 프로필 정보 초기화
+      */ 
+      if ( ! memberProfile ) {
+        FetchMember.getProfile( (resp) => { setMemberProfile(resp); } );
+      }
+
+
     } // end if
+    else {
+      /* 회원 프로필 정보 초기화
+      */ 
+      setMemberProfile(null);
+    }
 
   }, [ ui.update_menu_chat_sessions, prompt.sessionStatus ]);
 
@@ -115,7 +133,27 @@ export default function DrawableMenu() {
       <aside className="app-drawable-menu" id="drawable-menu" aria-expanded={ui.expanded ? 'true' : 'false'}>
         <div className={`container${ ui.expanded ? "" : " px-0"}`}> 
 
-          <div className=""></div>
+          {/* 메뉴: 페이징 네비게이션 */}
+          <div className="menu-containr w-100">
+
+            <hgroup className="menu-containr-headline"> 
+              <h2 className="mb-0" itemProp="headline" aria-label="지난 대화">
+                <i className="fa-solid fa-bars"></i>
+                <span>퀵 네비게이션</span>
+              </h2>
+            </hgroup>
+            
+            <nav className="nav nav-menu quick-navigation-wrap" itemScope itemType="https://schema.org/Navigation" role="navigation"> 
+              <ul className="list-unstyled mb-0 menu menu-quick-navigation quick-navigation">
+                <li className="menu-item menu-item-home menu-item-type-custom" data-label="">
+                  <Link to={``} className="link link-has-icon link-unstyle" title="" aria-label="">
+                    <i className="fa-solid fa-house -icon"></i>
+                    <span className="-text">HOME</span>
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
           
           {/* 메뉴: 지난 대화 세션 */}
           <div className="menu-containr w-100"> 
@@ -154,7 +192,17 @@ export default function DrawableMenu() {
 
           </div> {/* 메뉴: 지난 대화 세션 */}
 
-          <nav className="app-menu app-menu-global" id="global-menu"></nav>
+          <div className="menu-containr w-100">
+            <nav className="nav nav-menu menu-other-wrap W-100" itemScope itemType="https://schema.org/Navigation" role="navigation"> 
+              <ul className="list-unstyled mb-0 menu menu-other other w-100">
+                { memberProfile &&
+                  <li className="menu-item menu-item-profile menu-item-type-custom" data-label="">
+                    <MemberEntry data={memberProfile} />
+                  </li>
+                }
+              </ul>
+            </nav>
+          </div>
 
         </div>
       </aside>

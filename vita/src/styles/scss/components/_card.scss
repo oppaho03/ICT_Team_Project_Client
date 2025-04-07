@@ -12,7 +12,7 @@
     
   }
   &-wrap:hover {  
-    .entry-card-title { text-decoration: underline; text-underline-offset: 0.25em; }
+    a .entry-card-title { text-decoration: underline; text-underline-offset: 0.25em; }
   }
 
   @include flex-c( flex nowrap );
@@ -54,6 +54,132 @@
   } 
   
 }
+
+
+
+/// --------------------------------------------------------------
+/// # 카드 (Card, Entry Card) : 회원 (Member)
+/// --------------------------------------------------------------
+
+.entry-card.type-member {
+  
+  width: 100%;
+  
+
+  @include flex-container-append( items-center );
+  
+
+  .entry-card- {
+
+    $thumb-max-s: 36px;
+
+    &thumb { 
+      $s: $thumb-max-s;
+
+      margin-right: 0.5em;
+      border-radius: $s;
+
+      overflow: hidden;
+      background-color: #ddd;
+      width: $s;
+      height: $s;
+      
+    }
+    &thumb-image { height: inherit; }
+
+    &thumb.no-image {
+
+      $s: $thumb-max-s;
+      
+      & > i {  
+        width: $s;
+        height: $s;
+        text-align: center;
+
+        line-height: $s;
+        font-size: $s;
+        color: get-color( 'primary' '' );
+        // font-size: calc( $s - 4px );
+      }
+
+    } // &thumb.no-image 
+
+    &content { width: 100%; }
+
+    &title {
+      font-size: 1em;
+      line-height: 24px;
+
+      b { color: get-color('primary' ''); }
+
+      @include line-clamp( 1em, $line-height: 24px, $line-clamp: 1 );
+    }
+
+    &excerpt {
+
+      $c: get-color("text" "bodysub");
+      $fs: 14px;
+
+      color: $c;
+      font-size: $fs;
+      line-height: $fs;
+
+      nav {
+
+        a.link {
+          $s: 24px;
+          $fc: get-color( "primary" "visited" );
+          $fc-hover: get-color( "primary" "" );
+
+          
+          .-icon {
+            display: block; 
+            width: $s;
+            height: $s;
+            line-height: $s;
+            font-size: $fs;
+            text-align: center;
+            
+          } // .-icon
+
+          & { color: $fc; }
+          &:hover { color: $fc-hover; }
+
+        } // a.link 
+  
+      }
+    }
+
+    &meta {
+      $c: get-color("text" "caption");
+
+      white-space: nowrap;
+      // div[class^="post-"] { 
+      //   font-size: .75em; line-height: 22px; }
+
+      .post-other a.link {
+        $s: 36px;
+        $c-bg: get-color( "black" "600" );
+        $c-bg-hover: get-color( "error" "" );
+        $fc: get-color( "white" "" );
+
+        background-color: $c-bg;
+        width: $s;
+        height: $s;
+        border-radius: 100%;
+        color: $fc;
+
+        &:hover {
+          background-color: $c-bg-hover;
+        }
+        
+      }
+    }
+    
+  } // .entry-card-*
+
+} // .entry-card.type-chat-session 
+
 
 
 

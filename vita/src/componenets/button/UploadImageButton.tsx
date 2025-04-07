@@ -51,9 +51,6 @@ export default function UploadImageButton( prop: IProp ) {
 
     //   console.log(ocr_raw);
 
-
-      
-      
     // } );
 
   }

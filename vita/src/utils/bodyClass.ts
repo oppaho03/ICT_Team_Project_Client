@@ -41,7 +41,7 @@ const BodyClass = () => {
         else dispatch( setActive(false) );
 
         if ( ! window.isLoggedIn() ) {
-          if ( ['home', 'signin', 'singup'].includes( name ) == false ) navigate("/signin"); // - 로그인 페이지
+          if ( ['home', 'signin', 'signup'].includes( name ) == false ) navigate("/signin"); // - 로그인 페이지
         }
         else if ( name == "signin" && window.isLoggedIn() ) navigate("/"); // - MyPage  
       }

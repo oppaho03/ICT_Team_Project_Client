@@ -29,6 +29,12 @@ export default function ChatPrompterForm ( ) {
 
   const inputPromptRef = useRef<HTMLInputElement>(null); // INPUT : 채팅 프롬프트 입력란
 
+  ///
+  const callbackSTT = ( message: string ) => {
+    if ( inputPromptRef?.current ) 
+      inputPromptRef.current.value = message;
+  }
+
   /* 바인드: 포커스 인 (채팅 프롬프트 INPUT)
   */
   const inputFocus = ( e: React.FocusEvent<HTMLInputElement> ) => {
@@ -56,8 +62,6 @@ export default function ChatPrompterForm ( ) {
 
   /* 바인드: 키 다운 (채팅 프롬프트 폼)
   */ 
- 
-    
   const formSubmit = ( e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault(); // 전송 
 
@@ -106,7 +110,7 @@ export default function ChatPrompterForm ( ) {
           <div className="input-wrap d-flex align-items-center rounded-pill">
             
             {/* 버튼 : STT */}
-            <RecordToggleButton />
+            <RecordToggleButton callbackSTT={callbackSTT}/>
             
             {/* 버튼 : SUBMIT */}
             <button type="submit" className="btn btn-has-icon btn-search btn-unstyled icon-btn flex-grow-0 flex-shrink-0">

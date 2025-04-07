@@ -52,18 +52,13 @@ export default function ChatPrompterFormFilter ( ) {
     }
     else {
       FetchChatSession.setStatus( sid, ! isOpened ? 0 : 1, (resp) => { 
-
         let status = resp ? resp.status: 1;
-        
         if ( resp && resp.status === 0 ) setIsOpened(true);
         else setIsOpened(false);
-
         dispatch( ChatPromptSlice.setSessionStatus(status) );
-          
       } );
     }
     setIsOpened( ! isOpened );
-    
     
   };
 

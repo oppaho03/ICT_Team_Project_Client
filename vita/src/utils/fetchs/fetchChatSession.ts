@@ -231,8 +231,6 @@ export async function setStatus ( id: number, status: number, callback: null | (
     const headers = getHeaders();
     const reqData = { id, status };
 
-    console.log( reqData );
-
     const result = await axios.patch<IFetchResponseDefault>( uri, reqData, { headers }); 
 
     // 서버 응답 데이터 : IResponseEntity

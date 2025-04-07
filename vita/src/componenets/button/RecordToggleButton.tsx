@@ -4,8 +4,11 @@ import { toggleRecording } from "../../store/chatPromptSlice";
 import * as Commons from "../../../public/assets/js/commons";
 
 import shortid from "shortid";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
+interface IProp {
+  callbackSTT?: ( message: string ) => void
+}
 
 
 // 인터페이스: 음성 녹음 데이터 
@@ -98,10 +101,12 @@ function stopRecording(): void {
 /**
  * UI - 버튼 : 녹음
  */
-export default function RecordToggleButton() {
+export default function RecordToggleButton( prop: IProp ) {
   
   const dispatch = useDispatch();
   const prompt = useSelector( (state: any) => state.prompt ); 
+
+  const handlerRef = useRef<HTMLButtonElement>(null);
 
   const [ speechRec, setSpeechRec ] = useState<any >(null);
 
@@ -120,7 +125,12 @@ export default function RecordToggleButton() {
 
         // SpeechRecognition.onspeechend
         // - 음성 인식 객체 음성 감지 종료
-        srec.onspeechend = () => { srec.stop(); };
+        srec.onspeechend = () => { 
+          if ( handlerRef?.current ) 
+            handlerRef.current.click(); 
+          // srec.stop(); 
+          // stopRecording(); // - 녹음 중단
+        };
 
         // SpeechRecognition.onresult
         // - 음성 인식 객체 음성 반환 
@@ -129,7 +139,7 @@ export default function RecordToggleButton() {
 
           const messages = Array.from( e.results ).map( (results: any) => results[0].transcript ).join('');
 
-          console.log(messages); // *
+          if ( prop.callbackSTT ) prop.callbackSTT( messages );
         };
 
          // SpeechRecognition.onerror
@@ -168,7 +178,7 @@ export default function RecordToggleButton() {
   };
 
   return (<>
-    <button type="button" className="btn btn-has-icon btn-recoder btn-unstyled rounded-pill flex-grow-0 flex-shrink-0" onClick={handleToggler}>
+    <button ref={handlerRef} type="button" className="btn btn-has-icon btn-recoder btn-unstyled rounded-pill flex-grow-0 flex-shrink-0" onClick={handleToggler}>
       <i className="im icon-mic"></i>
     </button>
   </>);

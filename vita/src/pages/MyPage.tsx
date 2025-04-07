@@ -1,60 +1,84 @@
+import axios from "axios";
 import FieldsetEtcFunction from "../componenets/fieldset/FSEtcFunction";
 import FieldsetMemberInfo from "../componenets/fieldset/FSMemberInfo";
 import Branding from "../componenets/headline/BrandingForm";
+import { getHeaders } from "../utils/fetchs/all";
+import { useEffect, useState } from "react";
 
+interface UserData {
+  id : number;
+  email : string;
+  name : string;
+  nickname : string;
+  gender : string;
+  birth : string;
+  address : string;
+  created_at : string;
+}
+
+// << 마이페이지 >>
 export default function MyPage() {
+  const [userData, setUserData] = useState<UserData>({
+    id:0,
+    email: '',
+    name: '',
+    nickname: '',
+    gender: '', 
+    birth: '', 
+    address: '',
+    created_at: '',
+  });
+  const token = getHeaders().Authorization.split(' ')[1];
 
+  const getUserInfo = async () => {
+    const res : any= await axios.get('http://localhost:8080/api/members/me', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    const userData = res.data.response.data;
+    setUserData(userData);
+    console.log(userData);
 
+  };
 
+  // 백엔드로 토큰전달 + 유저정보 가져오기
+  useEffect(()=>{
+    getUserInfo();
+  },[]);
 
-  //형이 만든 태그와 클래스명
-  //! section
-  //? div form-wrap
-  //form form
-  //? div form-header -->브랜딩 로고 붙이기
-  //? div form-body --> 여기부터 필드셋이라는 것으로 붙이 셨음
-  //ul
-  //li
+  return (<>
+    <section className="section d-flex flex-column justify-content-center align-items-center" id="mypage">
+      {/* 브랜딩 로고 영역 */}
+      {/* Memo 브랜딩 영역이 필요할까?? */}
+      <div className="bg-white pt-5 pb-0">
+        <Branding />
+        <FieldsetMemberInfo
+          email={userData.email}
+          name={userData.name}
+          nickname={userData.nickname}
+          gender={userData.gender}
+          birth={userData.birth}
+          address={userData.address}
+          created_at={userData.created_at}
+        />
+      </div>
 
-  //! nav option-navbar
-
-return (<>
-  <section className="section d-flex flex-column justify-content-center align-items-center" id="mypage">
-    {/* 브랜딩 로고 영역 */}
-    {/* Memo 브랜딩 영역이 필요할까?? */}
-    <div>
-      <Branding />
-    </div>
-
-    <div className="wrap d-flex flex-row justify-content-center gap-3 ">
-      {/* 마이페이지 */}
+      <div className="width-100">
+        {/* 마이페이지 */}
         {/* 필드셋 : 사용자 정보 */}
         <div className="d-flex flex-column justy gap-3">
-
-          <div className="#">
-            <FieldsetMemberInfo />
-          </div>
+            <FieldsetEtcFunction />
+            <FieldsetEtcFunction />
+            <FieldsetEtcFunction />
         </div>
+      </div>
 
-        {/* 우측 세로 기능모음 */}
-        <div className="d-flex flex-column gap-3">
-          {/* 필드셋 : 프로필 정보 */}
-          <div>
-            <FieldsetEtcFunction />
-          </div>
-          <div>
-            <FieldsetEtcFunction />
-          </div>
-          <div>
-            <FieldsetEtcFunction />
-          </div>
-        </div>
-    </div>
 
-  </section>
+    </section>
 
 
 
-</>);
+  </>);
 
 };

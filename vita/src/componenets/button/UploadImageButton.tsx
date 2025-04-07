@@ -7,10 +7,15 @@ import { ChangeEvent, useEffect, useRef } from "react";
 import * as FetchFileUploader from "../../utils/fetchs/fetchFileUploader";
 
 
+interface IProp {
+  callback?: (message: string) => void
+}
+
+
 /**
  * UI - 버튼 : 이미지 업로드
  */
-export default function UploadImageButton() {
+export default function UploadImageButton( prop: IProp ) {
   
 
   // const [ speechRec, setSpeechRec ] = useState<any >(null);
@@ -22,14 +27,34 @@ export default function UploadImageButton() {
     if ( input ) input.click();
   }
 
+
+  /**
+   * 'File' 변경
+   * @param e 
+   * @returns 
+   */
   const onChange = ( e: ChangeEvent<HTMLInputElement> ) => {
     
     const input = e.target as HTMLInputElement;
     if ( !input || ! input.files || input.files.length == 0 ) return; 
 
-    FetchFileUploader.uploadFileToOCR( input.files, ( resp ) => {
-      console.log(resp);
-    } );
+    const files = input.files;
+
+    if ( prop?.callback ) prop.callback( "당뇨병" ); // ***
+
+    // FetchFileUploader.uploadFileToOCR( files, ( resp ) => {
+
+    //   if ( ! resp ) return;
+
+    //   const ocr_raw = resp['ocr_raw'] ? resp['ocr_raw'] : null;
+    //   const gpt_analysis = resp['gpt_analysis'] ? resp['gpt_analysis'] : null;
+
+    //   console.log(ocr_raw);
+
+
+      
+      
+    // } );
 
   }
 

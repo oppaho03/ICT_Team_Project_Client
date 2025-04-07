@@ -21,18 +21,39 @@ export default function ChatPrompterForm ( ) {
   const dispatch = useDispatch();
   const prompt = useSelector( (state: any) => state.prompt );
 
- 
+  const inputPromptRef = useRef<HTMLInputElement>(null); // INPUT : 채팅 프롬프트 입력란
+  
   useEffect(() => {
     if ( ! prompt.active ) inputPromptRef.current?.blur(); // 포커스 아웃 
 
   }, [ prompt.active ] );
 
-  const inputPromptRef = useRef<HTMLInputElement>(null); // INPUT : 채팅 프롬프트 입력란
+  
 
-  ///
+  /**
+   * 콜백 함수: STT
+   * @param message 
+   */
   const callbackSTT = ( message: string ) => {
     if ( inputPromptRef?.current ) 
       inputPromptRef.current.value = message;
+  }
+
+  /**
+   * 콜백 함수: OCR 분석 결과 처리
+   * @param message 
+   */
+  const callbackOCRAnalysis = ( message: string ) => {
+
+    const input = inputPromptRef?.current;
+    if ( ! input ) return; 
+    else input.value = message;
+
+    const submitBtn = input.previousElementSibling;
+    if ( 
+      submitBtn 
+      && (submitBtn.tagName && submitBtn.tagName.toLowerCase() == "button") 
+    ) (submitBtn as HTMLButtonElement).click();
   }
 
   /* 바인드: 포커스 인 (채팅 프롬프트 INPUT)
@@ -60,7 +81,7 @@ export default function ChatPrompterForm ( ) {
     }
   };
 
-  /* 바인드: 키 다운 (채팅 프롬프트 폼)
+  /* 바인드: 폼 보내기
   */ 
   const formSubmit = ( e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault(); // 전송 
@@ -120,7 +141,7 @@ export default function ChatPrompterForm ( ) {
             <input ref={inputPromptRef} type="text" className="form-control form-control-unstyled" name="s" placeholder="..." onFocus={inputFocus} onBlur={inputBlur} onKeyDown={inputKeyDown} />
 
             {/* 버튼 : 이미지 업로드 버튼 */}
-            <UploadImageButton />
+            <UploadImageButton callback={callbackOCRAnalysis}/>
 
           </div>
 

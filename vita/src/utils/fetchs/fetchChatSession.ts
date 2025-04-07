@@ -83,6 +83,8 @@ export async function findSessions ( state: string, p: number, ol: number, callb
     if ( ! result || ! resultData || ( resultData.success && resultData.success != 1 ) ) {
       let messages = resultData && resultData.response ? ( resultData.response.messages ? resultData.response.messages : resultData.response.data ) : null;
 
+      
+
       if ( ! messages ) console.log(result); // 디버그용 콘솔
       throw new Error( messages ? messages : result.statusText );
     }
@@ -93,6 +95,13 @@ export async function findSessions ( state: string, p: number, ol: number, callb
   }
   catch ( err: any ) {
     console.log(err);
+
+    if ( 
+      state != "public" 
+      && window.isLoggedIn() 
+      && err.status == 401  ) { // - 오류
+      document.location.href = "/logout";
+    }
 
     respData = null;
     if ( err.message ) console.log(err.message);
@@ -205,3 +214,51 @@ export async function findAnswer ( sid: number | null, contents: string, keyword
 
 
 
+/**
+ * 채팅 세션 상태 변경
+ * @param id 
+ * @param status 
+ * @param callback 
+ */
+export async function setStatus ( id: number, status: number, callback: null | ( (datas:any|null )=> any ) ) {
+
+  let respData;
+
+  try {
+    
+    const uri = `${SERVER_URL}/api/sessions`;
+
+    const headers = getHeaders();
+    const reqData = { id, status };
+
+    console.log( reqData );
+
+    const result = await axios.patch<IFetchResponseDefault>( uri, reqData, { headers }); 
+
+    // 서버 응답 데이터 : IResponseEntity
+    const resultData = result.data ? result.data as unknown as IResponseEntity : null;
+    
+    // 서버 응답 데이터 - 오류 처리
+    if ( ! result || ! resultData || ( resultData.success && resultData.success != 1 ) ) {
+      let messages = resultData && resultData.response ? ( resultData.response.messages ? resultData.response.messages : resultData.response.data ) : null;
+
+      if ( ! messages ) console.log(result); // 디버그용 콘솔
+      throw new Error( messages ? messages : result.statusText );
+    }
+    
+    // 서버 응답 데이터 
+    const resp = resultData.response ? resultData.response : null;
+    respData = resp?.data ? resp.data : null;    
+  }
+  catch ( err: any ) {
+    console.log(err);
+
+    respData = null;
+    if ( err.message ) console.log(err.message);
+    // else console.log(err);
+  }
+  finally {
+    if ( callback ) callback( respData );  
+  }
+
+}

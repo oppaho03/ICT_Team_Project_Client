@@ -45,6 +45,7 @@ export default function DrawableMenu() {
 
   const dispatch = useDispatch();
   const ui = useSelector( (state:any) => state.ui );
+  const prompt = useSelector( (state:any) => state.prompt );
 
   const [ chatSessions, setChatSessions ] = useState<IChatSessionGroup|null>(null);
 
@@ -107,7 +108,7 @@ export default function DrawableMenu() {
       }
     } // end if
 
-  }, [ ui.update_menu_chat_sessions ]);
+  }, [ ui.update_menu_chat_sessions, prompt.sessionStatus ]);
 
   return (<>
     <div className="app-drawable-menu-wrap">
@@ -145,6 +146,7 @@ export default function DrawableMenu() {
                       );
                     }) }
                   </ul>
+
                 </React.Fragment>
                 )
               ))}

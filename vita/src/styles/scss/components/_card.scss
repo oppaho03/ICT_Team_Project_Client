@@ -124,7 +124,7 @@
       $c: get-color("text" "caption");
 
       white-space: nowrap;
-      .post-date { font-size: .75em; line-height: 28px; }
+      div[class^="post-"] { font-size: .75em; line-height: 22px; }
     }
     
   } // .entry-card-*

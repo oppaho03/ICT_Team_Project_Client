@@ -11,7 +11,8 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
-import { setMessage, setPending } from "../store/chatPromptSlice";
+// import { setMessage, setPending } from "../store/chatPromptSlice";
+import * as PromptSlice from "../store/chatPromptSlice";
 
 import ChatMessage from "../componenets/chat/ChatMessage";
 
@@ -19,7 +20,7 @@ import sortBy from "sort-by";
 
 import * as FecthChatSession  from "../utils/fetchs/fetchChatSession";
 import * as FetchYoutubeData from '../utils/fetchs/fetchYoutubeData';
-import { IDataChatAnswer, IDataChatAnswerBindSession, IDataYoutubeSearchResult } from "../utils/interfaces";
+import { IDataChatAnswer, IDataChatAnswerBindSession, IDataChatSession, IDataYoutubeSearchResult } from "../utils/interfaces";
 
 import { setUpdateMenuChatSessions } from '../store/uiSlice';
 
@@ -152,6 +153,8 @@ export default function ChatSession (  ) {
   // const ui = useSelector( (state: any) => state.ui );
   const prompt = useSelector( (state: any) => state.prompt );
 
+  
+
   // const dispatch = useDispatch(); 
   
   const contentRef = useRef<HTMLDivElement> ( null );
@@ -276,7 +279,7 @@ export default function ChatSession (  ) {
     const cmTempl = messageTempUserRef?.current; 
     const cm = cmTempl && cmTempl.firstElementChild ? cmTempl.firstElementChild.cloneNode(true) as HTMLElement : null;
     if ( ! cm ) return;
-    else dispatch(setPending( true ));
+    else dispatch(PromptSlice.setPending( true ));
 
     if ( qnaId ) cm.dataset['qnaId'] = qnaId.toString(); // - 질문 & 답변 ID
     if ( id ) cm.dataset['id'] = qnaId.toString(); // - 질문 ID 
@@ -385,7 +388,7 @@ export default function ChatSession (  ) {
   // 채팅 : 메시지 업데이트 - 봇 
   const updateBotChatMessage = ( datas: Array<IDataChatAnswer>, qnaId: number = 0 ): void => {
 
-    dispatch(setPending( false )); // 대기상태 해제
+    dispatch(PromptSlice.setPending( false )); // 대기상태 해제
 
     // 컨텍츠 컨테이너 
     const cmTempl = messageTempBotRef?.current; 
@@ -527,6 +530,10 @@ export default function ChatSession (  ) {
       // 초기화
       // cursid -> 이전 채팅 세션 재구성 (이어하기)
       FecthChatSession.findSessionQnA( cursid, ( datas ) => { 
+
+        let session_id = 0;
+        let session_status = 1;
+        
         
         if ( ! datas || ( datas && ! datas.length )  ) {
           // 검색 결과 : 채팅 세션 없음
@@ -534,23 +541,38 @@ export default function ChatSession (  ) {
         }
         else {
           // 검색 결과 : QnA(질문 + 답변) 세션 추가
-
           datas.slice(-100).forEach( data => {
 
             const qnaId = data.id;
             const answer = data.answer;
             const question = data.question;
 
+            if ( data.session ) {
+              session_id = data.session.id;
+              session_status = data.session.status;
+            }
+            
             updateUserChatMessage( question.content, qnaId, question.id );
             updateBotChatMessage( [answer], qnaId );
 
           } );
 
           
+        } 
+
+
+        if ( prompt.sessionStatus != session_status ) {  /// 세션 상태 업데이트
+          dispatch( PromptSlice.setSessionStatus(session_status) ); 
         }
+
+        
+
+        
 
       } );
     }
+
+    dispatch(PromptSlice.setSessionId( cursid )); /// 세션 ID 업데이트
 
   }, [cursid] );
 
@@ -568,8 +590,8 @@ export default function ChatSession (  ) {
 
     return () => {
       // 이 부분은 컴포넌트가 언마운트되거나, 의존성이 변경될 때 실행됨
-      dispatch(setPending( false ));
-      setMessage(null);
+      dispatch(PromptSlice.setPending( false ));
+      PromptSlice.setMessage(null);
       
     };
 

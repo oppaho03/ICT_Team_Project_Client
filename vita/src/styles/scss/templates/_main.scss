@@ -24,6 +24,26 @@
   .app-content-inner { min-height: 100%; }
 
   section { @include position( relative ); }
+
+  // .content-title
+  .content-title {
+    &-wrap { margin-bottom: 50px; }
+
+    $c-font: get-color( "primary" "" );
+    color: $c-font;
+    font-weight: bold;
+
+    @extend %tracking-in-contract;
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    @extend %linear-gradient-def;
+    background-size: 200% 200%;
+
+    @include set-prefix( animation, bg-gradient 7.5s ease infinite, 'webkit' '' );
+    
+  } // .content-title
 }
 
 
@@ -454,3 +474,116 @@ body.signin #content {
 }
 
 
+/// --------------------------------------------------------------
+/// 채팅 세션(Chat Sessions)
+/// --------------------------------------------------------------
+
+body:is( .sessions ) {
+
+
+  // <section> : chat-sessions
+  section#chat-sessions {
+
+    #chat-sessions-list {
+
+      ul.menu-list {
+
+        li.menu-item,
+        li.menu-item > * { width: 100%; }
+
+        li.menu-item { 
+          overflow: hidden;
+          @include position( relative );
+
+          margin: auto auto 0.5em; 
+          background-color: get-color( "white" "100" );
+          font-size: 1rem;
+          border-color: #d2d6da;
+          border-style: solid;
+          border-width: 1px;
+     
+          
+          // 엔트리 아이템 (공통)
+          & > a {
+            padding: 1em;
+            @include set-prefix( transform-style, preserve-3d, 'webkit' '' );
+            @include set-prefix( transition, all .3s cubic-bezier(.25,.46,.45,.94), 'webkit' '' );
+
+
+            &:nth-child(1) {
+              @include set-prefix( transform-origin, top center, 'webkit' '' );
+
+              $c-bg: get-color( "white" "" );
+              background-color: $c-bg;
+            }
+
+            &:nth-child(2) {
+              // padding: 1em;
+              @include position( absolute, l 0 t 0 );
+              @include set-prefix( transform-origin, bottom center, 'webkit' '' );
+              @include set-prefix( transform, rotateX(90deg) translateY(50%), 'webkit' '' );
+              
+              width: 100%;
+
+              $c-bg: get-color( "primary" "" );
+              background-color: rgba($c-bg, 1);
+
+              .entry-card {
+
+                $c-f: get-color('white' '');
+                $c-f-sub: get-color('secondary' '');
+                color: $c-f;
+
+                .entry-card- {
+                  // &meta, 
+                  &excerpt { color: $c-f-sub; }
+                }
+              }
+            }
+          } // & > a 
+
+          &:hover > a {
+            &:nth-child(1) {
+             
+              @include set-prefix( transform, rotateX(90deg) translateY(-50%), 'webkit' '' );
+            }
+            &:nth-child(2) {
+              @include set-prefix( transform, rotateX(0) translateY(0), 'webkit' '' );
+            }
+          } // &:hover > a
+
+
+
+        }
+
+        // li.menu-item {
+        //   @include set-prefix(  
+        //     transition, 
+        //     ( box-shadow 0.4s cubic-bezier(.25,.46,.45,.94) ),
+        //     'webkit' ''
+        //   );
+        // }
+
+        // li.menu-item:not(:hover) { box-shadow:0 0 20px 0 rgba(0,0,0,.25); }
+
+        // li.menu-item:hover {
+        //   // @extend %shadow-drop-center;
+
+          
+        // }
+
+      } // ul.menu-list
+
+      .block-not-found {
+        
+        
+        text-align: center;
+        line-height: 2em;
+        
+      }
+    
+    } // #chat-sessions-list
+     
+  } // <section> : chat-sessions
+
+}

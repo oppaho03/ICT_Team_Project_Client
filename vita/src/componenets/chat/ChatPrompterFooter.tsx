@@ -54,7 +54,7 @@ export default function ChatPrompterFooter ( ) {
           </nav>
 
           <div className="row justify-content-end">
-            <Link to={"/chatsessions"} className="btn btn-outline-primary w-auto">
+            <Link to={"/sessions"} className="btn btn-outline-primary w-auto">
               <i className="fa-solid fa-list me-2"></i>
               <span>더 보기</span>
             </Link>

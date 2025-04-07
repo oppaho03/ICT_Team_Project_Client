@@ -2,7 +2,7 @@
  * 페이지: 로그인
  */
 import * as Commons from "../../public/assets/js/commons";
-import * as IS from "../utils/interfaces";
+import * as IF from "../utils/interfaces";
 
 import { FormEvent, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,11 +10,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
 
 import * as uiSlice from "../store/uiSlice";
-import * as FetchSignIn from "../utils/fetchs/fetchSignIn";
 
-import { Link, useLocation, useNavigate, } from "react-router-dom";
 import * as FetchChatSession from "../utils/fetchs/fetchChatSession";
 import ChatSessionEntry from "../componenets/entry/ChatSessionEntry";
+import BlockNotFound from "../componenets/headline/BlockNotFound";
+import ContentHeadline from "../componenets/headline/ContentHeadline";
 
 
 
@@ -23,31 +23,71 @@ export default function ChatSessions() {
 
   const UI = useSelector( (state: any) => state.ui );
   const dispatch =  useDispatch();
-  
-  const navigate = useNavigate();
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-
-  const mode = params.get( "mode" );
-
-  const redirectUri = import.meta.env.VITE_OAUTH2_REDIRECT_URL; // OAUTH2 - (공통)
 
   const [ chatSessions, setChatSessions ] = useState<IF.IDataChatSession[]>([]);
+  const [ lastPaged, setLastPaged ] = useState<boolean>(false);
+  
+
+  let entries = [] as IF.IDataChatSession[];
+
+
+  const wrapper = document.getElementById("wrapper");
+  let paged = 1;
+  let count = "1";
+
+  
 
   /**
-   * 로그인 : 다이렉트 로그인
+   * #wrapper 스크롤 (페이징)
    * @param e 
+   * @returns 
    */
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const onScroll = ( e: any ) => {
     
+    const t = e.target as HTMLDivElement;
+
+    if ( window.isScrollYEnded(t) ) {
+      if ( paged > 0 ) updateChatSessions();
+    }
+
   };
+
+  /**
+   * 
+   */
+  const updateChatSessions = () => {
+
+    FetchChatSession.findSessions("public", paged, 10, datas => {
+
+      if ( ! datas ) datas = []; 
+      
+      entries = entries.concat( datas );
+      setChatSessions( entries );
+
+      if ( ! datas || ! datas.length ) paged = -1;
+      else paged ++;
+
+      setLastPaged( paged < 1 ? true : false );
+
+    });
+
+  };
+
+  
 
   useEffect(() => {
 
-    FetchChatSession.findSessions("public", 1, 5, datas => {
-      setChatSessions( ! datas ? [] : datas );
-    });
+    if ( wrapper ) {
+      Commons.setEventListener(wrapper, "scroll", onScroll, {});
+    }
+
+    updateChatSessions();
+
+    return () => {
+      if ( wrapper ) {
+        Commons.resetEventListener(wrapper, "scroll", onScroll);
+      }
+    }
     
   }, [] );
 
@@ -56,30 +96,29 @@ export default function ChatSessions() {
 
       <div className="container">
 
-        <div className="form-wrap">
-          <form className="form form-type-modal form-signin" role="form" tabIndex={-1} action="" method="post" onSubmit={onSubmit}>
+        <ContentHeadline title={"공개 채팅 세션 목록"} />
 
-            <div className="form-header">
-              {/* <Branding /> */}
-            </div>
+        <div className="content content-list" id="chat-sessions-list">
+          <nav className="menu-wrap chat-session-menu-wrap" itemScope itemType="https://schema.org/Navigation">
+            <ul className="menu menu-list list-unstyled chat-session-menu entry-card-list" role="menu" itemScope itemType="https://schema.org/ItemList">
+              {/* 아이템 생성 */}
+              { chatSessions.map( (cs, csi) => {
+                  return (
+                    <li key={csi} className="menu-item d-flex align-items-center" itemScope itemType="https://schema.org/ListItem" data-count={csi + 1}>
 
-            <div className="form-body">
-              <nav className="menu-wrap chat-session-menu-wrap" itemScope itemType="https://schema.org/Navigation">
-                <ul className="menu menu-list list-unstyled chat-session-menu entry-card-list" role="menu" itemScope itemType="https://schema.org/ItemList">
-                  {/* 아이템 생성 */}
-                  { chatSessions.map( (cs, csi) => {
-                      return (
-                        <li key={csi} className="menu-item d-flex align-items-center" itemScope itemType="https://schema.org/ListItem" data-count={csi + 1}>
-    
-                          <ChatSessionEntry data={cs} />
-                        </li>);
-                    } )
-                  } 
-                </ul>
-              </nav>
-            </div>
+                      <ChatSessionEntry data={cs} dateformat="yyyy-MM-dd HH:mm:ss" />
 
-          </form>
+                      <ChatSessionEntry data={cs} dateformat="yyyy-MM-dd HH:mm:ss" />
+
+                    </li>);
+                } )
+              } 
+            </ul>
+
+            { lastPaged && <BlockNotFound contents="더 이상 채팅 세션이 없습니다." /> }
+
+            
+          </nav>
         </div> {/* form-wrap */}
 
       </div>

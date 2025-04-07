@@ -46,6 +46,10 @@ function App() {
   /* 전역 함수 초기화 (global.d.ts / vite-env.d)
   */ 
   if ( true ) {
+
+    window.isScrollYEnded = ( el: HTMLDivElement ) => {
+      return (el.scrollHeight && el.clientHeight) && (el.scrollHeight - el.clientHeight - el.scrollTop <= 0) ? true : false;
+    }
   
     /**
      * 모달 : 바인드 - 열림

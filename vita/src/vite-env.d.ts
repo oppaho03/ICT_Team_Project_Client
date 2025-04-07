@@ -1,5 +1,8 @@
 /// <reference types="vite/client" />
 interface Window {
+
+  isScrollYEnded: ( el: HTMLDivElement ) => boolean;
+
   // 모달 
   modalBindOpened: ( modal: HTMLElement, callback: ()=>void ) => void; // 모달 이벤트 바인드 - 열림
   modalBindClosed: ( modal: HTMLElement, callback: ()=>void ) => void; // 모달 이벤트 바인드 - 닫힘 

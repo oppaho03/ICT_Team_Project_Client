@@ -2,10 +2,12 @@
  * 컴포넌트 : 채팅 프롬프트 폼 필터
  */
 
-import { ChangeEvent, useContext } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { ChatPromptFilterContext } from "../../utils/contexts/contextChatPrompt";
 import { useSelector, useDispatch } from "react-redux";
-import { setFilters } from "../../store/chatPromptSlice";
+// import { setFilters } from "../../store/chatPromptSlice";
+import * as ChatPromptSlice from "../../store/chatPromptSlice";
+import * as FetchChatSession from "../../utils/fetchs/fetchChatSession";
 
 // import * as Common from "../../../public/assets/js/commons";
 
@@ -19,6 +21,8 @@ export default function ChatPrompterFormFilter ( ) {
   const dispatch = useDispatch();
   const prompt = useSelector ( (state: any) => state.prompt );
 
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+
   let order = 1;
 
   // <select> 진료과목 / 질병종류 
@@ -31,9 +35,48 @@ export default function ChatPrompterFormFilter ( ) {
 
     
     if ( ["department", "disease" ].includes(name)  ) 
-      dispatch(setFilters( { key: name, value: { id: value == "" ? 0 : parseInt(value), name: text }  } ));
+      dispatch(ChatPromptSlice.setFilters( { key: name, value: { id: value == "" ? 0 : parseInt(value), name: text }  } ));
 
   };
+
+  // 스위치 : onSelected 
+  const onToggledChatSessionStatus = ( e:React.ChangeEvent<HTMLInputElement> ) => {
+
+    const t = e.target as HTMLInputElement;
+    const sid = prompt.sessionId;
+
+    if ( sid == 0 ) {
+      
+      if ( isOpened ) setIsOpened( false );
+
+    }
+    else {
+      FetchChatSession.setStatus( sid, ! isOpened ? 0 : 1, (resp) => { 
+
+        let status = resp ? resp.status: 1;
+        
+        if ( resp && resp.status === 0 ) setIsOpened(true);
+        else setIsOpened(false);
+
+        dispatch( ChatPromptSlice.setSessionStatus(status) );
+          
+      } );
+    }
+    setIsOpened( ! isOpened );
+    
+    
+  };
+
+
+  /**
+   * 
+   */
+  useEffect(() => {
+
+    setIsOpened( prompt.sessionStatus === 0 ? true : false);
+
+  }, [ prompt.sessionStatus ]);
+
 
   return (<>
     <div className="filter-wrap"> 
@@ -77,7 +120,7 @@ export default function ChatPrompterFormFilter ( ) {
             <div className="form-check form-switch" data-order={++order}>
               {/* <p class="form-caption"><label>대화 공개</label> </p> */}
               {/* <label class="form-check-label" for="">폼 공개</label> */}
-              <input className="form-check-input" type="checkbox" role="switch" id="" name="status" value="1" />
+              <input className="form-check-input" type="checkbox" role="switch" id="" name="status" value="1" onChange={onToggledChatSessionStatus} checked={isOpened}/>
             </div>
           </div> {/* col */}
 

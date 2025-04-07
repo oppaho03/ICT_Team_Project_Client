@@ -92,7 +92,7 @@ export interface IDataExtraKeywords {
  */
 export interface IDataChatSession {
   id: number,
-  member: number, 
+  member: IDataMember, 
   lastQuestion?: string,
   count: number, 
   status: number, // 0 - open, 1 - closed

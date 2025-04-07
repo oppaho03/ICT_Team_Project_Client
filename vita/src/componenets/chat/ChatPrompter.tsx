@@ -16,6 +16,7 @@ import { ChatPromptFilterContext } from "../../utils/contexts/contextChatPrompt"
 import * as FecthTerms from "../../utils/fetchs/fetchTerms";
 
 import sortBy from "sort-by"; // 정렬
+import ChatPrompterFooter from "./ChatPrompterFooter";
 
 
 export default function ChatPrompter ( ) {
@@ -55,8 +56,12 @@ export default function ChatPrompter ( ) {
           </ChatPromptFilterContext.Provider>
         </div>
 
+        { ! prompt.active &&
         <div className="chat-prompter-inner">
+          <ChatPrompterFooter />
         </div>
+        }
+
 
       </div>
     </div>

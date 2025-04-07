@@ -54,17 +54,21 @@ export async function extrKeywords ( text: string, callback: null | ( (datas:any
 
 
 /**
- * 채팅 세션 리스트 불러오기 
+ * 채팅 세션 리스트 불러오기 (my)
+ * @param state
  * @param p 
  * @param ol 
  * @param callback 
  */
-export async function findSessions ( p: number, ol: number, callback: null | ( (datas:Array<IDataChatSession>|null )=> any ) ) {
+export async function findSessions ( state: string, p: number, ol: number, callback: null | ( (datas:Array<IDataChatSession>|null )=> any ) ) {
   let respData;
   
   try {
     
-    const uri = `${SERVER_URL}/api/sessions/me`;
+    let uri = "";
+    
+    if ( state == "public" ) uri = `${SERVER_URL}/api/sessions/public`;
+    else uri = `${SERVER_URL}/api/sessions/me`;
 
     const headers = getHeaders();
     const reqData = { p, ol };
@@ -100,6 +104,11 @@ export async function findSessions ( p: number, ol: number, callback: null | ( (
 }
 
 
+/**
+ * 
+ * @param sid 
+ * @param callback 
+ */
 export async function findSessionQnA ( sid: number, callback: null | ( (datas:Array<IDataChatQnA>|null )=> any ) ) {
   let respData;
 
@@ -128,6 +137,7 @@ export async function findSessionQnA ( sid: number, callback: null | ( (datas:Ar
     // 서버 응답 데이터 
     const resp = resultData.response ? resultData.response : null;
     respData = resp?.data ? resp.data : null;    
+    respData.reverse();
   }
   catch ( err: any ) {
     console.log(err);

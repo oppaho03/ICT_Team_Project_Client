@@ -101,9 +101,8 @@
   width: 90%;
   max-width: 768px;
 
-
   will-change: transform;
-  @include set-prefix( transform, translate(-50%, 0%), 'webkit' '' );
+  @include set-prefix( transform, translate(-50%, 50%), 'webkit' '' );
   @include set-prefix( transition, all 1s ease, 'webkit' '' );
 
   // 메인 페이지일 경우에만 transition 속성 적용
@@ -111,10 +110,119 @@
     @include set-prefix( transition, all 1s ease('inout-expo'), 'webkit' '' );
   }
 
+  // 채팅 프롬프터
+  // 
   .chat-prompter- {
+     
     &header {
       & > div[class$="-inner"] { margin-bottom: 20px; }
     }
+
+    &footer {
+
+      margin-top: 20px;
+      margin-bottom: 50px;
+
+      .menu-container {
+
+        $c-br: get-color( "br" "200" );
+
+        border-radius: 20px;
+        border: 1px solid $c-br;
+
+        padding: 1.5em;
+        background-color: rgba( get-color("white" ""), 80% );
+
+        &-headline {
+
+          margin-bottom: 1em;
+
+          h2 {  
+            $c-f: get-color( "black" "500" );
+
+            color: $c-f;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.25;
+          }
+
+          h2 > i { margin-right: 0.5em; font-size: 0.875em; }
+        }
+        
+        ul.menu.chat-session-menu {
+
+          @include grid-c( 5, 2, 0, f row-dense, justify-items-start items-stretch self-stretch, "content" );
+          grid-auto-flow: column; /* 세로로 흐르게 */
+
+          @include gap( 10 20 );  
+
+          .menu-item { width: 100%; }
+          .menu-item::before {
+
+            $s: 24px;
+            $fs: 12px;
+
+            $c-bg: get-color("black" "500");
+            $fc: get-color("white" "");
+
+            content:attr(data-count);
+            @include margin( r 0.5em );
+            @include flex-item( s 0 g 0 auto );
+
+            display: block;
+            width: $s; 
+            height: $s;
+            background-color: $c-bg; 
+            line-height: $s;
+            color: $fc;
+            font-size: $fs;
+            font-weight: 500;
+            text-align: center;
+
+            @extend %jello-horizontal;
+          } // .menu-item::before 
+
+          .menu-item[data-count='1'],
+          .menu-item[data-count='2'],
+          .menu-item[data-count='3'] {
+
+            &::before {
+              $c-bg: get-color("primary" "");
+              background-color: $c-bg; 
+            }
+
+          }
+
+          .menu-item > .a-wrap { width: 100%; }
+
+        } // .ul.menu.chat-session-menu
+
+      } // .menu-container
+
+      // @ media 
+      $lg: get-breakpoints('lg');
+      @include media(  "<#{$lg}" ){ 
+        .menu-container {
+          ul.menu.chat-session-menu {
+            @include grid-c( 10, 1, 0, f row-dense, justify-items-start items-stretch self-stretch, "content" );
+
+            @include gap( 10 0 );  
+
+            .menu-item {
+              .entry-card .entry-card-meta { display: none; }
+            } // .menu-item
+          } // ul.menu.chat-session-menu
+        } // .menu-container
+      }
+      @include media(  ">=#{$lg}" ) {
+        .menu-container {
+          // ul.menu.chat-session-menu {
+          // } // ul.menu.chat-session-menu
+        } // .menu-container
+      } 
+
+    } // &footer
+
   }
 
   // 채팅 프롬프트 브랜딩 
@@ -249,6 +357,7 @@
       *[data-order]:not(.form-switch) { display: none; }
     }
   }
+
 
 }
 

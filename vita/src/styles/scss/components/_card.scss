@@ -54,3 +54,79 @@
   } 
   
 }
+
+
+
+/// --------------------------------------------------------------
+/// # 카드 (Card, Entry Card) : 대화 세션 (Chat Session)
+/// --------------------------------------------------------------
+
+.entry-card.type-chat-session {
+
+  width: 100%;
+
+  .entry-card- {
+
+    $thumb-max-s: 42px;
+
+    &thumb { 
+      $s: $thumb-max-s - 6;
+      $mg: ($thumb-max-s - $s) / 2;
+
+      margin: $mg;
+      margin-right: 0.5em;
+
+      border-radius: $s;
+
+      overflow: hidden;
+      background-color: #ddd;
+      width: $s;
+      height: $s;
+      
+    }
+    &thumb-image { height: inherit; }
+
+    &thumb.no-image {
+
+      $s: $thumb-max-s;
+      
+      & > i {  
+        width: $s;
+        height: $s;
+        text-align: center;
+
+        line-height: $s;
+        font-size: $s;
+        color: get-color( 'primary' '' );
+        // font-size: calc( $s - 4px );
+      }
+
+    } // &thumb.no-image 
+
+    &content { width: 100%; }
+
+    &title {
+      font-size: 1em;
+      line-height: 28px;
+
+      @include line-clamp( 1em, $line-height: 28px, $line-clamp: 1 );
+    }
+
+    &excerpt {
+      $c: get-color("text" "bodysub");
+
+      color: $c;
+      font-size: 0.875em;
+      line-height: 14px;
+    }
+
+    &meta {
+      $c: get-color("text" "caption");
+
+      white-space: nowrap;
+      .post-date { font-size: .75em; line-height: 28px; }
+    }
+    
+  } // .entry-card-*
+
+} // .entry-card.type-chat-session 

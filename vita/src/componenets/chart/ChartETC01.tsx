@@ -12,33 +12,12 @@ import {
 import {Line} from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend,);
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title:{
-      display: true,
-      text : 'Chart.js Line Chart',
-    },
-  },
-};
-
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-export const data = {
+export default function ChartETC01() {
+  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  // 데이타
+  const data = {
   labels,
   datasets: [
     {label: 'VitaUp',
@@ -53,14 +32,28 @@ export const data = {
     },
   ],
 };
+  // 차트 옵션
+  const options :any = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        align: 'end',
+      },
+      title:{
+        display: true,
+        text : 'Chart.js Line Chart',
+      },
+    },
+  };
 
-export default function FSFunction01() {
-  return(
-    <>
+
+  // 차트 표시할 곳
+  return(<>
 
     <h3>Vita Chat - UP/DN</h3>
+    <p></p>
     <Line options = {options} data={data} />
 
-    </>
-  );
+  </>);
 }

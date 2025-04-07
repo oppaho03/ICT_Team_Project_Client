@@ -3,9 +3,10 @@ import FieldsetMemberInfo from "../componenets/fieldset/FSMemberInfo";
 import Branding from "../componenets/headline/BrandingForm";
 import { getHeaders } from "../utils/fetchs/all";
 import { useEffect, useState } from "react";
-import FSFuctionChartBar from "../componenets/fieldset/FSFuctionChartBar";
-import FSFunction01 from "../componenets/fieldset/FSFunction01";
-import FSFunction02 from "../componenets/fieldset/FSFunction02";
+import ChartEmotionScore from "../componenets/chart/ChartEmotionScore";
+import ChartETC01 from "../componenets/chart/ChartETC01";
+import ChartChatViews from "../componenets/chart/ChartChatViews";
+import ChartETC02 from "../componenets/chart/ChartETC02";
 
 interface UserData {
   id : number;
@@ -71,17 +72,23 @@ export default function MyPage() {
 
         <div className="d-flex flex-column flex-md-row gap-3">
             <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
-              <FSFunction02/>
+              <ChartEmotionScore/>
             </div>
         </div>
-        
+
         <div className="d-flex flex-column flex-md-row gap-3">
             <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
-              <FSFuctionChartBar />
+              <ChartChatViews />
             </div>
             <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
-              <FSFunction01/>
+              <ChartETC01/>
             </div>
+        </div>
+        <div className="d-flex flex-column flex-md-row gap-3">
+            <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
+              <ChartETC02 />
+            </div>
+          
         </div>
 
       </div>

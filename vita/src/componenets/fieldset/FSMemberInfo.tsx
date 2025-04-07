@@ -34,17 +34,17 @@ export default function FieldsetMemberInfo({ email, name, nickname, gender, birt
 
         <div className="container">
           <div className="row g-3">
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-12">
               <div className="bg-white p-3 rounded shadow-sm">
                 <strong className="h5">이메일</strong>
                 <div>{email}</div>
               </div>
             </div>
 
-            <div className="col-12 col-md-6">
-              <div className="bg-white p-3 rounded shadow-sm">
+            <div className="col-12 col-md-6" style={{ display :"none"}}>
+              <div className="bg-white p-3 rounded shadow-sm" >
                 <strong className="h5">비밀번호</strong>
-                <div>●●●●●●●●●</div>
+                <div >●●●●●●●●●</div>
               </div>
             </div>
 

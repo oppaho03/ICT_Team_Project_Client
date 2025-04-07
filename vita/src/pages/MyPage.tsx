@@ -1,9 +1,11 @@
 import axios from "axios";
-import FieldsetEtcFunction from "../componenets/fieldset/FSEtcFunction";
 import FieldsetMemberInfo from "../componenets/fieldset/FSMemberInfo";
 import Branding from "../componenets/headline/BrandingForm";
 import { getHeaders } from "../utils/fetchs/all";
 import { useEffect, useState } from "react";
+import FSFuctionChartBar from "../componenets/fieldset/FSFuctionChartBar";
+import FSFunction01 from "../componenets/fieldset/FSFunction01";
+import FSFunction02 from "../componenets/fieldset/FSFunction02";
 
 interface UserData {
   id : number;
@@ -49,30 +51,41 @@ export default function MyPage() {
 
   return (<>
     <section className="section d-flex flex-column justify-content-center align-items-center" id="mypage">
-      {/* 브랜딩 로고 영역 */}
-      {/* Memo 브랜딩 영역이 필요할까?? */}
-      <div className="bg-white pt-5 pb-0">
-        <Branding />
-        <FieldsetMemberInfo
-          email={userData.email}
-          name={userData.name}
-          nickname={userData.nickname}
-          gender={userData.gender}
-          birth={userData.birth}
-          address={userData.address}
-          created_at={userData.created_at}
-        />
+      <div className="d-flex flex-column w-75 gap-3 m-5">
+        <div className="bg-white p-1 rounded-3 shadow-sm">
+          <div className="pt-5">
+            <Branding />
+          </div>
+          <div className="pb-3">
+            <FieldsetMemberInfo
+              email={userData.email}
+              name={userData.name}
+              nickname={userData.nickname}
+              gender={userData.gender}
+              birth={userData.birth}
+              address={userData.address}
+              created_at={userData.created_at}
+              />
+          </div>
+        </div>
+
+        <div className="d-flex flex-column flex-md-row gap-3">
+            <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
+              <FSFunction02/>
+            </div>
+        </div>
+        
+        <div className="d-flex flex-column flex-md-row gap-3">
+            <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
+              <FSFuctionChartBar />
+            </div>
+            <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
+              <FSFunction01/>
+            </div>
+        </div>
+
       </div>
 
-      <div className="width-100">
-        {/* 마이페이지 */}
-        {/* 필드셋 : 사용자 정보 */}
-        <div className="d-flex flex-column justy gap-3">
-            <FieldsetEtcFunction />
-            <FieldsetEtcFunction />
-            <FieldsetEtcFunction />
-        </div>
-      </div>
 
 
     </section>

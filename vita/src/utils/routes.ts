@@ -45,7 +45,7 @@ const routes = createBrowserRouter([
         element: React.createElement(MyPage),
       },
       { // 페이지 : 공개 채팅 세션 리스트
-        path: '/chatsessions',
+        path: '/sessions',
         element: React.createElement(ChatSessions),
       },
     ]

@@ -19,4 +19,7 @@ interface Window {
   // 카카오 맵 
   kakao: any
 
+  // QUILL 에디터
+  Quill: any;
+
 }

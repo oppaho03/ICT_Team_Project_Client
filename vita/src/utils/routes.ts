@@ -9,6 +9,7 @@ import SignUp from "../pages/SignUp.tsx";
 import Logout from "../pages/Logout.tsx";
 import MyPage from "../pages/MyPage.tsx";
 import ChatSessions from "../pages/ChatSessions.tsx";
+import PostEditor from "../pages/PostEditor.tsx";
 
 /**
  * createBrowserRouter() : JSON 형식으로 라우팅 설정
@@ -47,6 +48,10 @@ const routes = createBrowserRouter([
       { // 페이지 : 공개 채팅 세션 리스트
         path: '/sessions',
         element: React.createElement(ChatSessions),
+      },
+      { // 페이지 : 글 작성
+        path: '/post/edit',
+        element: React.createElement(PostEditor),
       },
     ]
   },

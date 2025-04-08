@@ -19,7 +19,8 @@ declare global {
     // 카카오 맵객체
     kakao: any;
 
-    
+    // QUILL 에디터
+    Quill: any;
   }
 }
   

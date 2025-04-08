@@ -27,15 +27,22 @@ const BodyClass = () => {
       let paths: string[] = location.pathname.split("/").filter( ( val: string ) => val.trim() != "" );
       let name: string | undefined;
 
-      if ( paths.length < 2 ) {
-        // 
-        name = paths.length == 0 ? "home" : paths.pop();
+
+
+      if ( paths.length ) {
+        for( const path of paths ) {
+          if ( ! path || path.trim() == "" ) continue;
+          else classes.push( path ); 
+          name = path;
+        }
+      }
+      else {
+        name = "home";
+        classes.push( name ); 
       }
 
       if ( name ) {
-        classes.push( name ); 
         
-
         // 채팅 프롬프트 활성화 - 대화 시작 / 종료 토글
         if ( name == "c" ) dispatch( setActive(true) );
         else dispatch( setActive(false) );

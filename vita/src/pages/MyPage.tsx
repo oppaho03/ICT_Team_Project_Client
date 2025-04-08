@@ -17,6 +17,9 @@ interface UserData {
   birth : string;
   address : string;
   created_at : string;
+  meta:{
+    meta_value:string;
+  }[];
 }
 
 // << 마이페이지 >>
@@ -30,6 +33,9 @@ export default function MyPage() {
     birth: '', 
     address: '',
     created_at: '',
+    meta:[{
+      meta_value: '',
+    }],
   });
   const token = getHeaders().Authorization.split(' ')[1];
 
@@ -41,7 +47,8 @@ export default function MyPage() {
     });
     const userData = res.data.response.data;
     setUserData(userData);
-    console.log(userData);
+    console.log('유저정보: ',userData);
+    console.log('유저메타데이타: ', userData.meta[0].meta_value)
 
   };
 
@@ -66,6 +73,7 @@ export default function MyPage() {
               birth={userData.birth}
               address={userData.address}
               created_at={userData.created_at}
+              meta_value={userData.meta[0].meta_value}
               />
           </div>
         </div>

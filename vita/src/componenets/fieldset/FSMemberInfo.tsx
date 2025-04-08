@@ -11,10 +11,14 @@ interface UserData {
   birth: string;
   address: string;
   created_at: string;
-
+  meta_value: string;
 }
+
 // << 마이페이지 - 필드셋 >>
-export default function FieldsetMemberInfo({ email, name, nickname, gender, birth, address, created_at }: UserData) {
+export default function FieldsetMemberInfo({ email, name, nickname, gender, birth, address, created_at, meta_value }: UserData) {
+
+const profileUrl = meta_value || "/profile_default.png";
+
 
   return (<>
 
@@ -24,7 +28,7 @@ export default function FieldsetMemberInfo({ email, name, nickname, gender, birt
 
       <div className="p-3 p-md-4">
         <div className="d-flex flex-column flex-md-row justify-content-start align-items-center">
-          <img className="img-thumbnail rounded-circle float-start m-3" src="\profiile_test.png" width="128" alt="프로필 이미지" />
+          <img className="img-thumbnail rounded-circle float-start m-3" src={profileUrl} width="128" alt="프로필 이미지" />
           <div className="m-3">
             <span className="h2"><b>{name}</b>님 마이페이지</span><br />
             <button className="btn btn-outline-primary btn-sm ">마이페이지 수정</button>

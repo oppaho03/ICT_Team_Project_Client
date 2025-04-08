@@ -23,6 +23,11 @@ export default function UploadImageButton( prop: IProp ) {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const handlerOnClick = ( e: any  ) => {
+
+    if ( ! window.isLoggedIn() ) { // - 로그인 상태 검사
+      return window.modalOfSignin();
+    }
+
     const input = inputFileRef?.current;
     if ( input ) input.click();
   }
@@ -40,18 +45,18 @@ export default function UploadImageButton( prop: IProp ) {
 
     const files = input.files;
 
-    if ( prop?.callback ) prop.callback( "당뇨병" ); // ***
+    // if ( prop?.callback ) prop.callback( "당뇨병" ); // ***
 
-    // FetchFileUploader.uploadFileToOCR( files, ( resp ) => {
+    FetchFileUploader.uploadFileToOCR( files, ( resp ) => {
 
-    //   if ( ! resp ) return;
+      if ( ! resp ) return;
 
-    //   const ocr_raw = resp['ocr_raw'] ? resp['ocr_raw'] : null;
-    //   const gpt_analysis = resp['gpt_analysis'] ? resp['gpt_analysis'] : null;
+      const ocr_raw = resp['ocr_raw'] ? resp['ocr_raw'] : null;
+      const gpt_analysis = resp['gpt_analysis'] ? resp['gpt_analysis'] : null;
 
-    //   console.log(ocr_raw);
+      console.log(ocr_raw);
 
-    // } );
+    } );
 
   }
 

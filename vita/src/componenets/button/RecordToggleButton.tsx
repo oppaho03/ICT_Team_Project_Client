@@ -5,6 +5,7 @@ import * as Commons from "../../../public/assets/js/commons";
 
 import shortid from "shortid";
 import { useEffect, useRef, useState } from "react";
+import * as FetchFileUploader from "../../utils/fetchs/fetchFileUploader";
 
 interface IProp {
   callbackSTT?: ( message: string ) => void
@@ -64,13 +65,46 @@ async function onRecording() {
           a.style.visibility = "hidden";
 
           document.body.appendChild(a);
-          a.click();
+          // a.click();
           document.body.removeChild(a);
         }
 
         /* 파일 전송 
          * blob -> formdata 형식으로 전송
-        */ 
+         */ 
+        const tmpFileName = `${Commons.formatDateTime('yyyyMMddHHmmss')}_${shortid.generate()}.ogg`;
+        const formData = new FormData();
+        formData.append( "file", blob, tmpFileName);
+
+        FetchFileUploader.uploadFile( formData, ( resp ) => {
+
+          if ( ! resp || ! resp.id  ) {
+            console.log( "Can't upload file..." );
+            return; 
+          }
+
+          // : 메타 정보 파싱 - 'url'
+          const meta_URL = ( resp.meta ? resp.meta : [] ).filter( meta => meta.key == "url" );
+          if ( meta_URL.length ) { // URL 정보 있음
+            // - URL 정보 전송
+            console.log( meta_URL );
+          }
+
+        } );
+        
+
+        // AudioRecordData.chunks = [];
+  
+        // // FormData 객체 생성
+        // const formData = new FormData();
+        // formData.append("audio", blob, `${Commons.formatDateTime('yyyyMMddHHmmss')}_${shortid.generate()}.ogg`);
+      
+        // // 서버로 전송 (Axios 사용)
+        // axios.post('/your-server-endpoint', formData, {
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data',
+        //   }
+
       };
       
       AudioRecordData.recorder.start(); // 녹음 시작
@@ -160,6 +194,11 @@ export default function RecordToggleButton( prop: IProp ) {
     const t = e.target as HTMLButtonElement ;
     const tagName = t && t.tagName ? t.tagName.toLowerCase() : null;
     if ( tagName == "button" ) {
+
+      if ( ! window.isLoggedIn() ) { // - 로그인 상태 검사
+        return window.modalOfSignin();
+      }
+     
       const toggled = t.classList.toggle( 'toggled' );
       dispatch( toggleRecording() ); // toggled expanded drawable
 

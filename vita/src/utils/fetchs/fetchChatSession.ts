@@ -17,7 +17,7 @@ export async function extrKeywords ( text: string, callback: null | ( (datas:any
 
   try {
     
-    const uri = `${SERVER_FEST_API_URL}/keyword_parser`;
+    const uri = `${SERVER_FEST_API_URL}/keyword/keyword_parser`;
 
     const headers = getHeaders();
     const reqData = { text };
@@ -114,7 +114,7 @@ export async function findSessions ( state: string, p: number, ol: number, callb
 
 
 /**
- * 
+ * 채팅 세션 내 대화 내용 불러오기
  * @param sid 
  * @param callback 
  */

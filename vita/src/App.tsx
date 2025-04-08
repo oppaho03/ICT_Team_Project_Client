@@ -15,7 +15,7 @@ import Loader from './componenets/common/Loader' // (공통) 컴포넌트 : 대�
 import routes from './utils/routes' // ROUTER 설정
 
 import { useSelector } from 'react-redux';
-import { setMap, setPopup } from './store/uiSlice'
+import { setMap } from './store/uiSlice'
 import { useDispatch } from 'react-redux'
 
 import * as FetchMap from './utils/fetchs/fetchMaps';
@@ -110,6 +110,19 @@ function App() {
       // modal.hide();
       return el;
     };
+
+
+
+    /**
+     * 모달 - 로그인 
+     */
+    window.modalOfSignin = () => {
+      const modal = window.modalAlter( "로그인이 필요한 서비스 입니다." );
+      if ( ! modal ) return;
+      else window.modalBindClosed( modal, () => { document.location.replace("/signin"); } );
+    }
+
+
 
     /**
      * 로그인 유무 확인

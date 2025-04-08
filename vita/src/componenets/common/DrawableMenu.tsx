@@ -44,18 +44,14 @@ export default function DrawableMenu() {
 
   const cursid : number = urlQuerys.size && urlQuerys.has('sid') != null && urlQuerys.get('sid')?.trim() != "" ? parseInt( urlQuerys.get('sid')?.toString() ?? "0" ) : 0; // 현재 채팅 새션 ID
   
-
   const dispatch = useDispatch();
   const ui = useSelector( (state:any) => state.ui );
   const prompt = useSelector( (state:any) => state.prompt );
 
-
   const [ chatSessions, setChatSessions ] = useState<IChatSessionGroup|null>(null);
-
   const [ memberProfile, setMemberProfile ] = useState<any>(null);
 
 
-  
   useEffect( () => {
 
     const curDateTime = Commons.formatDateTime('yyyy-MM-dd HH:mm:ss');

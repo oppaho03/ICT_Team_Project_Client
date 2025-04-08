@@ -16,6 +16,14 @@ export interface IDataCategory {
   parent: number | null
 };
 
+/* 인터페이스 : 데이터 세트 - 메타 데이터
+ */
+export interface IDataMeta {
+  id?: number,
+  key: string, 
+  value: string
+}
+
 
 ///
 /// 데이터 세트 : 회원  
@@ -75,6 +83,30 @@ export interface IDataMemberWithSNS {
   login_modified_at: string,
   login_created_at: string,
 }
+
+
+
+///
+/// 데이터 세트 : 포스트 (글 & 미디어 등)  
+/// 
+export interface IDataPost {
+  id: number, 
+  author: IDataMember,
+  post_title: string,
+  post_content: string | null,
+  post_summary: string | null,
+  post_status : string, // PUBLISH
+  post_pass: string | null, 
+  post_name: string | null, 
+  post_mime_type: string | null,
+  post_created_at: string, 
+  post_modified_at: string,
+  comment_status: string, 
+  comment_count: 0,
+  categories?: IDataCategory[],
+  meta?: IDataMeta[]
+}
+
 
 ///
 /// 데이터 세트 : 채팅 

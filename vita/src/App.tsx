@@ -15,10 +15,11 @@ import Loader from './componenets/common/Loader' // (공통) 컴포넌트 : 대�
 import routes from './utils/routes' // ROUTER 설정
 
 import { useSelector } from 'react-redux';
-import { setMap } from './store/uiSlice'
+import * as uiSlice from './store/uiSlice'
 import { useDispatch } from 'react-redux'
 
 import * as FetchMap from './utils/fetchs/fetchMaps';
+import { IDataMember } from './utils/interfaces'
 
 
 
@@ -27,7 +28,7 @@ declare var bootstrap : any | null; // - 부트스트랩 개체
 function App() {
   
   // const [count, setCount] = useState(0)
-  const ui = useSelector( (state: any) => state.ui );
+  const UI = useSelector( (state: any) => state.ui );
   const dispatch = useDispatch();
 
 
@@ -46,6 +47,9 @@ function App() {
   /* 전역 함수 초기화 (global.d.ts / vite-env.d)
   */ 
   if ( true ) {
+
+    window.onLoading = () => { if ( ! UI.loading ) dispatch( uiSlice.setLoading(true) ); }
+    window.offLoading = () => { if ( UI.loading ) dispatch( uiSlice.setLoading(false) ); }
 
     window.isScrollYEnded = ( el: HTMLDivElement ) => {
       return (el.scrollHeight && el.clientHeight) && (el.scrollHeight - el.clientHeight - el.scrollTop <= 0) ? true : false;
@@ -86,7 +90,7 @@ function App() {
       // if ( el ) el.replaceWith(el.cloneNode( true ));
       
       const modal = el ? new bootstrap.Modal( el ) : null
-      if ( ui.modal || ! modal ) return null; 
+      if ( UI.modal || ! modal ) return null; 
       else el = modal._element as HTMLElement; 
 
       /* 모달 : 타이틀
@@ -138,7 +142,7 @@ function App() {
 
     // 카카오 맵 스크립트 로드
     FetchMap.addScript( () => { 
-      dispatch( setMap(true) ); 
+      dispatch( uiSlice.setMap(true) ); 
 
     } );
 

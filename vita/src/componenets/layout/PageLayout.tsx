@@ -8,8 +8,9 @@ import InputReboot from "../../utils/inputReboot";
 
 import ModalAlter from "../modal/ModalAlter";
 import ModalVerification from "../modal/ModalVerification";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+
 
 /**
  * 레이아웃 : 기본 페이지
@@ -17,8 +18,12 @@ import { useSelector } from "react-redux";
 export default function PageLayout () {
 
   const UI = useSelector( (state: any) => state.ui );
+  // const PROMPT = useSelector( (state: any) => state.prompt );
   
   const [ isVisible, setIsVisible ] = useState<boolean>( UI.contents );
+
+  useEffect( () => {
+  }, [] );
 
   useEffect( () => {
     

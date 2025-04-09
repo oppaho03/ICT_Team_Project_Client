@@ -5,6 +5,8 @@ import * as Commons from "../../../public/assets/js/commons";
 
 import shortid from "shortid";
 import { useEffect, useRef, useState } from "react";
+
+import { SERVER_URL } from "../../utils/fetchs/all";
 import * as FetchFileUploader from "../../utils/fetchs/fetchFileUploader";
 
 interface IProp {
@@ -70,7 +72,7 @@ async function onRecording() {
         }
 
         /* 파일 전송 
-         * blob -> formdata 형식으로 전송
+         * blob -> formdata 형식으로 전송 
          */ 
         const tmpFileName = `${Commons.formatDateTime('yyyyMMddHHmmss')}_${shortid.generate()}.ogg`;
         const formData = new FormData();
@@ -83,27 +85,25 @@ async function onRecording() {
             return; 
           }
 
+          // : 포스트 ID
+          const post_id = resp.id; 
+
           // : 메타 정보 파싱 - 'url'
           const meta_URL = ( resp.meta ? resp.meta : [] ).filter( meta => meta.key == "url" );
           if ( meta_URL.length ) { // URL 정보 있음
             // - URL 정보 전송
-            console.log( meta_URL );
+            FetchFileUploader.extrSentiment( `${SERVER_URL}${meta_URL[0].value}`, ( result ) => {
+
+              if ( ! result ) return; 
+              else FetchFileUploader.addExtrSentimentResult(  { ...result, ...{ post_id } }, null );
+
+            } );
           }
+
+
 
         } );
         
-
-        // AudioRecordData.chunks = [];
-  
-        // // FormData 객체 생성
-        // const formData = new FormData();
-        // formData.append("audio", blob, `${Commons.formatDateTime('yyyyMMddHHmmss')}_${shortid.generate()}.ogg`);
-      
-        // // 서버로 전송 (Axios 사용)
-        // axios.post('/your-server-endpoint', formData, {
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data',
-        //   }
 
       };
       

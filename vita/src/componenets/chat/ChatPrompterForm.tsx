@@ -54,6 +54,7 @@ export default function ChatPrompterForm ( ) {
       submitBtn 
       && (submitBtn.tagName && submitBtn.tagName.toLowerCase() == "button") 
     ) (submitBtn as HTMLButtonElement).click();
+
   }
 
   /* 바인드: 포커스 인 (채팅 프롬프트 INPUT)
@@ -108,7 +109,8 @@ export default function ChatPrompterForm ( ) {
     let value = input.value;
 
     // 채팅 프롬프트 - 메시지 업데이트 
-    if ( prompt.latestMessage != value ) dispatch( setMessage(value) );
+    if ( prompt.latestMessage != value ) 
+      dispatch( setMessage(value) );
 
 
     input.value = "";

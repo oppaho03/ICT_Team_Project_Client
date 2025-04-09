@@ -111,7 +111,21 @@ export default function DrawableMenu() {
       /* 회원 프로필 정보 초기화
       */ 
       if ( ! memberProfile ) {
-        FetchMember.getProfile( (resp) => { setMemberProfile(resp); } );
+        FetchMember.getProfile( (resp) => { 
+
+          if ( resp && resp.id ) {
+
+            let picture = null;
+
+            const metaPicture = (resp.meta ? resp.meta : []).filter( (m:any)=>m['meta_key'] == 'picture' );
+
+            if ( metaPicture.length ) 
+              picture = metaPicture[0]['meta_value'];
+
+            Commons.setSessionStorage('_photo', picture);
+          }
+          setMemberProfile(resp); 
+        } );
       }
 
 

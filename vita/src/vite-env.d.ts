@@ -1,6 +1,9 @@
 /// <reference types="vite/client" />
 interface Window {
 
+  onLoading: () => void;
+  offLoading: () => void;
+
   isScrollYEnded: ( el: HTMLDivElement ) => boolean;
 
   // 모달 

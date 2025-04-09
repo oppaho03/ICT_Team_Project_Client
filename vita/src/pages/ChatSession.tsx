@@ -7,7 +7,7 @@ import shortid from 'shortid';
 
 import * as Commons from '../../public/assets/js/commons';
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -20,7 +20,7 @@ import sortBy from "sort-by";
 
 import * as FecthChatSession  from "../utils/fetchs/fetchChatSession";
 import * as FetchYoutubeData from '../utils/fetchs/fetchYoutubeData';
-import { IDataChatAnswer, IDataChatAnswerBindSession, IDataChatSession, IDataYoutubeSearchResult } from "../utils/interfaces";
+import { IDataChatAnswer, IDataChatAnswerBindSession, IDataChatSession, IDataMember, IDataYoutubeSearchResult } from "../utils/interfaces";
 
 import { setUpdateMenuChatSessions } from '../store/uiSlice';
 
@@ -147,21 +147,19 @@ export default function ChatSession (  ) {
   const cursid : number = urlQuerys.size && urlQuerys.has('sid') != null && urlQuerys.get('sid')?.trim() != "" ? parseInt( urlQuerys.get('sid')?.toString() ?? "0" ) : 0;
 
   const [ sessionId, setSessionId ] = useState<number>( cursid );
+  const [ memberPicture, setMemberPicture ] = useState<string|null>(null);
   
 
   const dispatch = useDispatch();
   // const ui = useSelector( (state: any) => state.ui );
   const prompt = useSelector( (state: any) => state.prompt );
-
-  
-
-  // const dispatch = useDispatch(); 
   
   const contentRef = useRef<HTMLDivElement> ( null );
   const endPointRef = useRef<HTMLDivElement> ( null );
   
   const messageTempUserRef = useRef<HTMLTemplateElement> ( null );
   const messageTempBotRef = useRef<HTMLTemplateElement> ( null );
+  
 
  
   /**
@@ -273,7 +271,7 @@ export default function ChatSession (  ) {
   }
 
   // 채팅 : 메시지 업데이트 - 사용자
-  const updateUserChatMessage = ( message: string, qnaId: number = 0, id: number = 0 ): void => {
+  const updateUserChatMessage = ( message: string, qnaId: number = 0, id: number = 0, thumb: string|null = null ): void => {
 
     // 컨텍츠 컨테이너 
     const cmTempl = messageTempUserRef?.current; 
@@ -284,6 +282,9 @@ export default function ChatSession (  ) {
     if ( qnaId ) cm.dataset['qnaId'] = qnaId.toString(); // - 질문 & 답변 ID
     if ( id ) cm.dataset['id'] = qnaId.toString(); // - 질문 ID 
 
+    if ( ! thumb ) thumb = Commons.getSessionStorage('_photo');
+
+
     /* 채팅 메시지 : 헤더
     */ 
     const cmHead = cm.querySelector( `.${__PREFIX__}-row-head` );
@@ -292,6 +293,12 @@ export default function ChatSession (  ) {
       const el = createMessage(message);
       const msgBox = cmHead.querySelector( `.${__PREFIX__}__content-mbox`) ;
       if ( el && msgBox ) msgBox.appendChild( el );
+
+      /// 회원 썸네일 
+      if ( thumb ) {
+        const thumbBox = cmHead.querySelector( `.${__PREFIX__}__thumb`) ;
+        if ( thumbBox ) thumbBox.innerHTML = `<a><img class="chat-message__thumb-img" src="${thumb}" alt="${message}"} /> </a>`;
+      }
     }
 
     /* 채팅 메시지 : 메타 (TOP)
@@ -319,6 +326,7 @@ export default function ChatSession (  ) {
     const metaBtm = cm.querySelector('.meta-bottom');
     if ( metaBtm ) {}
 
+    
     updateChatMessage( cm ); // <ChatMessage /> 채팅 메시지 아이템 추가
   };
 
@@ -504,12 +512,6 @@ export default function ChatSession (  ) {
   }
 
   /**
-   * useEffect : 초기화 함수
-   */
-  useEffect( () => {
-  }, [] );
-
-  /**
    * useEffect : 채팅 세션 ID 초기화 함수
    */
   useEffect( () => {
@@ -533,6 +535,7 @@ export default function ChatSession (  ) {
 
         let session_id = 0;
         let session_status = 1;
+        let member: IDataMember | null = null;
         
         
         if ( ! datas || ( datas && ! datas.length )  ) {
@@ -546,13 +549,30 @@ export default function ChatSession (  ) {
             const qnaId = data.id;
             const answer = data.answer;
             const question = data.question;
-
+            
+            
             if ( data.session ) {
               session_id = data.session.id;
               session_status = data.session.status;
+              member = data.session.member;
             }
-            
-            updateUserChatMessage( question.content, qnaId, question.id );
+
+            // 회원 : 메타 사진 정보 불러오기
+            let picture = memberPicture; 
+            if ( ! picture ) {
+              
+              if ( member ) { // 프로필 사진 추출
+
+                const meta = (member.meta ? member.meta : []).filter( (m:any) => m['meta_key'] == 'picture' );
+
+                if ( meta.length ) 
+                  picture = meta[0]['meta_value'];
+              }
+
+              setMemberPicture( picture );
+            } // memberPicture
+
+            updateUserChatMessage( question.content, qnaId, question.id, picture );
             updateBotChatMessage( [answer], qnaId );
 
           } );

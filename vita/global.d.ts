@@ -1,5 +1,9 @@
+
 declare global {
   interface Window {
+
+    onLoading: () => void;
+    offLoading: () => void;
 
     isScrollYEnded: ( el: HTMLDivElement ) => boolean;
 

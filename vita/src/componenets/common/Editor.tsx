@@ -30,7 +30,6 @@ export default function Editor () {
             ['link'],
             [{ 'align': [] }],
             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            
           ]
         },
         placeholder: '내용을 입력하세요.', 

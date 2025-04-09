@@ -3,6 +3,9 @@
  */
 export interface IResponseEntity { success: number, response: any }
 
+///
+/// 데이터 세트 : 공통
+/// 
 
 /* 인터페이스 : 데이터 세트 - 용어 및 카테고리
  */
@@ -55,7 +58,7 @@ export interface IDataOAuthTokenPayload {
  */
 export interface IDataMember {
   id: number,
-  email: string
+  email: string,
   name: string,
   nickname: string,
   gender: string, // M | F
@@ -112,12 +115,32 @@ export interface IDataPost {
 /// 데이터 세트 : 채팅 
 /// 
 
+
 /* 인터페이스 : 데이터 세트 - 키워드 추출 결과 
 */
 export interface IDataExtraKeywords {
   original_text: string, 
   processed_text: string, 
   keywords: string[] | null
+}
+
+/* 인터페이스 : 데이터 세트 - 키워드 추출 결과 (OCR) 
+*/
+export interface IDataExtraKeywordsByOCR {
+  ocr_raw: string, 
+  gpt_analysis: string | null, 
+  keyword_analysis? : IDataExtraKeywords, 
+}
+
+/* 인터페이스 : 데이터 세트 - 음성 파일 감정 분석
+*/
+export interface IDataExtraSentiment {
+  post_id? : number,
+  file_name: string, 
+  transcribed_text: string,
+  overall_sentiment: string,
+  overall_score: number,
+  keyword_sentiment?: any
 }
 
 /* 인터페이스 : 데이터 세트 - 채팅 세션

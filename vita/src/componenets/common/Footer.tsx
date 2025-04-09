@@ -5,6 +5,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import AnchorMap from "../button/AnchorMap";
+import Loader from "./Loader";
 
 
 // declare var kakao : any | null;
@@ -18,7 +19,6 @@ export default function Footer() {
   }, [] )
 
   return (<>
-
     <div className="app-footer-wrap">
       
       {/* 바닥 고정 앵커 버튼 */}
@@ -32,5 +32,9 @@ export default function Footer() {
 
       </div>
     </div> { /* app-footer-wrap */ }
+
+    {/* 전역 로더 */}
+    { UI.loading && <Loader classes = "fluid position-fixed" /> }
+    
   </>);
 };

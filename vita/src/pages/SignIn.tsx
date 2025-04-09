@@ -5,7 +5,7 @@ import * as Commons from "../../public/assets/js/commons";
 import * as IS from "../utils/interfaces";
 
 import { FormEvent, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -19,12 +19,11 @@ import FieldsetSignIn from "../componenets/fieldset/FSSignIn";
 import Branding from "../componenets/headline/BrandingForm";
 
 
-
-
 export default function SignIn() {
 
-  const UI = useSelector( (state: any) => state.ui );
   const dispatch =  useDispatch();
+
+  // uiSlice.setLoading
   
   const navigate = useNavigate();
   const location = useLocation();
@@ -88,14 +87,13 @@ export default function SignIn() {
     
     FetchSignIn.onSignIn( email.toString(), pwd.toString(), data => {
 
-      if ( data && data.token ) 
+      if ( data && data.token ) {
         Commons.setSessionStorage( "token", data.token ); // 로그인 결과: 성공
-
+      }
+      
       if ( ! window.isLoggedIn() ) return; // 로그인 결과: 실패
       else window.location.replace("/");
     } );
-    
-    
   };
 
   /**
@@ -211,26 +209,25 @@ export default function SignIn() {
       
       FetchSignIn.setAuthToken( provider, code ?? "", (resp) => {
 
-        /* 테스트 코드: 샘플 데이터 
-        */ 
-        
-        code = params.get("code") ?? "";
-        if ( code == "testcode" ) { // 테스트 코드: 새플 데이터
-          resp = {
-            provider_id: uuidv4(),
-            provider: provider,
-            picture: "https://lh3.googleusercontent.com/a/ACg8ocLFpG2QtJNS19tdH4FEvVPUUm8Fd0BV8uh4pIPh1m4uZAuynA=s96-c",
-            name: "박윤성",
-            email: "user01@gmail.com",
-            token: {
-              token_type: "Bearer",
-              id_token: `${code}.${uuidv4()}`,
-              access_token: `ya29.${code}.${uuidv4()}`,
-              expires_in: 0
-            }
-          };
+        // /* 테스트 코드: 샘플 데이터 
+        // */ 
+        // code = params.get("code") ?? "";
+        // if ( code == "testcode" ) { // 테스트 코드: 새플 데이터
+        //   resp = {
+        //     provider_id: uuidv4(),
+        //     provider: provider,
+        //     picture: "https://lh3.googleusercontent.com/a/ACg8ocLFpG2QtJNS19tdH4FEvVPUUm8Fd0BV8uh4pIPh1m4uZAuynA=s96-c",
+        //     name: "박윤성",
+        //     email: "user01@gmail.com",
+        //     token: {
+        //       token_type: "Bearer",
+        //       id_token: `${code}.${uuidv4()}`,
+        //       access_token: `ya29.${code}.${uuidv4()}`,
+        //       expires_in: 0
+        //     }
+        //   };
 
-        } // code == "testcode"
+        // } // code == "testcode"
 
         if ( ! resp || ( resp && ! resp.provider_id ) ) { // - SNS 로그인 실패
 

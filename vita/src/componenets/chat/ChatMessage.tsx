@@ -3,7 +3,7 @@
  */
 // import shortid from 'shortid';
 
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Loader from "../common/Loader";
 
 
@@ -29,6 +29,7 @@ export default function ChatMessage ( props: IProp ) {
 
   props = { ...PropDefault, ...props }; // 컴포넌트 속성 초기화
   
+
   return (<>
     <div { ...( props.ref ? { ref: props.ref } : {}) } className="chat-content-item chat-message-wrap" data-type={ props.type }> 
       <div className="chat-message">
@@ -95,8 +96,12 @@ export default function ChatMessage ( props: IProp ) {
                 {/* <p aria-label="message"></p> */}
               </div>
             </div>
-            <div className="chat-message__thumb flex-shrink-0 flex-grow-0">
-              <a> <i className="im icon-user chat-message__thumb-img"></i></a>
+            <div className="chat-message__thumb flex-shrink-0 flex-grow-0" >
+
+              <a><i className="fa-solid fa-user chat-message__thumb-img"></i> </a>
+
+             
+              {/* <a> <i className="im icon-user chat-message__thumb-img"></i></a> */}
             </div>
           </div>
 

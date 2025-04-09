@@ -629,5 +629,13 @@ body:is( .sessions ) {
 /// 포스트 : 에디터
 /// --------------------------------------------------------------
 body.page:is( .post.edit, .post-edit ) {
-  
+ 
+  /// 컨테이너 : 포스트 에디트
+  /// 
+  section#edit-content-container {
+
+    #edit-content { } // #post-edit-content
+
+  } // #post-edit-content-container
+
 }

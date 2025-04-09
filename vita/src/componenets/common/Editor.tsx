@@ -2,12 +2,15 @@
  * 컴포넌트 : 에디터
  * - https://quilljs.com/playground
  */
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import shortid from 'shortid';
+import { PostEditorFormDataContext } from '../../utils/contexts/contextPostEditor';
 
 export default function Editor () {
 
   const EID = shortid.generate();
+
+  const dataContext = useContext( PostEditorFormDataContext )
 
   const [ editor, setEditor ] = useState<any>( null );
   const editorElemRef = useRef<HTMLDivElement>(null);
@@ -26,9 +29,9 @@ export default function Editor () {
           toolbar: [
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
             [ 'bold', 'italic', 'underline', 'strike' ],
-            [ 'image', 'blockquote', 'code-block' ],
+            [ 'image' ], // 'blockquote', 'code-block' 
             ['link'],
-            [{ 'align': [] }],
+            // [{ 'align': [] }],
             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
           ]
         },
@@ -36,7 +39,10 @@ export default function Editor () {
         theme: 'snow'
       });
 
+      
+
       setEditor( quill ); // - updated editor
+      dataContext.editor = quill;
     }
 
     return () => { 

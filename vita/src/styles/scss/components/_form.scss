@@ -157,3 +157,90 @@ form.form {
   } // .field-address
 
 } // .field-address
+
+
+/// --------------------------------------------------------------
+/// # Form : 포스트 에디트
+/// --------------------------------------------------------------
+.form-post-edit {
+
+  /// QL 에디터: ql-*
+  .ql- {
+    $br_c: #ced4da; 
+
+    &toolbar,
+    &container { border-color: $br_c; }
+
+    &toolbar {
+      border-top-left-radius: 0.25em;;
+      border-top-right-radius: 0.25em;
+    } // &toolbar
+
+    &container { 
+      height: 50vh; 
+      max-height:500px;
+      border-bottom-left-radius: 0.25em;
+      border-bottom-right-radius: 0.25em;
+    } // &container
+
+  } // QL 에디터: ql-*
+
+  /// 폼 필드: .field-*'
+  .form-control-field-wrap {
+    .form-control-field { margin-bottom: 1em; }
+  }
+
+  .field- {
+
+    &post_title {
+
+      input[name="post_title"] {  
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        border-radius: 0;
+        font-size: 1.5em;
+      }
+
+    } // &post_title 
+
+    &submit {
+
+      button[type="submit"] { 
+        display: block;
+        margin: 0 auto;
+        max-width: 300px; 
+      }
+
+    } // &submit
+
+  } // .field-*
+
+  
+
+  /// @ 미디어 
+  ///
+  $lg: get-breakpoints('lg');
+  @include media( ">=#{$lg}" ) {
+
+    .form-control-field-wrap {
+     
+      .form-control-field__label-container { 
+        margin-bottom: 0; 
+      }
+
+      /// 폼 필드: .field-*
+      .field- {
+        
+        &post_name {
+
+        
+
+        } // &post_name 
+
+      } // .field-*
+    }
+
+  } /// @include media( "<#{$lg}" )
+
+}

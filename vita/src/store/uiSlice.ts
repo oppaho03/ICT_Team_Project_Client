@@ -6,15 +6,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IUIState {
   expanded: boolean, // - 서랍메뉴 확장 토글
+  editor: any,
   modal: boolean, // - 모달 토글
   loading: boolean, // - 메인 로딩 토글 
   map : boolean, // - 맵 토글
   contents: boolean, // - 컨텐츠 토글 
   update_menu_chat_sessions : string | null, // - 메뉴: 채팅 세션 갱신
+  
 }
 
 const initialState: IUIState = {
   map: false,
+  editor: null,
   expanded: true,
   modal: false,
   loading: false,
@@ -32,6 +35,7 @@ const uiSlice = createSlice({
       state.loading = action.payload; 
     },
     setMap( state, action: PayloadAction<boolean> ) { state.map = action.payload; },
+    setEditor( state, action: PayloadAction<any> ) { state.editor = action.payload; },
     setContents( state, action: PayloadAction<boolean> ) { state.contents = action.payload; },
     setUpdateMenuChatSessions( state, action: PayloadAction<string> ) { 
       state.update_menu_chat_sessions = action.payload; 
@@ -44,5 +48,5 @@ const uiSlice = createSlice({
   }
 });
 
-export const { setExpanded, setModal, setLoading, setMap, setContents, setUpdateMenuChatSessions, toggleExpanded, toggleModal, toggleLoading, toggleMap, toggleContents } = uiSlice.actions;
+export const { setExpanded, setModal, setLoading, setMap, setEditor, setContents, setUpdateMenuChatSessions, toggleExpanded, toggleModal, toggleLoading, toggleMap, toggleContents } = uiSlice.actions;
 export default uiSlice.reducer;

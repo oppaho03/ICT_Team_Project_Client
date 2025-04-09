@@ -1,3 +1,0 @@
-@mixin items($justify: null, $align: null) {
-  @include box-alignment('items', $justify, $align);
-}

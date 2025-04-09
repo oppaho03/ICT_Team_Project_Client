@@ -1,6 +1,0 @@
-@mixin inherit-pseudo-elements($prop) {
-  &::before,
-  &::after {
-    #{$prop}: inherit;
-  }
-}

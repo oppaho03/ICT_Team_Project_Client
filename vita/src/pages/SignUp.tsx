@@ -65,7 +65,7 @@ export default function SignUp () {
   const onSubmit = (e: any) => {
     e.preventDefault(); // - event cancel
     
-    const form = e.target as HTMLFormElement
+    const form = e.target as HTMLFormElement;
 
     /// 폼 데이터 검사
     if ( ! dataContext.isChecked() ) {

@@ -626,6 +626,146 @@ body:is( .sessions ) {
 
 
 /// --------------------------------------------------------------
+/// 포스트 리스트
+/// --------------------------------------------------------------
+
+body:is( .posts ) {
+
+
+  // <section> : chat-sessions
+  section#posts {
+
+    #posts-list {
+
+      ul.menu-list {
+
+        li.menu-item,
+        li.menu-item > * { width: 100%; }
+
+        li.menu-item { 
+          overflow: hidden;
+          @include position( relative );
+
+          margin: auto auto 0.5em; 
+          background-color: get-color( "white" "100" );
+          font-size: 1rem;
+          border-color: #d2d6da;
+          border-style: solid;
+          border-width: 1px;
+        }
+
+      } // ul.menu-list
+
+      .block-not-found {
+        text-align: center;
+        line-height: 2em;
+      }
+    
+    } // #chat-sessions-list
+
+    #posts-list .article[class*="post-"] {
+
+      padding: 2em 1em;
+
+      .entry-category-repr .post-category {
+        
+        & > * { 
+          padding: 0.25em 0.5em;
+          margin: 0 0.25em 0.5em 0;
+          display : inline-block;
+          background-color: get-color( 'tertiary' '' );
+          color: #fff;
+          border-radius: 0.25em;
+
+        };
+
+      }
+
+      .article-header {
+
+        .headline {
+          font-size: 1.5em; 
+          font-weight: bold;
+          color: get-color( 'primary' '' );
+        }
+
+        .entry-meta {
+
+          color: get-color( 'text' 'caption' );
+          font-size: 0.875em;
+          
+          .post-author {
+
+            $s: 36px;
+
+            .author-image {
+              @include position( relative );
+              margin-bottom: 0;
+              width: $s; 
+              height: $s; 
+              overflow: hidden;
+              border-radius: 100%;
+            }
+
+            .author-image img { 
+              @include position( absolute, l -5% t -5% );
+              width: 110%; 
+              height: 110%; 
+            }
+            
+            .author-image i[class^='fa-'] {
+              display: block;
+              width: auto;
+              height: auto;
+              line-height: 1;
+              color: get-color('secondary' '');
+            }
+            .author-image i[class^='fa-']::before { font-size: $s; line-height: 1; }
+
+            .author-name a {
+              text-decoration: none;
+              color: get-color( 'text' 'body' );
+              text-underline-offset: 0.25em;
+              &:hover { 
+                color: get-color( 'text' 'title' );
+                text-decoration: underline;
+              }
+            }
+          } // .post-author
+
+        } // .entry-meta
+
+      } // .article-header
+
+      .article-content {
+        $c: #d2d6da;
+
+        margin: 2em 0 0 0;
+        padding: 2em 0;
+        border-top : 1px solid #d2d6da;
+        border-bottom : 1px solid #d2d6da;
+
+        * { max-width: 100%; }
+      }
+
+    } /// #posts-list .article[class*="post-"] 
+
+    $md: get-breakpoints( 'md' );
+    @include media( "<#{$md}"  ){
+      .article-header {
+
+        .entry-meta .entry-info {
+          .post-date span { display: none; }
+        }
+      }
+    }
+     
+  } // <section> : chat-sessions
+
+}
+
+
+/// --------------------------------------------------------------
 /// 포스트 : 에디터
 /// --------------------------------------------------------------
 body.page:is( .post.edit, .post-edit ) {

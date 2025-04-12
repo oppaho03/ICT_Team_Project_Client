@@ -160,6 +160,11 @@ export default function DrawableMenu() {
                     <i className="fa-solid fa-house -icon"></i>
                     <span className="-text">HOME</span>
                   </Link>
+                </li>  <li className="menu-item menu-item-page menu-item-type-custom" data-label="">
+                  <Link to={`/posts/news`} className="link link-has-icon link-unstyle" title="" aria-label="">
+                    <i className="fa-solid fa-signs-post -icon"></i>
+                    <span className="-text">최신 소식</span>
+                  </Link>
                 </li>
               </ul>
             </nav>

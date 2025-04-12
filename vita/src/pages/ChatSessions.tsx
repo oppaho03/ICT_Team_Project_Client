@@ -112,7 +112,7 @@ export default function ChatSessions() {
 
                     </li>);
                 } )
-              } 
+              }
             </ul>
 
             { lastPaged && <BlockNotFound contents="더 이상 채팅 세션이 없습니다." /> }

@@ -449,3 +449,44 @@
   
 
 } // .menu 
+
+
+
+/* 
+*/
+.sns-share {
+
+  margin-top : 2em;
+
+  .sns-share-buttons {
+
+    .btn.sns-button {
+
+      display: block;
+      padding: 0.25em 1em;
+      margin: 0 0.5px;
+      
+      font-size: 24px;
+      line-height: 1;
+
+      text-align: center;
+      background-color: #ddd;
+
+      & > i[class^=fa-] { color: #fff; }
+
+      border-radius: 0;
+
+      &:first-child { border-top-left-radius: 0.25em; border-bottom-left-radius: 0.25em; }
+      &:last-child { border-top-right-radius: 0.25em; border-bottom-right-radius: 0.25em; }
+    }
+
+    .btn.twitter-button { background-color: rgba( #000, 0.8 ); }
+    .btn.twitter-button:hover { background-color: #000; }
+    .btn.facebook-button { background-color: rgba(#3b5998, 0.8); }
+    .btn.facebook-button:hover { background-color: #3b5998; }
+    
+
+
+  } // .sns-share-buttons
+
+}

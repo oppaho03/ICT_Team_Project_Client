@@ -12,6 +12,14 @@ export default function FieldsetPostEditor () {
 
   const [ categories, setCategories ] = useState<IDataCategory[]>([]);
 
+  const commantStatusOnChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+    const t = e.target as HTMLInputElement;
+    const value = t.checked ? t.dataset['checked'] : t.dataset['unchecked'];
+
+    const input : HTMLInputElement | null = t.nextElementSibling as HTMLInputElement | null;
+    if ( input ) input.value = value ? value : "OPEN";
+  };
+
   /**
    * useEffect (초기화)
    */
@@ -47,7 +55,7 @@ export default function FieldsetPostEditor () {
         </div>
         <div className="form-control-field__input-container flex-lg-grow-1 flex-lg-shrink-1">
           <div className="form-control form-select" >
-            <select name="category">
+            <select name="category" data-required="1">
               <option value="">카테고리를 선택해주세요.</option>
               { categories.map( (cat, cati) => {
                 return <option key={cati} value={cat.id ? cat.id : ""}>{cat.name}</option>
@@ -76,7 +84,8 @@ export default function FieldsetPostEditor () {
             <div className="form-check form-switch" >
               <p className="form-caption"><label>답글 허용</label> </p>
               {/* <label className="form-check-label">폼 공개</label> */}
-              <input className="form-check-input" type="checkbox" role="switch" id="" name="commant_status" value="OPEN" data-checked="OPEN" data-unchecked="OPEN" /> 
+              <input className="form-check-input" type="checkbox" role="switch" id="" value="OPEN" data-checked="OPEN" data-unchecked="OPEN" onChange={commantStatusOnChange} /> 
+              <input type="hidden" name="commant_status" value="OPEN" />
               {/* onChange={onToggledChatSessionStatus} checked={isOpened} */}
             </div> 
           </div>
@@ -105,7 +114,7 @@ export default function FieldsetPostEditor () {
         <label className="form-control-field__label">이름</label>
       </div>
       <div className="form-control-field__input-container">
-        <input type="text" className="form-control" name="post_name" placeholder="" data-is-validation='0' data-required="1" />
+        <input type="text" className="form-control" name="post_name" placeholder="" data-is-validation='0' />
       </div>
     </div>
 

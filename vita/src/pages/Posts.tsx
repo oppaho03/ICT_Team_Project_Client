@@ -96,7 +96,7 @@ export default function Posts() {
     
       <div className="container">
 
-        <ContentHeadline title={"공개 채팅 세션 목록"} />
+        <ContentHeadline title={"최신 뉴스"} />
 
         <div className="content content-list" id="posts-list">
     

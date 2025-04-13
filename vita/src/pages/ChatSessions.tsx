@@ -34,9 +34,7 @@ export default function ChatSessions() {
   const wrapper = document.getElementById("wrapper");
   let paged = 1;
   let count = "1";
-
   
-
   /**
    * #wrapper 스크롤 (페이징)
    * @param e 

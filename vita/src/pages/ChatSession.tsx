@@ -333,6 +333,10 @@ export default function ChatSession (  ) {
   // 채팅 : 메시지 업데이트 - 사용자 - 메시지 처리 (답변검색)
   const updateUserChatMessageProcess = ( message: string ): void => {
 
+    const tempEl = document.createElement('div');
+    tempEl.innerHTML = message;
+    message = tempEl.innerText;
+
     // 전처리 : 문장 -> 키워드 추출  
     FecthChatSession.extrKeywords( message, ( datas => {
 

@@ -48,7 +48,7 @@ export default function MyPage() {
     const userData = res.data.response.data;
     setUserData(userData);
     console.log('유저정보: ',userData);
-    console.log('유저메타데이타: ', userData.meta[0].meta_value)
+    console.log('유저메타데이타: ', userData.meta?.[0]?.meta_value ?? '');
 
   };
 
@@ -73,7 +73,7 @@ export default function MyPage() {
               birth={userData.birth}
               address={userData.address}
               created_at={userData.created_at}
-              meta_value={userData.meta[0].meta_value}
+              meta_value={userData.meta?.[0]?.meta_value ?? ''}
               />
           </div>
         </div>

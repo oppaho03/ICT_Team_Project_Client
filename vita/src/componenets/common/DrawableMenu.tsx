@@ -132,7 +132,7 @@ export default function DrawableMenu() {
     } // end if
     else {
       /* 회원 프로필 정보 초기화
-      */ 
+      */  
       setMemberProfile(null);
     }
 

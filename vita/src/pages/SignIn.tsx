@@ -45,8 +45,6 @@ export default function SignIn() {
     const left = (window.innerWidth - width) / 2;
     const top = (window.innerHeight - height) / 2;
 
-    // if ( childPopup ) childPopup.close(); // - 팝업 창 닫기
-
     const popup = window.open(
       uri, 
       "oauth_login_popup", 
@@ -116,6 +114,8 @@ export default function SignIn() {
       name: datas.name,
     }, ( resp ) => {
 
+      let is_loggedin = false;
+
       if ( resp ) {
         /* SNS 로그인 및 회원 정보 파싱
         */
@@ -131,25 +131,58 @@ export default function SignIn() {
         // 로그인 완료 - 세션 정보
         if ( token && token.length ) {
 
+          
           Commons.setSessionStorage( "token", token ); // 로그인 결과: 성공
-
+          
           // 인증 : 공급업체
           Commons.setSessionStorage( "auth_provider", provider ); 
           // 인증 : 접근 토큰
           Commons.setSessionStorage( "auth_access_token", access_token ); 
           // 인증 : 새로고침 토큰
           Commons.setSessionStorage( "auth_refresh_token", refresh_token );  
+          is_loggedin = true;
+
+         if ( window.opener ) {
+            Commons.setSessionStorage( "token", token ); 
+            window.opener.sessionStorage.setItem("token", token); // 로그인 결과: 성공
+            window.opener.sessionStorage.setItem("auth_provider", provider); // 인증 : 공급업체
+            window.opener.sessionStorage.setItem("auth_access_token", access_token); // 인증 : 접근 토큰
+            window.opener.sessionStorage.setItem("auth_refresh_token", refresh_token); // 인증 : 새로고침 토큰
+          }
+
+
+          // - 윈도우 닫기 및 페이지 초기화
+          if ( window.opener ) {
+            window.opener.location.replace("/");
+            window.close();
+          }
+          else window.location.replace("/");
         }
         
       }
 
-      // - 윈도우 닫기 및 페이지 초기화
-      if ( window.opener ) {
-        window.opener.location.replace("/");
-        window.close();
-      }
-      else window.location.replace("/");
-      
+      if ( ! is_loggedin ) {
+        const _modal = window.modalAlter( `<b class="text-danger">유효한 토큰을 발급 받을 수 없습니다</b>. 관리자에게 문의하세요.` );
+
+          // - 팝업 닫힘
+          if ( _modal ) window.modalBindClosed( _modal, () => { 
+            // - 윈도우 닫기 및 페이지 초기화
+            if ( window.opener ) {
+              window.opener.location.replace("/");
+              window.close();
+            }
+            else window.location.replace("/");
+          } );
+          else {
+            // - 윈도우 닫기 및 페이지 초기화
+            if ( window.opener ) {
+              window.opener.location.replace("/");
+              window.close();
+            }
+            else window.location.replace("/");
+          }
+      } /// ! is_loggedin
+
     } );
     
   };

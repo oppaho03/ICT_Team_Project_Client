@@ -37,7 +37,7 @@ export async function setAuthToken ( provider: string,  code: string, callback: 
     
     // 서버 응답 데이터 : IResponseEntity
     const resultData = result.data ? result.data as unknown as IResponseEntity : null;
-    
+
     // 서버 응답 데이터 - 오류 처리
     if ( ! result || ! resultData || ! resultData.response ) {
       console.log( resultData );

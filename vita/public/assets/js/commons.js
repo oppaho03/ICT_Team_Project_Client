@@ -347,6 +347,7 @@ function setSpeechRecognition() {
  * @return {any}
  */
 function getSessionStorage( key ) {
+ 
   if ( ! ("sessionStorage" in window) ) return null;
   return sessionStorage.getItem( key );
 }

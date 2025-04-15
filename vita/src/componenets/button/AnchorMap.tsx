@@ -271,35 +271,57 @@ export default function AnchorMap() {
 
     if ( map ) clearMap();
 
-    if ( "geolocation" in navigator ) {
-      // 현재 좌표 검색
-      navigator.geolocation.getCurrentPosition( (pos) => {
-        // const position = FetchMaps.setPosition( pos.coords.latitude, pos.coords.longitude );
-        const position = FetchMaps.setPosition( 37.5012446735418, 127.025011541805 );
-        if ( position ) initMap( position ); // 지도 렌더링
-      } );
-    }
-    else {
-      // 주소 검색 
-      FetchMaps.getLatLngByAddress("서울 서초구 서초동 1308-6", ( addrs ) => {
+    FetchMaps.getLatLngByAddress("서울 서초구 서초동 1308-6", ( addrs ) => {
 
-        const latlng = { lat : 0, lng: 0 };
-        const addr = addrs.length ? addrs[0] : null; // x - LNG, y- LAT
+      const latlng = { lat : 0, lng: 0 };
+      const addr = addrs.length ? addrs[0] : null; // x - LNG, y- LAT
 
-        if ( addr ) {
-          latlng.lng = parseFloat(addr.x); // x - lng
-          latlng.lat = parseFloat(addr.y); // y - lat
-        }
-        else {
-          // 초기 값
-          latlng.lng = 127.025011541805; // x - lng
-          latlng.lat = 37.5012446735418; // y - lat
-        }
+      if ( addr ) {
+        latlng.lng = parseFloat(addr.x); // x - lng
+        latlng.lat = parseFloat(addr.y); // y - lat
+      }
+      else {
+        // 초기 값
+        latlng.lng = 127.025011541805; // x - lng
+        latlng.lat = 37.5012446735418; // y - lat
+      }
 
-        const position = FetchMaps.setPosition(latlng.lat, latlng.lng);
-        if ( position ) initMap( position ); // 지도 렌더링
-      });
-    }
+      const position = FetchMaps.setPosition(latlng.lat, latlng.lng);
+      if ( position ) initMap( position ); // 지도 렌더링
+    });
+
+    // if ( "geolocation" in navigator ) {
+      
+    //   // 현재 좌표 검색
+    //   navigator.geolocation.getCurrentPosition( (pos) => {
+    //     // const position = FetchMaps.setPosition( pos.coords.latitude, pos.coords.longitude );
+    //     const position = FetchMaps.setPosition( 37.5012446735418, 127.025011541805 );
+        
+    //     if ( position ) initMap( position ); // 지도 렌더링
+    //   } );
+    // }
+    // else {
+
+    //   // 주소 검색 
+    //   FetchMaps.getLatLngByAddress("서울 서초구 서초동 1308-6", ( addrs ) => {
+
+    //     const latlng = { lat : 0, lng: 0 };
+    //     const addr = addrs.length ? addrs[0] : null; // x - LNG, y- LAT
+
+    //     if ( addr ) {
+    //       latlng.lng = parseFloat(addr.x); // x - lng
+    //       latlng.lat = parseFloat(addr.y); // y - lat
+    //     }
+    //     else {
+    //       // 초기 값
+    //       latlng.lng = 127.025011541805; // x - lng
+    //       latlng.lat = 37.5012446735418; // y - lat
+    //     }
+
+    //     const position = FetchMaps.setPosition(latlng.lat, latlng.lng);
+    //     if ( position ) initMap( position ); // 지도 렌더링
+    //   });
+    // }
 
   }
 

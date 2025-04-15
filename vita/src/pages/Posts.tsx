@@ -41,6 +41,7 @@ export default function Posts() {
     if ( slug ) {
       FetchTerms.findBySlug( slug, "category", cat => {  // 루트 용어(카테고리) 
         category = cat; 
+        console.log( category );
         if ( cat && cat.id ) updatePosts( cat.id );
       });
     }

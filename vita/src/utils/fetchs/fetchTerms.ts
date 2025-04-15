@@ -60,7 +60,7 @@ export async function findBySlug ( slug: string, taxonomy: string, callback: nul
 
   try {
     const uri = `${SERVER_URL}/api/terms/s?slug=${slug}&category=${taxonomy}`;
-   
+
     const headers = getHeaders();
     const result = await axios.get<IFetchResponseDefault>( uri, { headers }); 
     
@@ -78,9 +78,8 @@ export async function findBySlug ( slug: string, taxonomy: string, callback: nul
 
     // 서버 응답 데이터 
     const resp = resultData.response ? resultData.response : null;
-    respData = resp?.data ? resp.data : null;    
-
-    console.log(respData);
+    respData = resp?.data ? resp.data : null; 
+    
   }
   catch ( err: any ) {
     respData = null;

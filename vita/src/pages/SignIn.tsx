@@ -76,8 +76,10 @@ export default function SignIn() {
     const email = dataset.get("email");
     const pwd = dataset.get("password");
 
+    console.log( pwd + "/" + form.password );
+
     // 비밀번호 불일치시 오류메세지 뿌리기
-    if(pwd !== form.password) {
+    if(pwd !== form.password.value) {
       window.modalAlter( `아이디 또는 비밀번호가 일치하지 않습니다.` );
     }
 

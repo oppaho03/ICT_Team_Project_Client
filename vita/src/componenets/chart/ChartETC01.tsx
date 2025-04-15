@@ -12,6 +12,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import axios from 'axios';
 import 'chartjs-adapter-date-fns';
+import { SERVER_URL } from '../../utils/fetchs/all';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -24,7 +25,7 @@ export default function ChartETC01() {
       const token = sessionStorage.getItem('token');
       const periods = ['2025-04', '2025-05', '2025-06'];
       const requests = periods.map((month)=>
-        axios.get('http://localhost:8080/api/voice-files', {
+        axios.get( SERVER_URL + '/api/voice-files', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

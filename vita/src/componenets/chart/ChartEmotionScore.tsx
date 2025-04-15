@@ -13,7 +13,7 @@ import {
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { useEffect, useRef } from 'react';
-import { getHeaders } from '../../utils/fetchs/all';
+import { getHeaders, SERVER_URL } from '../../utils/fetchs/all';
 
 ChartJS.register(LineElement, PointElement, LinearScale, TimeScale, Tooltip, Title, Legend,);
 
@@ -32,10 +32,10 @@ const CHART_COLORS = {
 export default function ChartEmotionScore() {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const token = getHeaders().Authorization.split(' ')[1];
-
+  
   console.log('컴포넌트안에서의 토큰',token)
   const getCharData = async() => {
-    const res : any = await axios.get('http://localhost:8080/api/posts/meta/sar', {
+    const res : any = await axios.get( SERVER_URL + '/api/posts/meta/sar', {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import FieldsetMemberInfo from "../componenets/fieldset/FSMemberInfo";
 import Branding from "../componenets/headline/BrandingForm";
-import { getHeaders } from "../utils/fetchs/all";
+import { getHeaders, SERVER_URL } from "../utils/fetchs/all";
 import { useEffect, useState } from "react";
 import ChartEmotionScore from "../componenets/chart/ChartEmotionScore";
 import ChartETC01 from "../componenets/chart/ChartETC01";
@@ -40,7 +40,7 @@ export default function MyPage() {
   const token = getHeaders().Authorization.split(' ')[1];
 
   const getUserInfo = async () => {
-    const res : any= await axios.get('http://localhost:8080/api/members/me', {
+    const res : any= await axios.get(SERVER_URL + '/api/members/me', {
       headers: {
         Authorization: `Bearer ${token}`
       }

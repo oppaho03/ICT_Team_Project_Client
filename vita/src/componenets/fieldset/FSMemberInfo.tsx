@@ -1,7 +1,6 @@
 /**
  * 컴포넌트 : 필드셋 - 회원 정보
  */
-import { useState } from "react";
 
 interface UserData {
   email: string;

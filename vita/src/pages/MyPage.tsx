@@ -52,10 +52,26 @@ export default function MyPage() {
 
   };
 
+  /* const getData = async() => {
+    const res : any = await axios.get('http://localhost:8080/api/posts/meta/sar', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    const getChartData = res.data.response.data;
+    console.log("가져온 차트 데이타1",getChartData);
+  }; */
+
   // 백엔드로 토큰전달 + 유저정보 가져오기
   useEffect(()=>{
     getUserInfo();
+    // getData();
   },[]);
+
+
+
+  
 
   return (<>
     <section className="section d-flex flex-column justify-content-center align-items-center" id="mypage">

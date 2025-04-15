@@ -16,36 +16,54 @@ import 'chartjs-adapter-date-fns';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default function ChartETC01() {
-  const [positiveScores, setPositiveScores] = useState<{ x: string; y: number }[]>([]);
-  const [negativeScores, setNegativeScores] = useState<{ x: string; y: number }[]>([]);
+  const [positiveScores, setPositiveScores] = useState<{ x: Date; y: number }[]>([]);
+  const [negativeScores, setNegativeScores] = useState<{ x: Date; y: number }[]>([]);
 
   const getCharData = async () => {
     try {
       const token = sessionStorage.getItem('token');
-      const res: any = await axios.get('http://localhost:8080/api/posts/meta/sar', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const periods = ['2025-04', '2025-05', '2025-06'];
+      const requests = periods.map((month)=>
+        axios.get('http://localhost:8080/api/voice-files', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            period : month 
+          },
+        })
+        
+      );
+      
+      const responses : any[] = await Promise.all(requests);
+      // if ( ! responses.data || ! responses.data.response || ! responses.data.response.data ) return;
+      const allData = responses.flatMap(res => res.data.response.data);
+      console.log('모든 월 데이터', allData);
 
-      const getChartDataRes = res.data.response.data;
 
-      const pos: { x: string; y: number }[] = [];
-      const neg: { x: string; y: number }[] = [];
 
-      getChartDataRes.forEach((item: any) => {
-        const createdAt = item.post.post_created_at;
-        const scoreMeta = item.meta.find((m: any) => m.key === 'sar_overall_score');
-        const rawScore = scoreMeta ? parseFloat(scoreMeta.value) * 100 : 0;
+      const pos: { x: Date; y: number }[] = [];
+      const neg: { x: Date; y: number }[] = [];
 
-        const score = Math.round(rawScore * 100) / 100; // 소수점 2자리 반올림
+      allData.forEach((item: any) => {
+        const createdAt = item.post_created_at;
 
-        if (score >= 0) {
-          pos.push({ x: createdAt, y: score });
-        } else {
-          neg.push({ x: createdAt, y: score });
+        const sentimentMeta = item.meta.find((m:any) => m.key === 'sar_overall_sentiment');
+        const scoreMeta = item.meta.find((m : any) => m.key === 'sar_overall_score');
+
+        const sentiment = sentimentMeta ? sentimentMeta.value : 'NEUTRAL';
+        const rawScore = scoreMeta ? parseFloat(scoreMeta.value)*100 : 0;
+        const score = Math.round(rawScore * 100) / 100;
+
+        if (sentiment === 'POSITIVE') {
+          pos.push({x:new Date(createdAt), y:score});
+        } else if (sentiment === 'NEGATIVE') {
+          neg.push({x:new Date(createdAt), y: score * -1});
         }
       });
+
+      pos.sort((a, b) => a.x.getTime() - b.x.getTime());
+      neg.sort((a, b) => a.x.getTime() - b.x.getTime());
 
       setPositiveScores(pos);
       setNegativeScores(neg);
@@ -79,6 +97,7 @@ export default function ChartETC01() {
 
   const options: any = {
     responsive: true,
+    spanGaps:true,
     plugins: {
       legend: {
         position: 'top' as const,
@@ -94,7 +113,7 @@ export default function ChartETC01() {
         type: 'time',
         time: {
           tooltipFormat: 'yyyy-MM-dd',
-          unit: 'day',
+          unit: 'month',
         },
         title: {
           display: true,
@@ -114,7 +133,7 @@ export default function ChartETC01() {
 
   return (
     <>
-      <h3>Vita 감정 점수 (긍/부정)</h3>
+      <h3>감정-음성 분석 : 월별 (긍/부정)</h3>
       <Line options={options} data={data} />
     </>
   );

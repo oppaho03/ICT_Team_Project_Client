@@ -102,18 +102,18 @@ export default function MyPage() {
 
         <div className="d-flex flex-column flex-md-row gap-3">
             <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
-              <ChartChatViews />
-            </div>
-            <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
               <ChartETC01/>
             </div>
         </div>
-        <div className="d-flex flex-column flex-md-row gap-3">
+        {/* <div className="d-flex flex-column flex-md-row gap-3">
+            <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
+              <ChartChatViews />
+            </div>
             <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
               <ChartETC02 />
             </div>
           
-        </div>
+        </div> */}
 
       </div>
 

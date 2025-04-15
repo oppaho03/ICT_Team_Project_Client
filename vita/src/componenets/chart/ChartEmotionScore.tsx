@@ -1,4 +1,5 @@
 import axios from 'axios';
+import sortBy from "sort-by";
 
 import {
   Chart as ChartJS,
@@ -40,13 +41,30 @@ export default function ChartEmotionScore() {
         }
       }
     )
+
+    if ( ! res.data || ! res.data.response || ! res.data.response.data ) return;
     const getChartDataRes = res.data.response.data;
+   /*  
     console.log("가져온 차트 데이타2",getChartDataRes);
 
+
+    for( let i = getChartDataRes.length - 1; i >= 0; i --  ) {
+      const item = getChartDataRes[i];
+      const createdAt = item.post.post_created_at;
+
+      console.log(createdAt);
+      console.log("aaa");
+
+    } */
+    
     // 데이타 가져오기
-    const chartData = getChartDataRes.map((item:any)=>{
+    const chartData = getChartDataRes
+    .filter((item:any) => item.post.post_created_at.startsWith('2025-04-15'))
+    .reverse().map((item:any)=>{
       // 데이타 가져오기 - 날짜
       const createdAt = item.post.post_created_at;
+
+      console.log(createdAt);
 
       // 데이타 가져오기 - 감정지수
       const scoreMeta = item.meta.find((m:any) => m.key === 'sar_overall_score');
@@ -59,7 +77,7 @@ export default function ChartEmotionScore() {
 
     });
 
-    console.log('차트 데이터',chartData);
+    console.log('차트 데이터(4월)',chartData);
     return chartData;
 
 
@@ -119,7 +137,7 @@ export default function ChartEmotionScore() {
                 time: {
                   unit: 'day', // x축에는 날짜만 표시(시간은 표시X)
                   displayFormats: {
-                    day: 'yyyy-MM-dd', // 표시 형식 지정
+                    day: 'MM-dd', // 표시 형식 지정
                   },
                 },
                 title: {
@@ -175,7 +193,7 @@ export default function ChartEmotionScore() {
   {/* 그래프 표시할 곳 */}
   return (<>
 
-    <h3>감정 지수</h3>
+    <h3>감정-음성 분석</h3>
     <p>날짜별 감정 지수</p>
     <canvas ref={chartRef} />
 

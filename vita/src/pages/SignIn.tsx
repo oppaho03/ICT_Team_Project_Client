@@ -220,6 +220,21 @@ export default function SignIn() {
    * @param e 
    */
   const onSignInKaKao = (e: MouseEvent) => {
+
+    /* OAUTH2 - 구글 정보 파싱
+    */ 
+    const baseUri = import.meta.env.VITE_OAUTH2_KAKAO_BASE_URL;
+    const clientId = import.meta.env.VITE_OAUTH2_KAKAO_CLIENT_ID;
+    const secretKey = import.meta.env.VITE_OAUTH2_KAKAO_SECRET_KEY;
+    const scope = encodeURIComponent( import.meta.env.VITE_OAUTH2_KAKAO_SCOPE );
+
+    /* SNS 로그인 - 인증 코드 요청
+    */ 
+    let authUri = `${baseUri}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`; // &scope=${scope}&access_type=offline
+
+    openPopup( authUri ); // - 팝업 열기åå
+
+    /// http://192.168.0.33:9000/singin
   };
 
 
@@ -238,13 +253,15 @@ export default function SignIn() {
       const queryString = uri.slice( uri.indexOf('?') + 1 );
 
       if ( queryString.indexOf( "google" ) !== -1 ) provider = "google";
-      else if ( queryString.indexOf( "kakao" ) !== -1 ) provider = "kakao";
+      else provider = "kakao";
       
       if ( provider == "google" ) 
         code = queryString.slice( queryString.indexOf("code=") + 5 );
+      else 
+        code = queryString.slice( queryString.indexOf("code=") + 5 );
 
       code = decodeURIComponent(code);
-      
+
       FetchSignIn.setAuthToken( provider, code ?? "", (resp) => {
 
         // /* 테스트 코드: 샘플 데이터 
@@ -278,7 +295,6 @@ export default function SignIn() {
 
         }
         else {  // - SNS 로그인 성공
-          
           onSubmitOAuthToken( resp );
         }
 

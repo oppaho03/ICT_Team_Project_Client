@@ -22,6 +22,8 @@ export async function setAuthToken ( provider: string,  code: string, callback: 
 
     if ( provider == "google" ) 
       uri = `${SERVER_DJANGO_API_URL}/auth/social/login/google/`;
+    else if ( provider == "kakao" ) 
+      uri = `${SERVER_DJANGO_API_URL}/auth/social/login/kakao/`;
 
     if ( uri == "" ) 
       throw new Error( `유효하지 않은 인증 업체(Provider) 타입 입니다. : ${provider}` );
@@ -33,6 +35,7 @@ export async function setAuthToken ( provider: string,  code: string, callback: 
       redirect_url: import.meta.env.VITE_OAUTH2_REDIRECT_URL
     };
 
+    
     const result = await axios.post<IFetchResponseDefault>( uri, reqData, { headers }); 
     
     // 서버 응답 데이터 : IResponseEntity

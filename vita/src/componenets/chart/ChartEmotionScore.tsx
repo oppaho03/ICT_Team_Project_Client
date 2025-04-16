@@ -59,7 +59,7 @@ export default function ChartEmotionScore() {
     
     // 데이타 가져오기
     const chartData = getChartDataRes
-    .filter((item:any) => item.post.post_created_at.startsWith('2025-04-15'))
+    .filter((item:any) => item.post.post_created_at.startsWith('2025-04'))
     .reverse().map((item:any)=>{
       // 데이타 가져오기 - 날짜
       const createdAt = item.post.post_created_at;

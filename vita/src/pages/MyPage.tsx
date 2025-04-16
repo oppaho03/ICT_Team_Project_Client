@@ -95,13 +95,13 @@ export default function MyPage() {
         </div>
 
         <div className="d-flex flex-column flex-md-row gap-3">
-            <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
+            <div className="flex-fill bg-white p-3 rounded-3 shadow-sm" style={{maxWidth:'100%'}}>
               <ChartEmotionScore/>
             </div>
         </div>
 
         <div className="d-flex flex-column flex-md-row gap-3">
-            <div className="flex-fill bg-white p-3 rounded-3 shadow-sm">
+            <div className="flex-fill bg-white p-3 rounded-3 shadow-sm" style={{maxWidth:'100%'}}>
               <ChartETC01/>
             </div>
         </div>

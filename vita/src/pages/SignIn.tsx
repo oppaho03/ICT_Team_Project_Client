@@ -331,7 +331,7 @@ export default function SignIn() {
             {/* 필드셋 : SNS 로그인 */}
             <nav className="option-navbar">
               <ul className="w-100 list-unstyled d-flex justify-content-center mb-0">
-                <li><Link to="/" className="link link-unstyle">회원 가입</Link></li>
+                <li><Link to="/signup" className="link link-unstyle">회원 가입</Link></li>
                 <li><Link to="/" className="link link-unstyle">비밀번호 찾기</Link></li>
               </ul>
             </nav>

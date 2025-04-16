@@ -28,6 +28,7 @@ export default function AnchorMap() {
   const [ mapLevel, setMapLevel ]= useState<number>(4); 
   const [ mapRange, setMapRange ] = useState<any>(null);
   const [ mapMarkers, setMarkers ] = useState<any[]>([]);
+  let rootMarkers = [] as Array<any>;
 
   const [ place, setPlace ] = useState<string>("병원");
   const [ countPlace, setCountPlace ] = useState<number>(0);
@@ -76,29 +77,30 @@ export default function AnchorMap() {
 
     let curMap;
 
-    if ( ! map ) {
-      const objMap = new kakao.maps.Map(mapContainerRef.current, { 
-        center: latlng, 
-        level: mapLevel, 
-        mapTypeId:kakao.maps.MapTypeId.ROADMAP 
-      });
-      setMap( objMap ); // map 객체 삽입
-      curMap = objMap;
-    }
-    else {
-      // clearMap();
-      // curMap = map;
+    const mapContainer = mapContainerRef?.current;
+    if ( mapContainer ) mapContainer.innerHTML = "";
 
+    const objMap = new kakao.maps.Map(mapContainerRef.current, { 
+      center: latlng, 
+      level: mapLevel, 
+      mapTypeId:kakao.maps.MapTypeId.ROADMAP 
+    });
+    setMap( objMap ); // map 객체 삽입
+    curMap = objMap;
 
-      // return;
-      const objMap = new kakao.maps.Map(mapContainerRef.current, { 
-        center: latlng, 
-        level: mapLevel, 
-        mapTypeId:kakao.maps.MapTypeId.ROADMAP 
-      });
-      setMap( objMap ); // map 객체 삽입
-      curMap = objMap;
-    }
+    // if ( ! map ) {
+    //   const objMap = new kakao.maps.Map(mapContainerRef.current, { 
+    //     center: latlng, 
+    //     level: mapLevel, 
+    //     mapTypeId:kakao.maps.MapTypeId.ROADMAP 
+    //   });
+    //   setMap( objMap ); // map 객체 삽입
+    //   curMap = objMap;
+    // }
+    // else {
+    //   clearMap();
+    //   curMap = map;
+    // }
 
     curMap.setDraggable(true);
     curMap.relayout();
@@ -109,10 +111,10 @@ export default function AnchorMap() {
     if ( marker ) {
       marker.setMap( curMap );
       setMarkers( [ ...mapMarkers, marker ] );
+      rootMarkers.push( [ ...rootMarkers, marker ] );
     }
 
     
-
     const radius = 2500; // 반경 (반지름) 2.5KM
 
     // 범위: 유효 범위 ( 약 5km )
@@ -162,9 +164,13 @@ export default function AnchorMap() {
           if ( ! place_marker ) continue;
           place_marker.setMap( curMap );
           setMarkers( [ ...mapMarkers, marker ] );
+
+          rootMarkers.push([ ...rootMarkers, marker ]);
         }
         
       } );
+
+      
     } // 
 
     curMap.setCenter( latlng ); // 중심 이동
@@ -179,11 +185,18 @@ export default function AnchorMap() {
     setMapRange(null);
 
     // 마커 모두 삭제
-    console.log(mapMarkers);
     for( const marker of mapMarkers ) {
       if ( marker ) marker.setMap(null);
+      
     }
     setMarkers( [] ); // 마커 초기화
+
+    
+    for( const marker of rootMarkers ) {
+      if ( marker && marker.setMap ) marker.setMap(null);
+      
+    }
+    rootMarkers = [];
 
   };
 
@@ -261,6 +274,8 @@ export default function AnchorMap() {
         setToggle(false);
       });
     }
+
+    return ( () => { rootMarkers = []; } )
 
   }, []);
 

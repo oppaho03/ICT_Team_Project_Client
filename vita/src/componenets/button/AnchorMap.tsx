@@ -86,12 +86,23 @@ export default function AnchorMap() {
       curMap = objMap;
     }
     else {
-      clearMap();
-      curMap = map;
+      // clearMap();
+      // curMap = map;
+
+
+      // return;
+      const objMap = new kakao.maps.Map(mapContainerRef.current, { 
+        center: latlng, 
+        level: mapLevel, 
+        mapTypeId:kakao.maps.MapTypeId.ROADMAP 
+      });
+      setMap( objMap ); // map 객체 삽입
+      curMap = objMap;
     }
 
     curMap.setDraggable(true);
     curMap.relayout();
+
 
     // 마커 : 중심 좌표 
     const marker = FetchMaps.setMarker( latlng );
@@ -99,6 +110,8 @@ export default function AnchorMap() {
       marker.setMap( curMap );
       setMarkers( [ ...mapMarkers, marker ] );
     }
+
+    
 
     const radius = 2500; // 반경 (반지름) 2.5KM
 
@@ -166,6 +179,7 @@ export default function AnchorMap() {
     setMapRange(null);
 
     // 마커 모두 삭제
+    console.log(mapMarkers);
     for( const marker of mapMarkers ) {
       if ( marker ) marker.setMap(null);
     }
@@ -200,8 +214,9 @@ export default function AnchorMap() {
       }
 
       let place_name = t.name == "d-hs" ? "병원" : "약국";
-      setPlace( place_name ); // 장소 설정
       
+      setPlace( place_name ); // 장소 설정
+      onClick();
     }
     else if ( ["zoom-in", "zoom-out"].includes( t.name ) === true ) {
       if ( ! map ) return;

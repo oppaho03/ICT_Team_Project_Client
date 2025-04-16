@@ -19,6 +19,8 @@ export default function FieldsetSignUp() {
 
   const [ toggledSubmit, setToggledSubmit ] = useState<boolean>(false);
 
+  const [gender, setGender] = useState("M");
+
   /**
    * 이벤트 : 클릭 - "이메일" 인증
    * @param e 
@@ -218,9 +220,11 @@ export default function FieldsetSignUp() {
         <div className="form-control-field__input-container">
           <div className="d-flex aglin-items-center">
             <div className="form-check me-1">
-              <input className="form-check-input" type="radio" name="gender" id="gender-m" value="M" checked /> <label className="form-check-label" htmlFor="gender-m">남자</label>
+              <input className="form-check-input" type="radio" name="gender" id="gender-m" value="M" checked={gender === "M"}
+    onChange={(e) => setGender(e.target.value)}/> <label className="form-check-label" htmlFor="gender-m">남자</label>
             </div> <div className="form-check ms-1">
-              <input className="form-check-input" type="radio" name="gender" id="gender-f" value="F" /><label className="form-check-label" htmlFor="gender-f" >여자</label>
+              <input className="form-check-input" type="radio" name="gender" id="gender-f" value="F" checked={gender === "F"}
+    onChange={(e) => setGender(e.target.value)}/><label className="form-check-label" htmlFor="gender-f" >여자</label>
             </div>
           </div>
 
